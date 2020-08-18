@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ai_gomoku", "ai_gomoku\ai_gomoku.csproj", "{1BDABA8A-546B-44C0-95B3-471AFACE9E2B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BDABA8A-546B-44C0-95B3-471AFACE9E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BDABA8A-546B-44C0-95B3-471AFACE9E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BDABA8A-546B-44C0-95B3-471AFACE9E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BDABA8A-546B-44C0-95B3-471AFACE9E2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09A24FF2-4C4B-4C01-B0C7-45FE3C152E0F}
+	EndGlobalSection
+EndGlobal
