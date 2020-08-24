@@ -20,15 +20,15 @@ namespace ai_gomoku
 
         private int OrderNum;
 
-        public RoleMgr(Form1 view)
+        public RoleMgr(Form1 view, GameDef.PlayerType player1, GameDef.PlayerType player2)
         {
             View = view;
 
             Model = new Model();
 
-            RoleOrderMap.Add(0, new HumanPlayer(GameDef.BLACK_CHESS_PLAYER, View, Model, this, ChessType.Black));
+            RoleOrderMap.Add(0, PlayerFactory.CreatePlayer(player1, GameDef.BLACK_CHESS_PLAYER, View, Model, this, ChessType.Black));
             RoleOrderMap.Add(1, new Judge(GameDef.BLACK_CHESS_JUDGE, View, Model, this, ChessType.Black));
-            RoleOrderMap.Add(2, new RandomComputerPlayer(GameDef.WHITE_CHESS_PLAYER, View, Model, this, ChessType.White));
+            RoleOrderMap.Add(2, PlayerFactory.CreatePlayer(player2, GameDef.WHITE_CHESS_PLAYER, View, Model, this, ChessType.White));
             RoleOrderMap.Add(3, new Judge(GameDef.WHITE_CHESS_JUDGE, View, Model, this, ChessType.White));
 
             OrderNum = 0;

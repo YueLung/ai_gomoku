@@ -18,5 +18,7 @@ namespace ai_gomoku
 
         public const int WIN_COUNT = 5;
 
+        public enum PlayerType { Human, AI1, AI2 };
+
     }
 }

@@ -21,17 +21,13 @@ namespace ai_gomoku
         public Form1()
         {
             InitializeComponent();
-
-            RoleMgr = new RoleMgr(this);
         }
-
         public void PutChessOnView(Chess chess)
         {
             ChessList.Add(chess);
 
             this.Controls.Add(chess);
         }
-
         public void InitViewBoard()
         {
             foreach (Chess chess in ChessList)
@@ -39,22 +35,55 @@ namespace ai_gomoku
                 this.Controls.Remove(chess);
             }
         }
-
         public void ShowMsg(String msg)
         {
             MsgLabel.Text = msg;
         }
-
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
-            ClickCommand clickCommand = new ClickCommand("ClickCommand", e.X, e.Y);
-            RoleMgr.onCommand(clickCommand);
+            if (RoleMgr != null)
+            {
+                ClickCommand clickCommand = new ClickCommand("ClickCommand", e.X, e.Y);
+                RoleMgr.onCommand(clickCommand);
+            }
         }
-
         private void ReNewBtn_Click(object sender, EventArgs e)
         {
-            RenewCommand renewCommand = new RenewCommand("RenewCommand");
-            RoleMgr.onCommand(renewCommand);
+            if (RoleMgr != null)
+            {
+                RenewCommand renewCommand = new RenewCommand("RenewCommand");
+                RoleMgr.onCommand(renewCommand);
+            }
+        }
+        private void ReturnHomeBtn_Click(object sender, EventArgs e)
+        {
+            if (RoleMgr != null)
+            {
+                ReNewBtn.PerformClick();
+                HomePanel.Visible = true;
+                RoleMgr = null;
+            }
+        }
+        private void HumanVSHuman_Btn_Click(object sender, EventArgs e)
+        {
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human, GameDef.PlayerType.Human);
+            HomePanel.Visible = false;
+        }
+        private void HumanVSAi1_Btn_Click(object sender, EventArgs e)
+        {
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human, GameDef.PlayerType.AI1);
+            HomePanel.Visible = false;
+        }
+
+        private void HumanVSAi2_Btn_Click(object sender, EventArgs e)
+        {
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human, GameDef.PlayerType.AI2);
+            HomePanel.Visible = false;
+        }
+
+        private void CloseBtn_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 

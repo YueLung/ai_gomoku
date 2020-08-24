@@ -35,6 +35,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>board.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -62,6 +65,7 @@
     <Compile Include="Command\ClickCommand.cs" />
     <Compile Include="Command\Command.cs" />
     <Compile Include="Command\RenewCommand.cs" />
+    <Compile Include="ConnectStrategy.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,12 +74,13 @@
     </Compile>
     <Compile Include="Model\Model.cs" />
     <Compile Include="GameDef.cs" />
-    <Compile Include="Role\EasyComputerPlayer.cs" />
+    <Compile Include="PlayerFactory.cs" />
+    <Compile Include="Role\AIComputerPlayer.cs" />
     <Compile Include="Role\HumanPlayer.cs" />
     <Compile Include="Role\Judge.cs" />
     <Compile Include="Role\Player.cs" />
     <Compile Include="Role\RandomComputerPlayer.cs" />
-    <Compile Include="Role\RoleMgr.cs" />
+    <Compile Include="RoleMgr.cs" />
     <Compile Include="Role\RoleBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -115,6 +120,8 @@
   <ItemGroup>
     <None Include="Resources\white.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="board.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

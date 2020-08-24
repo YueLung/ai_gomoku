@@ -8,3 +8,13 @@ D:\C_Sharp_Project\ai_gomoku\ai_gomoku\obj\Debug\ai_gomoku.csproj.GenerateResour
 D:\C_Sharp_Project\ai_gomoku\ai_gomoku\obj\Debug\ai_gomoku.csproj.CoreCompileInputs.cache
 D:\C_Sharp_Project\ai_gomoku\ai_gomoku\obj\Debug\ai_gomoku.exe
 D:\C_Sharp_Project\ai_gomoku\ai_gomoku\obj\Debug\ai_gomoku.pdb
+D:\workspace\ai_gomoku\ai_gomoku\bin\Debug\ai_gomoku.exe.config
+D:\workspace\ai_gomoku\ai_gomoku\bin\Debug\ai_gomoku.exe
+D:\workspace\ai_gomoku\ai_gomoku\bin\Debug\ai_gomoku.pdb
+D:\workspace\ai_gomoku\ai_gomoku\obj\Debug\ai_gomoku.csprojAssemblyReference.cache
+D:\workspace\ai_gomoku\ai_gomoku\obj\Debug\ai_gomoku.Form1.resources
+D:\workspace\ai_gomoku\ai_gomoku\obj\Debug\ai_gomoku.Properties.Resources.resources
+D:\workspace\ai_gomoku\ai_gomoku\obj\Debug\ai_gomoku.csproj.GenerateResource.cache
+D:\workspace\ai_gomoku\ai_gomoku\obj\Debug\ai_gomoku.csproj.CoreCompileInputs.cache
+D:\workspace\ai_gomoku\ai_gomoku\obj\Debug\ai_gomoku.exe
+D:\workspace\ai_gomoku\ai_gomoku\obj\Debug\ai_gomoku.pdb
