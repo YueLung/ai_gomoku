@@ -20,7 +20,7 @@ namespace ai_gomoku
 
         protected RoleMgr RoleMgr;
 
-        protected ChessType ChessType;
+        protected ChessType MyChessType;
 
         private Dictionary<String, Tuple<isAllowFun, onFun>> CommandMap = new Dictionary<String, Tuple<isAllowFun, onFun>>();
 
@@ -30,7 +30,7 @@ namespace ai_gomoku
             View = view;
             Model = model;
             RoleMgr = roleMgr;
-            ChessType = chessType;
+            MyChessType = chessType;
 
             addCommand("RenewCommand", isAllowRenewCommand, onRenewCommand);
         }

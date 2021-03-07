@@ -21,15 +21,13 @@ namespace ai_gomoku.Role
 
             do
             {
-                x = random.Next(9);
-                y = random.Next(9);
+                x = random.Next(GameDef.board_cell_length);
+                y = random.Next(GameDef.board_cell_length);
 
-            } while (Model.GetBoard()[y][x] != ChessType.None);
+            } while (Model.GetBoardByCopy()[y][x] != ChessType.None);
 
-            int Cell_Length = Form1.CELL_LENGTH;
-
-            Chess myChess = ChessFactory.CreateChess(ChessType);
-            myChess.SetPosition((x + 1) * Cell_Length - 20, (y + 1) * Cell_Length - 20);
+            Chess myChess = ChessFactory.CreateChess(MyChessType);
+            myChess.SetPositionByCoordinate(x, y);
 
             putChess(x, y);
 

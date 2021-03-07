@@ -42,8 +42,8 @@ namespace ai_gomoku
                 Board_X = (posx / Cell_Length) - 1;
                 Board_Y = (posy / Cell_Length) - 1;
 
-                if (Board_X < 0 || Board_X >= Model.BOARD_CELL_LENGTH ||
-                    Board_Y < 0 || Board_Y >= Model.BOARD_CELL_LENGTH)
+                if (Board_X < 0 || Board_X >= GameDef.board_cell_length ||
+                    Board_Y < 0 || Board_Y >= GameDef.board_cell_length)
                 {
                     isValid = false;
                 }

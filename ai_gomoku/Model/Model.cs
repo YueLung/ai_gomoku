@@ -8,10 +8,8 @@ namespace ai_gomoku
 {
     public enum ChessType { None, Black, White }
 
-    public class Model
+    public class Model: ICloneable
     {
-        public const int BOARD_CELL_LENGTH = 9;
-
         private List<List<ChessType>> Board;
 
         public ChessType LastPutType { get; private set; }
@@ -27,11 +25,11 @@ namespace ai_gomoku
         {
             Board = new List<List<ChessType>>();
 
-            for (int i = 0; i < BOARD_CELL_LENGTH; ++i)
+            for (int i = 0; i < GameDef.board_cell_length; ++i)
             {
                 List<ChessType> list = new List<ChessType>();
                 
-                for (int j = 0; j < BOARD_CELL_LENGTH; ++j)
+                for (int j = 0; j < GameDef.board_cell_length; ++j)
                 {
                     list.Add(ChessType.None);
                 }
@@ -39,7 +37,7 @@ namespace ai_gomoku
                 Board.Add(list);
             }    
         }
-        public List<List<ChessType>> GetBoard()
+        public List<List<ChessType>> GetBoardByCopy()
         {
             List<List<ChessType>> copyBoard = new List<List<ChessType>>();
             for (int i = 0; i < Board.Count(); i++)
@@ -52,8 +50,12 @@ namespace ai_gomoku
         }
         public bool PutChessToBoard(int x, int y, ChessType chessType)
         {
-            if (x >= BOARD_CELL_LENGTH || x < 0 || y >= BOARD_CELL_LENGTH || y < 0)
+            if (x >= GameDef.board_cell_length || x < 0 || y >= GameDef.board_cell_length || y < 0)
+            {
+                Console.WriteLine($"x:{x} y:{y}  PutChessToBoard pos exceed BOARD_CELL_LENGTH({GameDef.board_cell_length})");
                 return false;
+            }
+                
 
             if (Board[y][x] == ChessType.None)
             {
@@ -67,6 +69,32 @@ namespace ai_gomoku
             }
         
             return false;
+        }
+
+        public void printBoard()
+        {
+            Console.WriteLine("=======================================");
+            for (int i = 0; i < GameDef.board_cell_length; ++i)
+            {
+                for (int j = 0; j < GameDef.board_cell_length; ++j)
+                {
+                    Console.Write($" {Board[i][j]} ");
+                }
+                Console.WriteLine("");
+            }
+            Console.WriteLine("=======================================");
+        }
+
+        public object Clone()
+        {
+            Model clone = new Model();
+
+            clone.Board = GetBoardByCopy();
+            clone.LastPutType = LastPutType;
+            clone.LastPutPOS_X = LastPutPOS_X;
+            clone.LastPutPOS_Y = LastPutPOS_Y;
+
+            return clone;
         }
     }
 }

@@ -75,6 +75,7 @@
     <Compile Include="Model\Model.cs" />
     <Compile Include="GameDef.cs" />
     <Compile Include="PlayerFactory.cs" />
+    <Compile Include="Role\AIComputer3X3Player.cs" />
     <Compile Include="Role\AIComputerPlayer.cs" />
     <Compile Include="Role\HumanPlayer.cs" />
     <Compile Include="Role\Judge.cs" />

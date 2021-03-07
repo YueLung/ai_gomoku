@@ -16,9 +16,12 @@ namespace ai_gomoku
 
         public const String WHITE_CHESS_JUDGE = "White_Chess_Judge";
 
-        public const int WIN_COUNT = 5;
+        public static int win_count = 5;
 
-        public enum PlayerType { Human, AI1, AI2 };
+        public static int board_cell_length = 9;
+
+        public enum PlayerType { Human, AI1, AI2, AI3X3 }
+
 
     }
 }

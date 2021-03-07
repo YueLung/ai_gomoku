@@ -34,6 +34,8 @@ namespace ai_gomoku
             OrderNum = 0;
             CurrentTurnRole = RoleOrderMap[OrderNum];
             CurrentTurnRole.onMyTurn();
+
+            Console.WriteLine($"Board is {GameDef.board_cell_length} x {GameDef.board_cell_length}");
         }
 
         public void RenewGame()

@@ -17,15 +17,17 @@ namespace ai_gomoku.Role
         {
             base.onMyTurn();
 
-            if (Model.LastPutType == ChessType)
-            {                                             
-                if (ConnectStrategy.IsWinHorizontal(ChessType)   || ConnectStrategy.IsWinVertical(ChessType) ||
-                    ConnectStrategy.IsWinRightOblique(ChessType) || ConnectStrategy.IsWinLeftOblique(ChessType)
-                    )
+            if (Model.LastPutType == MyChessType)
+            {
+                if (ConnectStrategy.isWin(MyChessType))
                 {
                     View.ShowMsg($"{Name.Split('_')[0]} WIN !!!");
                 }
-
+                else if (ConnectStrategy.isTie())
+                {
+                    System.Console.WriteLine($"It's tie !!!");
+                    View.ShowMsg($"It's tie !!!");
+                }
                 else
                 {
                     RoleMgr.ChangeNextRole();

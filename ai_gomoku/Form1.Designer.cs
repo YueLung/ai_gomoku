@@ -37,6 +37,7 @@
             this.HumanVSHuman_Btn = new System.Windows.Forms.Button();
             this.ReturnHomeBtn = new System.Windows.Forms.Button();
             this.CloseBtn = new System.Windows.Forms.Button();
+            this.HumanVSAi3x3_Btn = new System.Windows.Forms.Button();
             this.HomePanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,6 +66,7 @@
             // HomePanel
             // 
             this.HomePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.HomePanel.Controls.Add(this.HumanVSAi3x3_Btn);
             this.HomePanel.Controls.Add(this.label1);
             this.HomePanel.Controls.Add(this.HumanVSAi2_Btn);
             this.HomePanel.Controls.Add(this.HumanVSAi1_Btn);
@@ -72,7 +74,7 @@
             this.HomePanel.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.HomePanel.Location = new System.Drawing.Point(125, 108);
             this.HomePanel.Name = "HomePanel";
-            this.HomePanel.Size = new System.Drawing.Size(569, 456);
+            this.HomePanel.Size = new System.Drawing.Size(569, 537);
             this.HomePanel.TabIndex = 1;
             // 
             // label1
@@ -153,6 +155,19 @@
             this.CloseBtn.UseVisualStyleBackColor = false;
             this.CloseBtn.Click += new System.EventHandler(this.CloseBtn_Click);
             // 
+            // HumanVSAi3x3_Btn
+            // 
+            this.HumanVSAi3x3_Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.HumanVSAi3x3_Btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.HumanVSAi3x3_Btn.Font = new System.Drawing.Font("新細明體", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.HumanVSAi3x3_Btn.Location = new System.Drawing.Point(184, 426);
+            this.HumanVSAi3x3_Btn.Name = "HumanVSAi3x3_Btn";
+            this.HumanVSAi3x3_Btn.Size = new System.Drawing.Size(221, 54);
+            this.HumanVSAi3x3_Btn.TabIndex = 4;
+            this.HumanVSAi3x3_Btn.Text = "玩家 vs 電腦(3X3)";
+            this.HumanVSAi3x3_Btn.UseVisualStyleBackColor = false;
+            this.HumanVSAi3x3_Btn.Click += new System.EventHandler(this.HumanVSAi3x3_Btn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -189,6 +204,7 @@
         private System.Windows.Forms.Button HumanVSHuman_Btn;
         private System.Windows.Forms.Button ReturnHomeBtn;
         private System.Windows.Forms.Button CloseBtn;
+        private System.Windows.Forms.Button HumanVSAi3x3_Btn;
     }
 }
 

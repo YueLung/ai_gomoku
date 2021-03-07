@@ -12,9 +12,11 @@ namespace ai_gomoku.Role
         {
         }
 
-        public void putChess(int x, int y)
+        public bool putChess(int x, int y)
         {
-            Model.PutChessToBoard(x, y, ChessType);
+            bool isSuccessful = Model.PutChessToBoard(x, y, MyChessType);
+
+            return isSuccessful;
         }
     }
 }

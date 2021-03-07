@@ -14,13 +14,20 @@ namespace ai_gomoku
             switch (type)
             {
                 case GameDef.PlayerType.Human:
+                    Console.WriteLine($"Create a Human Player. ChessType is {chessType}");
                     return new HumanPlayer(name, view, model, roleMgr, chessType);
                     break;
                 case GameDef.PlayerType.AI1:
+                    Console.WriteLine($"Create a AI1 Player. ChessType is {chessType}");
                     return new RandomComputerPlayer(name, view, model, roleMgr, chessType);
                     break;
                 case GameDef.PlayerType.AI2:
+                    Console.WriteLine($"Create a AI2 Player. ChessType is {chessType}");
                     return new AIComputerPlayer(name, view, model, roleMgr, chessType);
+                    break;
+                case GameDef.PlayerType.AI3X3:
+                    Console.WriteLine($"Create a AI3X3 Player. ChessType is {chessType}");
+                    return new AIComputer3X3Player(name, view, model, roleMgr, chessType);
                     break;
                 default:
                     return null;

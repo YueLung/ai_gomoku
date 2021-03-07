@@ -15,9 +15,16 @@ namespace ai_gomoku
             BackColor = System.Drawing.Color.Transparent;
         }
 
-        public void SetPosition(int x, int y)
+        public void SetPositionPixel(int x, int y)
         {
             Location = new System.Drawing.Point(x, y);
+        }
+
+        public void SetPositionByCoordinate(int x, int y)
+        {
+            int Cell_Length = Form1.CELL_LENGTH;
+
+            SetPositionPixel((x + 1) * Cell_Length - 20, (y + 1) * Cell_Length - 20);
         }
     }
 }

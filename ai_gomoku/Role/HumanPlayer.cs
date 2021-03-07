@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ai_gomoku.Role
 {
@@ -25,15 +21,17 @@ namespace ai_gomoku.Role
 
                 if (clickCommand.isValid)
                 {
-                    Chess myChess = ChessFactory.CreateChess(ChessType);
-                    myChess.SetPosition(clickCommand.View_X, clickCommand.View_Y);
+                    bool isPutSuccessful = putChess(clickCommand.Board_X, clickCommand.Board_Y);
 
-                    putChess(clickCommand.Board_X, clickCommand.Board_Y);
+                    if (isPutSuccessful)
+                    {
+                        Chess myChess = ChessFactory.CreateChess(MyChessType);
+                        myChess.SetPositionPixel(clickCommand.View_X, clickCommand.View_Y);
 
-                    View.PutChessOnView(myChess);
-
-                    RoleMgr.ChangeNextRole();
-
+                        View.PutChessOnView(myChess);
+                        RoleMgr.ChangeNextRole();
+                    }
+                       
                     return true;
                 }
                 else

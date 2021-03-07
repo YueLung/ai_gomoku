@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ai_gomoku
@@ -27,6 +27,8 @@ namespace ai_gomoku
             ChessList.Add(chess);
 
             this.Controls.Add(chess);
+            chess.Refresh();
+
         }
         public void InitViewBoard()
         {
@@ -38,6 +40,7 @@ namespace ai_gomoku
         public void ShowMsg(String msg)
         {
             MsgLabel.Text = msg;
+            MsgLabel.Refresh();
         }
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -81,10 +84,21 @@ namespace ai_gomoku
             HomePanel.Visible = false;
         }
 
+        private void HumanVSAi3x3_Btn_Click(object sender, EventArgs e)
+        {
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human, GameDef.PlayerType.AI3X3);
+            HomePanel.Visible = false;
+
+            GameDef.board_cell_length = 3;
+            GameDef.win_count = 3;
+        }
+
         private void CloseBtn_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
+
     }
 
 
