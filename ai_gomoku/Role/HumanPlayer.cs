@@ -49,7 +49,6 @@ namespace ai_gomoku.Role
         {
             base.onMyTurn();
             View.ShowMsg($"Turn : {Name}");
-            //throw new NotImplementedException();
         }
     }
 }

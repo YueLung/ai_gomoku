@@ -62,35 +62,43 @@ namespace ai_gomoku
         {
             if (RoleMgr != null)
             {
-                ReNewBtn.PerformClick();
+                ReturnHomeCommand returnHomeCommand = new ReturnHomeCommand("ReturnHomeCommand");
+                RoleMgr.onCommand(returnHomeCommand);
+
+
                 HomePanel.Visible = true;
                 RoleMgr = null;
             }
         }
         private void HumanVSHuman_Btn_Click(object sender, EventArgs e)
         {
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human, GameDef.PlayerType.Human);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.Human2);
             HomePanel.Visible = false;
+            RoleMgr.Start();
         }
         private void HumanVSAi1_Btn_Click(object sender, EventArgs e)
         {
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human, GameDef.PlayerType.AI1);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.AI1);
             HomePanel.Visible = false;
+            RoleMgr.Start();
         }
 
         private void HumanVSAi2_Btn_Click(object sender, EventArgs e)
         {
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human, GameDef.PlayerType.AI2);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.AI2);
             HomePanel.Visible = false;
+            RoleMgr.Start();
         }
 
         private void HumanVSAi3x3_Btn_Click(object sender, EventArgs e)
         {
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human, GameDef.PlayerType.AI3X3);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.AI3X3);
             HomePanel.Visible = false;
 
             GameDef.board_cell_length = 3;
             GameDef.win_count = 3;
+
+            RoleMgr.Start();
         }
 
         private void CloseBtn_Click(object sender, EventArgs e)

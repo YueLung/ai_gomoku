@@ -33,6 +33,8 @@ namespace ai_gomoku
             MyChessType = chessType;
 
             addCommand("RenewCommand", isAllowRenewCommand, onRenewCommand);
+            addCommand("ReturnHomeCommand", isAllowReturnHomeCommand, onReturnHomeCommand);
+
         }
 
         protected void addCommand(String commandName, isAllowFun isAllowFun, onFun onFun)
@@ -67,15 +69,25 @@ namespace ai_gomoku
         }
         public virtual void onMyTurn()
         {
-            System.Console.WriteLine($"{Name} onMyTurn");
+            System.Console.WriteLine($"{Name} onMyTurn"); 
         }
-        private bool isAllowRenewCommand()
+        protected virtual bool isAllowRenewCommand()
         {
             return true;
         }
-        private bool onRenewCommand(Command command)
+        protected virtual bool isAllowReturnHomeCommand()
+        {
+            return true;
+        }
+
+        protected virtual bool onRenewCommand(Command command)
         {
             RoleMgr.RenewGame();
+            return true;
+        }
+        protected virtual bool onReturnHomeCommand(Command command)
+        {
+            RoleMgr.ReturnHome();
             return true;
         }
     }

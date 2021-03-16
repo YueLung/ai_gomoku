@@ -65,6 +65,7 @@
     <Compile Include="Command\ClickCommand.cs" />
     <Compile Include="Command\Command.cs" />
     <Compile Include="Command\RenewCommand.cs" />
+    <Compile Include="Command\ReturnHomeCommand.cs" />
     <Compile Include="ConnectStrategy.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
