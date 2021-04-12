@@ -57,14 +57,14 @@ namespace ai_gomoku
             return GetConnectCount(chessType, 1, 1) + GetConnectCount(chessType, -1, -1) - 1 == GameDef.win_count;
         }
 
-        private int GetConnectCount(ChessType chessType, int volumeX, int volumeY)
+        public int GetConnectCount(ChessType chessType, int volumeX, int volumeY)
         {
             int res = 0;
 
             var board = Model.GetBoardByCopy();
 
-            int x = Model.LastPutPOS_X;
-            int y = Model.LastPutPOS_Y;
+            int x = Model.PrepareCheckedPOS_X;
+            int y = Model.PrepareCheckedPOS_Y;
 
             while (board[y][x] == chessType)
             {

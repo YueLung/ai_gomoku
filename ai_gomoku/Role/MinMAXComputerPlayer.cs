@@ -1,34 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using ai_gomoku.Evaluation;
 
 namespace ai_gomoku.Role
 {
-    class MinMaxSearchInfo
+    public class MinMAXComputerPlayer : Player
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Score { get; set; }
-        public MinMaxSearchInfo(int x, int y, int score)
-        {
-            this.X = x;
-            this.Y = y;
-            this.Score = score;
-        }
-    }
-
-    class AIComputer3X3Player : Player
-    {
-        enum BoradStatus { Winlose, Tie, Nothing}
+        private int MinMaxSearchDepth { get; }
 
         private int MinMaxSearchCount = 0;
 
         private int SearchHasResultCount = 0;
 
-        public AIComputer3X3Player(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType) : base(name, view, model, roleMgr, chessType)
+        private IEvaluation MyEvaluation;
+
+        public MinMAXComputerPlayer(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType, IEvaluation evaluation, int searchDepth) : base(name, view, model, roleMgr, chessType)
         {
+            MyEvaluation = evaluation;
+            MinMaxSearchDepth = searchDepth;
         }
 
         public override void onMyTurn()
@@ -38,7 +28,7 @@ namespace ai_gomoku.Role
             if (TotalTurn == 1)
             {
                 System.Console.WriteLine($"AI Turn 1");
-                bool isPutSuccessful = putChess(GameDef.board_cell_length/2, GameDef.board_cell_length/2);
+                bool isPutSuccessful = putChess(GameDef.board_cell_length / 2, GameDef.board_cell_length / 2);
             }
             else
             {
@@ -47,19 +37,19 @@ namespace ai_gomoku.Role
 
                 System.Console.WriteLine($"MinMaxSearchCount = {MinMaxSearchCount.ToString()}");
                 System.Console.WriteLine($"SearchHasResultCount = {SearchHasResultCount.ToString()}");
+                System.Console.WriteLine($"X = {bestPosInfo.X.ToString()} Y = {bestPosInfo.Y.ToString()} Score = {bestPosInfo.Score.ToString()}");
 
                 bool isPutSuccessful = putChess(bestPosInfo.X, bestPosInfo.Y);
             }
-           
         }
 
         private MinMaxSearchInfo MinMaxSearch(Model pModel, ChessType chessType, bool isMaxLayer, int depth, int alpha, int beta)
         {
             MinMaxSearchCount++;
-            int bestScore = isMaxLayer ? -999 : 999;
+            int bestScore = isMaxLayer ? int.MinValue : int.MaxValue;
             MinMaxSearchInfo bestPosInfo = new MinMaxSearchInfo(-1, -1, bestScore);
-            Console.WriteLine($"depth: {depth} isMaxLayer: {isMaxLayer} MinMaxSearchCount: {MinMaxSearchCount.ToString()} alpha: {alpha.ToString()} beta: {beta}");
-            
+            //Console.WriteLine($"depth: {depth} isMaxLayer: {isMaxLayer} MinMaxSearchCount: {MinMaxSearchCount.ToString()} alpha: {alpha.ToString()} beta: {beta}");
+
             for (int y = 0; y < GameDef.board_cell_length; y++)
             {
                 for (int x = 0; x < GameDef.board_cell_length; x++)
@@ -71,35 +61,34 @@ namespace ai_gomoku.Role
                         cloneModel.PutChessToBoard(x, y, chessType);
 
                         int score = 0;
-                        BoradStatus boradStatus = GetBoardStatus(cloneModel, chessType);
 
-                        if (boradStatus == BoradStatus.Nothing) //沒有勝負 繼續往下找
+                        if (depth == MinMaxSearchDepth)
+                        {
+                            SearchHasResultCount++;
+                            score = MyEvaluation.GetScore(cloneModel, MyChessType);
+
+                            //cloneModel.PrintBoard();
+                            //Console.WriteLine($"y: {y}  x: {x} score: {score}");
+                        }
+                        else
                         {
                             ChessType nextChessType = Utility.GetOppositeChessType(chessType);
                             MinMaxSearchInfo info = MinMaxSearch(cloneModel, nextChessType, !isMaxLayer, depth + 1, alpha, beta);
+  
+                            //if (isMaxLayer)
+                            //    alpha = Math.Max(alpha, info.Score);
+                            //else
+                            //    beta = Math.Min(beta, info.Score);
 
-                            //--------- alpha-beta pruning ---------
-                            if (isMaxLayer)
-                                alpha = Math.Max(alpha, info.Score);
-                            else
-                                beta = Math.Min(beta, info.Score);
-
-                            if (alpha >= beta)
-                                return info;
-                            //--------------------------------------
+                            //if (alpha >= beta)
+                            //    return info;
 
                             score = info.Score;
                         }
-                        else if (boradStatus == BoradStatus.Winlose)
-                        {
-                            SearchHasResultCount++;
-                            score = MyChessType == chessType  ? 1 : -1;//If chess is mychessType get 1 point else get -1 point 
-                        }
-                        else if (boradStatus == BoradStatus.Tie)
-                        {
-                            SearchHasResultCount++;
-                            score = 0;
-                        }
+
+                        if (depth != MinMaxSearchDepth)
+                            Console.WriteLine($"y: {y}  x: {x} score: {score} depth: {depth}");
+
 
                         if (isMaxLayer)
                         {
@@ -110,7 +99,7 @@ namespace ai_gomoku.Role
                                 bestPosInfo.Y = y;
                             }
                         }
-                        else 
+                        else
                         {
                             if (score < bestPosInfo.Score)
                             {
@@ -126,19 +115,5 @@ namespace ai_gomoku.Role
             return bestPosInfo;
         }
 
-        private BoradStatus GetBoardStatus(Model model, ChessType chessType)
-        {
-            BoradStatus status = BoradStatus.Nothing;
-            ConnectStrategy connectStrategy = new ConnectStrategy(model);
-
-            if (connectStrategy.isWin(chessType))
-                status = BoradStatus.Winlose;
-            else if (connectStrategy.isTie())
-                status = BoradStatus.Tie;
-
-            return status;
-        }
-
     }
-   
 }

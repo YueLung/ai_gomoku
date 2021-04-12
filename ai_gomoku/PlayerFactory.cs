@@ -1,9 +1,7 @@
-﻿using ai_gomoku.Role;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+
+using ai_gomoku.Evaluation;
+using ai_gomoku.Role;
 
 namespace ai_gomoku
 {
@@ -21,13 +19,13 @@ namespace ai_gomoku
                     Console.WriteLine($"Create a Human Player. ChessType is {chessType}");
                     return new HumanPlayer("Human2 " + chessType, view, model, roleMgr, chessType);
                     break;
-                case GameDef.PlayerType.AI1:
-                    Console.WriteLine($"Create a AI1 Player. ChessType is {chessType}");
-                    return new RandomComputerPlayer("AI1 " + chessType, view, model, roleMgr, chessType);
+                case GameDef.PlayerType.EasyAI:
+                    Console.WriteLine($"Create a EasyAI Player. ChessType is {chessType}");
+                    return new MinMAXComputerPlayer("EasyAI " + chessType, view, model, roleMgr, chessType, new OnePointEvaluation(), 0);
                     break;
-                case GameDef.PlayerType.AI2:
-                    Console.WriteLine($"Create a AI2 Player. ChessType is {chessType}");
-                    return new AIComputerPlayer("AI2 " + chessType, view, model, roleMgr, chessType);
+                case GameDef.PlayerType.HardAI:
+                    Console.WriteLine($"Create a HardAI Player. ChessType is {chessType}");
+                    return new MinMAXComputerPlayer("HardAI " + chessType, view, model, roleMgr, chessType, new BoardEvaluation(), 1);
                     break;
                 case GameDef.PlayerType.AI3X3:
                     Console.WriteLine($"Create a AI3X3 Player. ChessType is {chessType}");

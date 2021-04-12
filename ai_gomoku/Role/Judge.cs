@@ -17,11 +17,11 @@ namespace ai_gomoku.Role
         {
             base.onMyTurn();
 
-            if (Model.LastPutType == MyChessType)
+            if (Model.PrepareCheckedChessType == MyChessType)
             {
                 if (ConnectStrategy.isWin(MyChessType))
                 {
-                    View.ShowMsg($"{Name.Split('_')[0]} WIN !!!");
+                    View.ShowMsg($"{Name.Split('_')[0]} ({Name.Split('_')[3]}) WIN !!!");
                 }
                 else if (ConnectStrategy.isTie())
                 {

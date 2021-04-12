@@ -65,7 +65,6 @@ namespace ai_gomoku
                 ReturnHomeCommand returnHomeCommand = new ReturnHomeCommand("ReturnHomeCommand");
                 RoleMgr.onCommand(returnHomeCommand);
 
-
                 HomePanel.Visible = true;
                 RoleMgr = null;
             }
@@ -78,14 +77,21 @@ namespace ai_gomoku
         }
         private void HumanVSAi1_Btn_Click(object sender, EventArgs e)
         {
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.AI1);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.EasyAI);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }
 
         private void HumanVSAi2_Btn_Click(object sender, EventArgs e)
         {
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.AI2);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.HardAI);
+            HomePanel.Visible = false;
+            RoleMgr.Start();
+        }
+
+        private void AIVSAI_Btn_Click(object sender, EventArgs e)
+        {
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.EasyAI, GameDef.PlayerType.HardAI);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }
@@ -95,8 +101,8 @@ namespace ai_gomoku
             RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.AI3X3);
             HomePanel.Visible = false;
 
-            GameDef.board_cell_length = 3;
-            GameDef.win_count = 3;
+            GameDef.board_cell_length = 4;
+            GameDef.win_count = 4;
 
             RoleMgr.Start();
         }

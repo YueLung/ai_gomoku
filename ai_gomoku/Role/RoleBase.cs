@@ -9,7 +9,7 @@ namespace ai_gomoku
 {
     public abstract class RoleBase
     {
-        public String Name { get; }
+        public String Name { get; }//read only
 
         public delegate bool isAllowFun();
         public delegate bool onFun(Command command);
@@ -22,6 +22,8 @@ namespace ai_gomoku
 
         protected ChessType MyChessType;
 
+        protected int TurnCount { get; private set; }
+
         private Dictionary<String, Tuple<isAllowFun, onFun>> CommandMap = new Dictionary<String, Tuple<isAllowFun, onFun>>();
 
         public RoleBase(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType)
@@ -31,6 +33,7 @@ namespace ai_gomoku
             Model = model;
             RoleMgr = roleMgr;
             MyChessType = chessType;
+            TurnCount = 0;
 
             addCommand("RenewCommand", isAllowRenewCommand, onRenewCommand);
             addCommand("ReturnHomeCommand", isAllowReturnHomeCommand, onReturnHomeCommand);
@@ -69,7 +72,9 @@ namespace ai_gomoku
         }
         public virtual void onMyTurn()
         {
-            System.Console.WriteLine($"{Name} onMyTurn"); 
+            TurnCount++;
+            System.Console.WriteLine($"{Name} onMyTurn");
+                       
         }
         protected virtual bool isAllowRenewCommand()
         {

@@ -22,15 +22,6 @@ namespace ai_gomoku.Role
                 if (clickCommand.isValid)
                 {
                     bool isPutSuccessful = putChess(clickCommand.Board_X, clickCommand.Board_Y);
-
-                    if (isPutSuccessful)
-                    {
-                        Chess myChess = ChessFactory.CreateChess(MyChessType);
-                        myChess.SetPositionPixel(clickCommand.View_X, clickCommand.View_Y);
-
-                        View.PutChessOnView(myChess);
-                        RoleMgr.ChangeNextRole();
-                    }
                        
                     return true;
                 }
@@ -48,7 +39,6 @@ namespace ai_gomoku.Role
         public override void onMyTurn()
         {
             base.onMyTurn();
-            View.ShowMsg($"Turn : {Name}");
         }
     }
 }

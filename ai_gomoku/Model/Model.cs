@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ai_gomoku
 {
-    public enum ChessType { None, Black, White }
+   public enum ChessType { None, Black, White }
 
     public class Model: ICloneable
     {
         private List<List<ChessType>> Board;
 
-        public ChessType LastPutType { get; private set; }
-        public int LastPutPOS_X { get; private set; }
-        public int LastPutPOS_Y { get; private set; }
+        public ChessType PrepareCheckedChessType { get; set; }
+        public int PrepareCheckedPOS_X { get; set; }
+        public int PrepareCheckedPOS_Y { get; set; }
 
         public Model()
         {
@@ -37,6 +35,12 @@ namespace ai_gomoku
                 Board.Add(list);
             }    
         }
+
+        public List<List<ChessType>> GetBoard()
+        {
+            return Board;
+        }
+
         public List<List<ChessType>> GetBoardByCopy()
         {
             List<List<ChessType>> copyBoard = new List<List<ChessType>>();
@@ -56,14 +60,13 @@ namespace ai_gomoku
                 return false;
             }
                 
-
             if (Board[y][x] == ChessType.None)
             {
                 Board[y][x] = chessType;
 
-                LastPutType = chessType;
-                LastPutPOS_X = x;
-                LastPutPOS_Y = y;
+                PrepareCheckedChessType = chessType;
+                PrepareCheckedPOS_X = x;
+                PrepareCheckedPOS_Y = y;
 
                 return true;
             }
@@ -71,7 +74,7 @@ namespace ai_gomoku
             return false;
         }
 
-        public void printBoard()
+        public void PrintBoard()
         {
             Console.WriteLine("=======================================");
             for (int i = 0; i < GameDef.board_cell_length; ++i)
@@ -90,9 +93,9 @@ namespace ai_gomoku
             Model clone = new Model();
 
             clone.Board = GetBoardByCopy();
-            clone.LastPutType = LastPutType;
-            clone.LastPutPOS_X = LastPutPOS_X;
-            clone.LastPutPOS_Y = LastPutPOS_Y;
+            clone.PrepareCheckedChessType = PrepareCheckedChessType;
+            clone.PrepareCheckedPOS_X = PrepareCheckedPOS_X;
+            clone.PrepareCheckedPOS_Y = PrepareCheckedPOS_Y;
 
             return clone;
         }
