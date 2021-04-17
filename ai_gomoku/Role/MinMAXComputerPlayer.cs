@@ -5,7 +5,7 @@ using ai_gomoku.Evaluation;
 
 namespace ai_gomoku.Role
 {
-    public class MinMAXComputerPlayer : Player
+    public class MinMaxComputerPlayer : Player
     {
         private int MinMaxSearchDepth { get; }
 
@@ -15,7 +15,7 @@ namespace ai_gomoku.Role
 
         private IEvaluation MyEvaluation;
 
-        public MinMAXComputerPlayer(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType, IEvaluation evaluation, int searchDepth) : base(name, view, model, roleMgr, chessType)
+        public MinMaxComputerPlayer(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType, IEvaluation evaluation, int searchDepth) : base(name, view, model, roleMgr, chessType)
         {
             MyEvaluation = evaluation;
             MinMaxSearchDepth = searchDepth;
@@ -25,10 +25,10 @@ namespace ai_gomoku.Role
         {
             base.onMyTurn();
 
-            if (TotalTurn == 1)
+            if (TotalTurn == 0)
             {
                 System.Console.WriteLine($"AI Turn 1");
-                bool isPutSuccessful = putChess(GameDef.board_cell_length / 2, GameDef.board_cell_length / 2);
+                bool isPutSuccessful = PutChess(GameDef.board_cell_length / 2, GameDef.board_cell_length / 2);
             }
             else
             {
@@ -39,7 +39,7 @@ namespace ai_gomoku.Role
                 System.Console.WriteLine($"SearchHasResultCount = {SearchHasResultCount.ToString()}");
                 System.Console.WriteLine($"X = {bestPosInfo.X.ToString()} Y = {bestPosInfo.Y.ToString()} Score = {bestPosInfo.Score.ToString()}");
 
-                bool isPutSuccessful = putChess(bestPosInfo.X, bestPosInfo.Y);
+                bool isPutSuccessful = PutChess(bestPosInfo.X, bestPosInfo.Y);
             }
         }
 
@@ -86,9 +86,10 @@ namespace ai_gomoku.Role
                             score = info.Score;
                         }
 
-                        if (depth != MinMaxSearchDepth)
+                        if (depth == 0)
+                        {
                             Console.WriteLine($"y: {y}  x: {x} score: {score} depth: {depth}");
-
+                        }
 
                         if (isMaxLayer)
                         {

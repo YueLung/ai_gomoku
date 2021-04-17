@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ai_gomoku
+namespace ai_gomoku.Command
 {
-    public class ClickCommand : Command
+    public class ClickCommand : CommandBase
     {
-        public bool isValid { get; }
+        public bool IsValid { get; }
         public int Board_X { get; }
         public int Board_Y { get; }
 
@@ -22,7 +18,7 @@ namespace ai_gomoku
             if ((x % Cell_Length < 20 || x % Cell_Length > 54) &&
                  (y % Cell_Length < 20 || y % Cell_Length > 54))
             {
-                isValid = true;
+                IsValid = true;
 
                 int posx, posy;
 
@@ -45,12 +41,12 @@ namespace ai_gomoku
                 if (Board_X < 0 || Board_X >= GameDef.board_cell_length ||
                     Board_Y < 0 || Board_Y >= GameDef.board_cell_length)
                 {
-                    isValid = false;
+                    IsValid = false;
                 }
             }
             else
             {
-                isValid = false;
+                IsValid = false;
             }
         }
     }

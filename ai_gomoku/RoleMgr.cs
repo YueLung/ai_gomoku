@@ -1,9 +1,8 @@
-﻿using ai_gomoku.Role;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using ai_gomoku.Role;
+using ai_gomoku.Command;
 
 namespace ai_gomoku
 {
@@ -18,6 +17,10 @@ namespace ai_gomoku
 
         private Form1 View;
 
+        private GameDef.PlayerType P1;
+
+        private GameDef.PlayerType P2;
+
         private int OrderNum;
 
         public RoleMgr(Form1 view, GameDef.PlayerType player1, GameDef.PlayerType player2)
@@ -25,14 +28,15 @@ namespace ai_gomoku
             Console.WriteLine($"Board is {GameDef.board_cell_length} x {GameDef.board_cell_length}");
 
             View = view;
-
             Model = new Model();
+            P1 = player1;
+            P2 = player2;
 
             Random random = new Random();
 
             int num = random.Next(0, 2); //0、1
-            GameDef.PlayerType blackPlayer = num == 0 ? player1 : player2;
-            GameDef.PlayerType whitePlayer = num == 0 ? player2 : player1; 
+            GameDef.PlayerType blackPlayer = num == 0 ? P1 : P2;
+            GameDef.PlayerType whitePlayer = num == 0 ? P2 : P1; 
 
             //assume black chess order is first 
             RoleOrderMap.Add(0, PlayerFactory.CreatePlayer(blackPlayer, View, Model, this, ChessType.Black));
@@ -42,14 +46,11 @@ namespace ai_gomoku
 
             OrderNum = 0;
             CurrentTurnRole = RoleOrderMap[OrderNum];
-
         }
-
         public void Start()
         {
             CurrentTurnRole.onMyTurn();
         }
-
         public void RenewGame()
         {
             Model.init();
@@ -62,7 +63,6 @@ namespace ai_gomoku
             CurrentTurnRole = RoleOrderMap[OrderNum];
             CurrentTurnRole.onMyTurn();
         }
-
         public void ReturnHome()
         {
             Model.init();
@@ -81,7 +81,29 @@ namespace ai_gomoku
             CurrentTurnRole = RoleOrderMap[OrderNum];
             CurrentTurnRole.onMyTurn();
         }
-        public void onCommand(Command command)
+        public void PreviousPlayer()
+        {
+            OrderNum -= 2;
+            if (OrderNum < 0)
+            {
+                OrderNum = RoleOrderMap.Count - 2;
+            }
+
+            CurrentTurnRole = RoleOrderMap[OrderNum];
+            CurrentTurnRole.onMyTurn();
+        }
+        public bool IsAnyPlayerAi()
+        {
+            if (P1.ToString().Contains("Human") && P2.ToString().Contains("Human"))
+            {
+                return false;
+            }
+            else 
+            {
+                return true;
+            }
+        }
+        public void onCommand(CommandBase command)
         {
             CurrentTurnRole.onCommand(command);
         }

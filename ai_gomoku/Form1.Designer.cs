@@ -31,6 +31,7 @@
             this.MsgLabel = new System.Windows.Forms.Label();
             this.ReNewBtn = new System.Windows.Forms.Button();
             this.HomePanel = new System.Windows.Forms.Panel();
+            this.AIVSAI_Btn = new System.Windows.Forms.Button();
             this.HumanVSAi3x3_Btn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.HumanVSAi2_Btn = new System.Windows.Forms.Button();
@@ -38,7 +39,7 @@
             this.HumanVSHuman_Btn = new System.Windows.Forms.Button();
             this.ReturnHomeBtn = new System.Windows.Forms.Button();
             this.CloseBtn = new System.Windows.Forms.Button();
-            this.AIVSAI_Btn = new System.Windows.Forms.Button();
+            this.PreviousActionBtn = new System.Windows.Forms.Button();
             this.HomePanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,7 +61,7 @@
             this.ReNewBtn.Name = "ReNewBtn";
             this.ReNewBtn.Size = new System.Drawing.Size(137, 37);
             this.ReNewBtn.TabIndex = 1;
-            this.ReNewBtn.Text = "重來";
+            this.ReNewBtn.Text = "重        來";
             this.ReNewBtn.UseVisualStyleBackColor = false;
             this.ReNewBtn.Click += new System.EventHandler(this.ReNewBtn_Click);
             // 
@@ -79,14 +80,27 @@
             this.HomePanel.Size = new System.Drawing.Size(569, 537);
             this.HomePanel.TabIndex = 1;
             // 
+            // AIVSAI_Btn
+            // 
+            this.AIVSAI_Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.AIVSAI_Btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AIVSAI_Btn.Font = new System.Drawing.Font("新細明體", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.AIVSAI_Btn.Location = new System.Drawing.Point(170, 375);
+            this.AIVSAI_Btn.Name = "AIVSAI_Btn";
+            this.AIVSAI_Btn.Size = new System.Drawing.Size(248, 54);
+            this.AIVSAI_Btn.TabIndex = 5;
+            this.AIVSAI_Btn.Text = "簡單電腦 vs 困難電腦";
+            this.AIVSAI_Btn.UseVisualStyleBackColor = false;
+            this.AIVSAI_Btn.Click += new System.EventHandler(this.AIVSAI_Btn_Click);
+            // 
             // HumanVSAi3x3_Btn
             // 
             this.HumanVSAi3x3_Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.HumanVSAi3x3_Btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.HumanVSAi3x3_Btn.Font = new System.Drawing.Font("新細明體", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.HumanVSAi3x3_Btn.Location = new System.Drawing.Point(184, 457);
+            this.HumanVSAi3x3_Btn.Location = new System.Drawing.Point(170, 454);
             this.HumanVSAi3x3_Btn.Name = "HumanVSAi3x3_Btn";
-            this.HumanVSAi3x3_Btn.Size = new System.Drawing.Size(221, 54);
+            this.HumanVSAi3x3_Btn.Size = new System.Drawing.Size(248, 54);
             this.HumanVSAi3x3_Btn.TabIndex = 4;
             this.HumanVSAi3x3_Btn.Text = "玩家 vs 電腦(3X3)";
             this.HumanVSAi3x3_Btn.UseVisualStyleBackColor = false;
@@ -107,9 +121,9 @@
             this.HumanVSAi2_Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.HumanVSAi2_Btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.HumanVSAi2_Btn.Font = new System.Drawing.Font("新細明體", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.HumanVSAi2_Btn.Location = new System.Drawing.Point(184, 300);
+            this.HumanVSAi2_Btn.Location = new System.Drawing.Point(170, 297);
             this.HumanVSAi2_Btn.Name = "HumanVSAi2_Btn";
-            this.HumanVSAi2_Btn.Size = new System.Drawing.Size(221, 54);
+            this.HumanVSAi2_Btn.Size = new System.Drawing.Size(248, 54);
             this.HumanVSAi2_Btn.TabIndex = 2;
             this.HumanVSAi2_Btn.Text = "玩家 vs 困難電腦";
             this.HumanVSAi2_Btn.UseVisualStyleBackColor = false;
@@ -120,9 +134,9 @@
             this.HumanVSAi1_Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.HumanVSAi1_Btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.HumanVSAi1_Btn.Font = new System.Drawing.Font("新細明體", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.HumanVSAi1_Btn.Location = new System.Drawing.Point(184, 220);
+            this.HumanVSAi1_Btn.Location = new System.Drawing.Point(170, 217);
             this.HumanVSAi1_Btn.Name = "HumanVSAi1_Btn";
-            this.HumanVSAi1_Btn.Size = new System.Drawing.Size(221, 54);
+            this.HumanVSAi1_Btn.Size = new System.Drawing.Size(248, 54);
             this.HumanVSAi1_Btn.TabIndex = 1;
             this.HumanVSAi1_Btn.Text = "玩家 vs 簡單電腦";
             this.HumanVSAi1_Btn.UseVisualStyleBackColor = false;
@@ -133,9 +147,9 @@
             this.HumanVSHuman_Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.HumanVSHuman_Btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.HumanVSHuman_Btn.Font = new System.Drawing.Font("新細明體", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.HumanVSHuman_Btn.Location = new System.Drawing.Point(184, 142);
+            this.HumanVSHuman_Btn.Location = new System.Drawing.Point(170, 139);
             this.HumanVSHuman_Btn.Name = "HumanVSHuman_Btn";
-            this.HumanVSHuman_Btn.Size = new System.Drawing.Size(221, 54);
+            this.HumanVSHuman_Btn.Size = new System.Drawing.Size(248, 54);
             this.HumanVSHuman_Btn.TabIndex = 2;
             this.HumanVSHuman_Btn.Text = "玩家 vs 玩家";
             this.HumanVSHuman_Btn.UseVisualStyleBackColor = false;
@@ -170,18 +184,18 @@
             this.CloseBtn.UseVisualStyleBackColor = false;
             this.CloseBtn.Click += new System.EventHandler(this.CloseBtn_Click);
             // 
-            // AIVSAI_Btn
+            // PreviousActionBtn
             // 
-            this.AIVSAI_Btn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.AIVSAI_Btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.AIVSAI_Btn.Font = new System.Drawing.Font("新細明體", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.AIVSAI_Btn.Location = new System.Drawing.Point(184, 378);
-            this.AIVSAI_Btn.Name = "AIVSAI_Btn";
-            this.AIVSAI_Btn.Size = new System.Drawing.Size(221, 54);
-            this.AIVSAI_Btn.TabIndex = 5;
-            this.AIVSAI_Btn.Text = "電腦 vs 電腦";
-            this.AIVSAI_Btn.UseVisualStyleBackColor = false;
-            this.AIVSAI_Btn.Click += new System.EventHandler(this.AIVSAI_Btn_Click);
+            this.PreviousActionBtn.BackColor = System.Drawing.Color.Gold;
+            this.PreviousActionBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PreviousActionBtn.Font = new System.Drawing.Font("新細明體", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.PreviousActionBtn.Location = new System.Drawing.Point(705, 345);
+            this.PreviousActionBtn.Name = "PreviousActionBtn";
+            this.PreviousActionBtn.Size = new System.Drawing.Size(137, 37);
+            this.PreviousActionBtn.TabIndex = 4;
+            this.PreviousActionBtn.Text = "悔       棋";
+            this.PreviousActionBtn.UseVisualStyleBackColor = false;
+            this.PreviousActionBtn.Click += new System.EventHandler(this.PreviousActionBtn_Click);
             // 
             // Form1
             // 
@@ -190,6 +204,7 @@
             this.BackgroundImage = global::ai_gomoku.Properties.Resources.board;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(847, 700);
+            this.Controls.Add(this.PreviousActionBtn);
             this.Controls.Add(this.CloseBtn);
             this.Controls.Add(this.HomePanel);
             this.Controls.Add(this.ReturnHomeBtn);
@@ -221,6 +236,7 @@
         private System.Windows.Forms.Button CloseBtn;
         private System.Windows.Forms.Button HumanVSAi3x3_Btn;
         private System.Windows.Forms.Button AIVSAI_Btn;
+        private System.Windows.Forms.Button PreviousActionBtn;
     }
 }
 

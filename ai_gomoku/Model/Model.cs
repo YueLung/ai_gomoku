@@ -4,11 +4,24 @@ using System.Linq;
 
 namespace ai_gomoku
 {
-   public enum ChessType { None, Black, White }
+    public enum ChessType { None, Black, White }
+    public class ChessPos
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public ChessPos(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+    }
 
     public class Model: ICloneable
     {
         private List<List<ChessType>> Board;
+
+        private List<ChessPos> ChessOrderList;
 
         public ChessType PrepareCheckedChessType { get; set; }
         public int PrepareCheckedPOS_X { get; set; }
@@ -18,10 +31,13 @@ namespace ai_gomoku
         {
             init();
         }
-
         public void init()
         {
+            if (Board != null) Board = null;
+            if (ChessOrderList != null) ChessOrderList = null;
+
             Board = new List<List<ChessType>>();
+            ChessOrderList = new List<ChessPos>();
 
             for (int i = 0; i < GameDef.board_cell_length; ++i)
             {
@@ -35,12 +51,10 @@ namespace ai_gomoku
                 Board.Add(list);
             }    
         }
-
         public List<List<ChessType>> GetBoard()
         {
             return Board;
         }
-
         public List<List<ChessType>> GetBoardByCopy()
         {
             List<List<ChessType>> copyBoard = new List<List<ChessType>>();
@@ -51,6 +65,10 @@ namespace ai_gomoku
             }
 
             return copyBoard;
+        }
+        public int GetChessTotalCount()
+        {
+            return ChessOrderList.Count;
         }
         public bool PutChessToBoard(int x, int y, ChessType chessType)
         {
@@ -64,6 +82,8 @@ namespace ai_gomoku
             {
                 Board[y][x] = chessType;
 
+                ChessOrderList.Add(new ChessPos(x, y));
+
                 PrepareCheckedChessType = chessType;
                 PrepareCheckedPOS_X = x;
                 PrepareCheckedPOS_Y = y;
@@ -73,7 +93,18 @@ namespace ai_gomoku
         
             return false;
         }
-
+        public void PreviousAction()
+        {
+            if (ChessOrderList.Count > 0)
+            {
+                Board[ChessOrderList.Last().Y][ChessOrderList.Last().X] = ChessType.None;
+                ChessOrderList.RemoveAt(ChessOrderList.Count - 1);
+            }
+            else
+            {
+                Console.WriteLine("Cannot PreviousAction becuse ChessOrderList.Count <= 0");
+            }
+        }
         public void PrintBoard()
         {
             Console.WriteLine("=======================================");
@@ -87,7 +118,6 @@ namespace ai_gomoku
             }
             Console.WriteLine("=======================================");
         }
-
         public object Clone()
         {
             Model clone = new Model();

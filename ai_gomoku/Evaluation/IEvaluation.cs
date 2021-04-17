@@ -1,5 +1,4 @@
-﻿
-namespace ai_gomoku.Evaluation
+﻿namespace ai_gomoku.Evaluation
 {
     public interface IEvaluation
     {

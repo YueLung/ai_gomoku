@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using ai_gomoku.Command;
 
 namespace ai_gomoku
 {
@@ -12,7 +10,7 @@ namespace ai_gomoku
         public String Name { get; }//read only
 
         public delegate bool isAllowFun();
-        public delegate bool onFun(Command command);
+        public delegate bool onFun(CommandBase command);
 
         protected Form1 View;
 
@@ -54,7 +52,7 @@ namespace ai_gomoku
             }
         }
 
-        public void onCommand(Command command)
+        public void onCommand(CommandBase command)
         {
             System.Console.WriteLine($"{Name} onCommand : {command.Name}");
 
@@ -85,12 +83,12 @@ namespace ai_gomoku
             return true;
         }
 
-        protected virtual bool onRenewCommand(Command command)
+        protected virtual bool onRenewCommand(CommandBase command)
         {
             RoleMgr.RenewGame();
             return true;
         }
-        protected virtual bool onReturnHomeCommand(Command command)
+        protected virtual bool onReturnHomeCommand(CommandBase command)
         {
             RoleMgr.ReturnHome();
             return true;

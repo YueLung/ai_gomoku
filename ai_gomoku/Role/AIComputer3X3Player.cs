@@ -38,7 +38,7 @@ namespace ai_gomoku.Role
             if (TotalTurn == 1)
             {
                 System.Console.WriteLine($"AI Turn 1");
-                bool isPutSuccessful = putChess(GameDef.board_cell_length/2, GameDef.board_cell_length/2);
+                bool isPutSuccessful = PutChess(GameDef.board_cell_length/2, GameDef.board_cell_length/2);
             }
             else
             {
@@ -48,7 +48,7 @@ namespace ai_gomoku.Role
                 System.Console.WriteLine($"MinMaxSearchCount = {MinMaxSearchCount.ToString()}");
                 System.Console.WriteLine($"SearchHasResultCount = {SearchHasResultCount.ToString()}");
 
-                bool isPutSuccessful = putChess(bestPosInfo.X, bestPosInfo.Y);
+                bool isPutSuccessful = PutChess(bestPosInfo.X, bestPosInfo.Y);
             }
            
         }
@@ -131,9 +131,9 @@ namespace ai_gomoku.Role
             BoradStatus status = BoradStatus.Nothing;
             ConnectStrategy connectStrategy = new ConnectStrategy(model);
 
-            if (connectStrategy.isWin(chessType))
+            if (connectStrategy.IsWin(chessType))
                 status = BoradStatus.Winlose;
-            else if (connectStrategy.isTie())
+            else if (connectStrategy.IsTie())
                 status = BoradStatus.Tie;
 
             return status;

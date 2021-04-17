@@ -1,23 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
+
+using ai_gomoku.Role;
 
 namespace ai_gomoku
 {
-    abstract public class Chess : PictureBox
+    abstract public class Chess
     {
+        public List<Control> ControlList;
+
+        protected Label label;
+
+        protected PictureBox pictureBox;
+
         public Chess()
         {
-            Size = new System.Drawing.Size(50, 50);
-            BackColor = System.Drawing.Color.Transparent;
+            ControlList = new List<Control>();
+
+            pictureBox = new PictureBox();
+            pictureBox.Size = new System.Drawing.Size(50, 50);
+            pictureBox.BackColor = System.Drawing.Color.Transparent;
+
+            label = new Label();
+            label.Location = new System.Drawing.Point(10, 10);
+            label.AutoSize = true;
+            label.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            label.ForeColor = System.Drawing.Color.Red;
+
+            ControlList.Add(label);
+            ControlList.Add(pictureBox);  
         }
 
         public void SetPositionPixel(int x, int y)
         {
-            Location = new System.Drawing.Point(x, y);
+            pictureBox.Location = new System.Drawing.Point(x, y);
+
+            label.Text = Player.TotalTurn.ToString();
+            label.Location = new System.Drawing.Point(x + 18, y + 18);
         }
 
         public void SetPositionByCoordinate(int x, int y)

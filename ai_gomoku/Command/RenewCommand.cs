@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ai_gomoku
+namespace ai_gomoku.Command
 {
-    class RenewCommand : Command
+    class RenewCommand : CommandBase
     {
         public RenewCommand(String name) : base(name)
         {

@@ -29,7 +29,7 @@ namespace ai_gomoku.Role
             Chess myChess = ChessFactory.CreateChess(MyChessType);
             myChess.SetPositionByCoordinate(x, y);
 
-            putChess(x, y);
+            PutChess(x, y);
 
             View.PutChessOnView(myChess);
 

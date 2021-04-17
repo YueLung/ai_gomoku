@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Windows.Forms;
+
+using ai_gomoku.Command;
 
 namespace ai_gomoku
 {
@@ -26,16 +22,39 @@ namespace ai_gomoku
         {
             ChessList.Add(chess);
 
-            this.Controls.Add(chess);
-            chess.Refresh();
-
+            foreach (Control control in chess.ControlList) 
+            {
+                this.Controls.Add(control);
+                control.Refresh();
+            }
         }
         public void InitViewBoard()
         {
             foreach (Chess chess in ChessList)
             {
-                this.Controls.Remove(chess);
+                foreach (Control control in chess.ControlList)
+                {
+                    this.Controls.Remove(control);
+                }   
             }
+        }
+        public void RemoveLastChess()
+        {
+            if (ChessList.Count > 0)
+            {
+                Chess lastChess = ChessList[ChessList.Count - 1];
+
+                foreach (Control control in lastChess.ControlList)
+                {
+                    this.Controls.Remove(control);
+                }
+                
+                ChessList.RemoveAt(ChessList.Count - 1);
+            }
+            else
+            {
+                Console.WriteLine("Cannot RemoveLastChess because ChessList.Count <= 0");
+            } 
         }
         public void ShowMsg(String msg)
         {
@@ -69,6 +88,15 @@ namespace ai_gomoku
                 RoleMgr = null;
             }
         }
+
+        private void PreviousActionBtn_Click(object sender, EventArgs e)
+        {
+            if (RoleMgr != null)
+            {
+                PreviousActionCommand previousActionCommand = new PreviousActionCommand("PreviousActionCommand", RoleMgr.IsAnyPlayerAi());
+                RoleMgr.onCommand(previousActionCommand);
+            }
+        }
         private void HumanVSHuman_Btn_Click(object sender, EventArgs e)
         {
             RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.Human2);
@@ -95,7 +123,6 @@ namespace ai_gomoku
             HomePanel.Visible = false;
             RoleMgr.Start();
         }
-
         private void HumanVSAi3x3_Btn_Click(object sender, EventArgs e)
         {
             RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.AI3X3);
@@ -111,7 +138,6 @@ namespace ai_gomoku
         {
             Application.Exit();
         }
-
 
     }
 

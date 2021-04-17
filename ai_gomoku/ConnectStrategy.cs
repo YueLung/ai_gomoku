@@ -14,13 +14,13 @@ namespace ai_gomoku
             Model = model;
         }
 
-        public bool isWin(ChessType chessType)
+        public bool IsWin(ChessType chessType)
         {
             //Model.printBoard();
             return IsWinHorizontal(chessType) || IsWinVertical(chessType) || IsWinRightOblique(chessType) || IsWinLeftOblique(chessType);
         }
 
-        public bool isTie()
+        public bool IsTie()
         {
             bool res = true;
             List < List < ChessType >> board = Model.GetBoardByCopy();

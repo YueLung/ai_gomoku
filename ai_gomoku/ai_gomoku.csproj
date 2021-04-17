@@ -52,18 +52,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chess\BlackChess.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Chess\Chess.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Chess\BlackChess.cs" />
+    <Compile Include="Chess\Chess.cs" />
     <Compile Include="Chess\ChessFactory.cs" />
-    <Compile Include="Chess\WhiteChess.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Chess\WhiteChess.cs" />
     <Compile Include="Command\ClickCommand.cs" />
-    <Compile Include="Command\Command.cs" />
+    <Compile Include="Command\CommandBase.cs" />
+    <Compile Include="Command\PreviousActionCommand.cs" />
     <Compile Include="Command\RenewCommand.cs" />
     <Compile Include="Command\ReturnHomeCommand.cs" />
     <Compile Include="ConnectStrategy.cs" />
@@ -80,7 +75,8 @@
     <Compile Include="GameDef.cs" />
     <Compile Include="PlayerFactory.cs" />
     <Compile Include="Role\AIComputer3X3Player.cs" />
-    <Compile Include="Role\MinMAXComputerPlayer.cs" />
+    <Compile Include="Role\EasyComputerPlayer.cs" />
+    <Compile Include="Role\MinMaxComputerPlayer.cs" />
     <Compile Include="Role\HumanPlayer.cs" />
     <Compile Include="Role\Judge.cs" />
     <Compile Include="Role\Player.cs" />

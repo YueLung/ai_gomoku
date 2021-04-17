@@ -19,11 +19,12 @@ namespace ai_gomoku.Role
 
             if (Model.PrepareCheckedChessType == MyChessType)
             {
-                if (ConnectStrategy.isWin(MyChessType))
+                if (ConnectStrategy.IsWin(MyChessType))
                 {
                     View.ShowMsg($"{Name.Split('_')[0]} ({Name.Split('_')[3]}) WIN !!!");
+                    System.Console.WriteLine($"{Name.Split('_')[0]} ({Name.Split('_')[3]}) WIN !!!");
                 }
-                else if (ConnectStrategy.isTie())
+                else if (ConnectStrategy.IsTie())
                 {
                     System.Console.WriteLine($"It's tie !!!");
                     View.ShowMsg($"It's tie !!!");

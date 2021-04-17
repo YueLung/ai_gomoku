@@ -21,11 +21,11 @@ namespace ai_gomoku
                     break;
                 case GameDef.PlayerType.EasyAI:
                     Console.WriteLine($"Create a EasyAI Player. ChessType is {chessType}");
-                    return new MinMAXComputerPlayer("EasyAI " + chessType, view, model, roleMgr, chessType, new OnePointEvaluation(), 0);
+                    return new EasyComputerPlayer("EasyAI " + chessType, view, model, roleMgr, chessType, new OnePointEvaluation());
                     break;
                 case GameDef.PlayerType.HardAI:
                     Console.WriteLine($"Create a HardAI Player. ChessType is {chessType}");
-                    return new MinMAXComputerPlayer("HardAI " + chessType, view, model, roleMgr, chessType, new BoardEvaluation(), 1);
+                    return new MinMaxComputerPlayer("HardAI " + chessType, view, model, roleMgr, chessType, new BoardEvaluation(), 1);
                     break;
                 case GameDef.PlayerType.AI3X3:
                     Console.WriteLine($"Create a AI3X3 Player. ChessType is {chessType}");
