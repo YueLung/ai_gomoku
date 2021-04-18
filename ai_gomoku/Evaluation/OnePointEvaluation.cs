@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ai_gomoku.Evaluation
 {
@@ -306,11 +305,11 @@ namespace ai_gomoku.Evaluation
 
             if (connect >= 4)
             {
-                res = 20000;
+                res = 1000000;
             }
             else if (connect == 3)
             {
-                res = 2000;
+                res = 4000;
             }
             else if (connect == 2)
             {

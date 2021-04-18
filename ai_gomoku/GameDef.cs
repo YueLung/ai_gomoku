@@ -20,8 +20,8 @@ namespace ai_gomoku
 
         public static int board_cell_length = 9;
 
-        public enum PlayerType { Human1, Human2,  EasyAI, HardAI, AI3X3 }
-
+        public enum PlayerType { Human1, Human2,  EasyAI, MediumAI, HardAI, AI3X3 }
+        public enum JudgeType { Nomal,Debug }
 
     }
 }

@@ -86,6 +86,9 @@ namespace ai_gomoku
 
                 HomePanel.Visible = true;
                 RoleMgr = null;
+
+                ComputerNextBtn.Visible = false;
+                ComputerNextBtn.Enabled = false;
             }
         }
 
@@ -97,35 +100,46 @@ namespace ai_gomoku
                 RoleMgr.onCommand(previousActionCommand);
             }
         }
+        private void ComputerNextBtn_Click(object sender, EventArgs e)
+        {
+            if (RoleMgr != null)
+            {
+                ComputerNextCommand computerNextCommand = new ComputerNextCommand("ComputerNextCommand");
+                RoleMgr.onCommand(computerNextCommand);
+            }
+        }
         private void HumanVSHuman_Btn_Click(object sender, EventArgs e)
         {
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.Human2);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.Human2, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }
         private void HumanVSAi1_Btn_Click(object sender, EventArgs e)
         {
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.EasyAI);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.EasyAI, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }
 
         private void HumanVSAi2_Btn_Click(object sender, EventArgs e)
         {
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.HardAI);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.HardAI, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }
 
         private void AIVSAI_Btn_Click(object sender, EventArgs e)
         {
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.EasyAI, GameDef.PlayerType.HardAI);
+            ComputerNextBtn.Visible = true;
+            ComputerNextBtn.Enabled = true;
+
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.MediumAI, GameDef.PlayerType.HardAI, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }
         private void HumanVSAi3x3_Btn_Click(object sender, EventArgs e)
         {
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.AI3X3);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.AI3X3, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
 
             GameDef.board_cell_length = 4;
@@ -139,6 +153,32 @@ namespace ai_gomoku
             Application.Exit();
         }
 
+        #region panelTop drag event
+        private bool isDraggabel = false;
+        private int mouseX;
+        private int mouseY;
+
+        private void panelTop_MouseDown(object sender, MouseEventArgs e)
+        {
+            isDraggabel = true;
+            mouseX = Cursor.Position.X - this.Left;
+            mouseY = Cursor.Position.Y - this.Top;
+        }
+
+        private void panelTop_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDraggabel)
+            {
+                this.Left = Cursor.Position.X - mouseX;
+                this.Top = Cursor.Position.Y - mouseY;
+            }
+        }
+
+        private void panelTop_MouseUp(object sender, MouseEventArgs e)
+        {
+            isDraggabel = false;
+        }
+        #endregion
     }
 
 

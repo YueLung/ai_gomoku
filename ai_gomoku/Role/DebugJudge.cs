@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using ai_gomoku.Command;
 
 namespace ai_gomoku.Role
 {
-    public class Judge : RoleBase
+    class DebugJudge : RoleBase
     {
         protected ConnectStrategy ConnectStrategy;
-        public Judge(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType) : base(name, view, model, roleMgr, chessType)
+
+        public DebugJudge(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType) : base(name, view, model, roleMgr, chessType)
         {
             ConnectStrategy = new ConnectStrategy(model);
+
+            addCommand("ComputerNextCommand", isAllowComputerNextCommand, onComputerNextCommand);
         }
+
         public override void onMyTurn()
         {
             base.onMyTurn();
@@ -31,12 +34,29 @@ namespace ai_gomoku.Role
                 }
                 else
                 {
-                    RoleMgr.ChangeNextRole();
                 }
             }
             else
             {
                 System.Console.WriteLine($"{Name} judge error type");
+            }
+        }
+
+        private bool isAllowComputerNextCommand()
+        {
+            return true;
+        }
+        private bool onComputerNextCommand(CommandBase command)
+        {
+            if (command is ComputerNextCommand)
+            {
+                RoleMgr.ChangeNextRole();
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("command is not ComputerNextCommand");
+                return false;
             }
         }
     }

@@ -31,7 +31,6 @@ namespace ai_gomoku.Role
                 myChess.SetPositionByCoordinate(x, y);
 
                 View.PutChessOnView(myChess);
-                RoleMgr.ChangeNextRole();
             }
 
             return isSuccessful;

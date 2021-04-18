@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ai_gomoku.Evaluation
 {
@@ -40,6 +39,9 @@ namespace ai_gomoku.Evaluation
                         GetAttackLineScore(AttackDirection.RightOblique, model, posX, posY, posChessType) +
                         GetAttackLineScore(AttackDirection.LeftOblique, model, posX, posY, posChessType);
 
+            if (posChessType == ChessType.Black)
+                score = (int)(score * 1.0);
+
             return score;
         }
         protected override int CalculateAttackScore(AttackDirectionInfo directionInfo_1, AttackDirectionInfo directionInfo_2)
@@ -59,27 +61,27 @@ namespace ai_gomoku.Evaluation
             else if (totalConnectCount == 4)
             {
                 if (liveCount == 2)
-                    res = 10000;
+                    res = 100000;  
                 else if (liveCount == 1)
-                    res = 1000;
+                    res = 250;    
                 else if (liveCount == 0)
                     res = 0;
             }
             else if (totalConnectCount == 3)
             {
                 if (liveCount == 2)
-                    res = 1000;
+                    res = 333;
                 else if (liveCount == 1)
-                    res = 100;
+                    res = 33;
                 else if (liveCount == 0)
                     res = 0;
             }
             else if (totalConnectCount == 2)
             {
                 if (liveCount == 2)
-                    res = 100;
+                    res = 50;
                 else if (liveCount == 1)
-                    res = 10;
+                    res = 5;
                 else if (liveCount == 0)
                     res = 0;
             }

@@ -6,7 +6,6 @@ namespace ai_gomoku.Command
     {
         public RenewCommand(String name) : base(name)
         {
-            
         }
     }
 }

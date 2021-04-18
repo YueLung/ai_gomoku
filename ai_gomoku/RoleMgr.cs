@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using ai_gomoku.Role;
 using ai_gomoku.Command;
+using System.Threading;
 
 namespace ai_gomoku
 {
@@ -23,7 +24,7 @@ namespace ai_gomoku
 
         private int OrderNum;
 
-        public RoleMgr(Form1 view, GameDef.PlayerType player1, GameDef.PlayerType player2)
+        public RoleMgr(Form1 view, GameDef.PlayerType player1, GameDef.PlayerType player2, GameDef.JudgeType judgeType)
         {
             Console.WriteLine($"Board is {GameDef.board_cell_length} x {GameDef.board_cell_length}");
 
@@ -36,13 +37,13 @@ namespace ai_gomoku
 
             int num = random.Next(0, 2); //0、1
             GameDef.PlayerType blackPlayer = num == 0 ? P1 : P2;
-            GameDef.PlayerType whitePlayer = num == 0 ? P2 : P1; 
+            GameDef.PlayerType whitePlayer = num == 0 ? P2 : P1;
 
             //assume black chess order is first 
             RoleOrderMap.Add(0, PlayerFactory.CreatePlayer(blackPlayer, View, Model, this, ChessType.Black));
-            RoleOrderMap.Add(1, new Judge(GameDef.BLACK_CHESS_JUDGE + "_" + blackPlayer.ToString(), View, Model, this, ChessType.Black));
+            RoleOrderMap.Add(1, JudgeFactory.CreateJudge(judgeType, GameDef.BLACK_CHESS_JUDGE + "_" + blackPlayer.ToString(), View, Model, this, ChessType.Black));
             RoleOrderMap.Add(2, PlayerFactory.CreatePlayer(whitePlayer, View, Model, this, ChessType.White));
-            RoleOrderMap.Add(3, new Judge(GameDef.WHITE_CHESS_JUDGE + "_" + blackPlayer.ToString(), View, Model, this, ChessType.White));
+            RoleOrderMap.Add(3, JudgeFactory.CreateJudge(judgeType, GameDef.WHITE_CHESS_JUDGE + "_" + whitePlayer.ToString(), View, Model, this, ChessType.White));
 
             OrderNum = 0;
             CurrentTurnRole = RoleOrderMap[OrderNum];
@@ -79,6 +80,7 @@ namespace ai_gomoku
             }
 
             CurrentTurnRole = RoleOrderMap[OrderNum];
+            //Thread.Sleep(200);
             CurrentTurnRole.onMyTurn();
         }
         public void PreviousPlayer()

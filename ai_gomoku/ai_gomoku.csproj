@@ -58,6 +58,7 @@
     <Compile Include="Chess\WhiteChess.cs" />
     <Compile Include="Command\ClickCommand.cs" />
     <Compile Include="Command\CommandBase.cs" />
+    <Compile Include="Command\ComputerNextCommand.cs" />
     <Compile Include="Command\PreviousActionCommand.cs" />
     <Compile Include="Command\RenewCommand.cs" />
     <Compile Include="Command\ReturnHomeCommand.cs" />
@@ -71,10 +72,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="JudgeFactory.cs" />
     <Compile Include="Model\Model.cs" />
     <Compile Include="GameDef.cs" />
     <Compile Include="PlayerFactory.cs" />
     <Compile Include="Role\AIComputer3X3Player.cs" />
+    <Compile Include="Role\DebugJudge.cs" />
     <Compile Include="Role\EasyComputerPlayer.cs" />
     <Compile Include="Role\MinMaxComputerPlayer.cs" />
     <Compile Include="Role\HumanPlayer.cs" />

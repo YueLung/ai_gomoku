@@ -9,26 +9,26 @@ namespace ai_gomoku
     {
         public static Player CreatePlayer(GameDef.PlayerType type, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType)
         {
+            Console.WriteLine($"Create a {type.ToString()} Player. ChessType is {chessType}");
+
             switch (type)
             {
                 case GameDef.PlayerType.Human1:
-                    Console.WriteLine($"Create a Human Player. ChessType is {chessType}");
                     return new HumanPlayer("Human1 " + chessType, view, model, roleMgr, chessType);
                     break;
                 case GameDef.PlayerType.Human2:
-                    Console.WriteLine($"Create a Human Player. ChessType is {chessType}");
                     return new HumanPlayer("Human2 " + chessType, view, model, roleMgr, chessType);
                     break;
                 case GameDef.PlayerType.EasyAI:
-                    Console.WriteLine($"Create a EasyAI Player. ChessType is {chessType}");
                     return new EasyComputerPlayer("EasyAI " + chessType, view, model, roleMgr, chessType, new OnePointEvaluation());
                     break;
+                case GameDef.PlayerType.MediumAI:
+                    return new MinMaxComputerPlayer("MediumAI " + chessType, view, model, roleMgr, chessType, new BoardEvaluation(), 1);
+                    break;
                 case GameDef.PlayerType.HardAI:
-                    Console.WriteLine($"Create a HardAI Player. ChessType is {chessType}");
-                    return new MinMaxComputerPlayer("HardAI " + chessType, view, model, roleMgr, chessType, new BoardEvaluation(), 1);
+                    return new MinMaxComputerPlayer("HardAI " + chessType, view, model, roleMgr, chessType, new BoardEvaluation(), 2);
                     break;
                 case GameDef.PlayerType.AI3X3:
-                    Console.WriteLine($"Create a AI3X3 Player. ChessType is {chessType}");
                     return new AIComputer3X3Player("AI3X3 " + chessType, view, model, roleMgr, chessType);
                     break;
                 default:

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using ai_gomoku.Command;
 
-namespace ai_gomoku
+namespace ai_gomoku.Role
 {
     public abstract class RoleBase
     {
@@ -71,8 +71,7 @@ namespace ai_gomoku
         public virtual void onMyTurn()
         {
             TurnCount++;
-            System.Console.WriteLine($"{Name} onMyTurn");
-                       
+            System.Console.WriteLine($"{Name} onMyTurn");              
         }
         protected virtual bool isAllowRenewCommand()
         {

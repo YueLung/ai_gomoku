@@ -22,6 +22,7 @@ namespace ai_gomoku.Role
             {
                 System.Console.WriteLine($"AI Turn 1");
                 bool isPutSuccessful = PutChess(GameDef.board_cell_length / 2, GameDef.board_cell_length / 2);
+                RoleMgr.ChangeNextRole();
             }
             else
             {
@@ -50,6 +51,7 @@ namespace ai_gomoku.Role
                 }
 
                 bool isPutSuccessful = PutChess(bestX, bestY);
+                RoleMgr.ChangeNextRole();
             }
         }
     }

@@ -40,7 +40,10 @@
             this.ReturnHomeBtn = new System.Windows.Forms.Button();
             this.CloseBtn = new System.Windows.Forms.Button();
             this.PreviousActionBtn = new System.Windows.Forms.Button();
+            this.ComputerNextBtn = new System.Windows.Forms.Button();
+            this.panelTop = new System.Windows.Forms.Panel();
             this.HomePanel.SuspendLayout();
+            this.panelTop.SuspendLayout();
             this.SuspendLayout();
             // 
             // MsgLabel
@@ -176,7 +179,7 @@
             this.CloseBtn.FlatAppearance.BorderSize = 0;
             this.CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CloseBtn.Font = new System.Drawing.Font("新細明體", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.CloseBtn.Location = new System.Drawing.Point(798, 1);
+            this.CloseBtn.Location = new System.Drawing.Point(801, 0);
             this.CloseBtn.Name = "CloseBtn";
             this.CloseBtn.Size = new System.Drawing.Size(47, 44);
             this.CloseBtn.TabIndex = 3;
@@ -197,6 +200,33 @@
             this.PreviousActionBtn.UseVisualStyleBackColor = false;
             this.PreviousActionBtn.Click += new System.EventHandler(this.PreviousActionBtn_Click);
             // 
+            // ComputerNextBtn
+            // 
+            this.ComputerNextBtn.BackColor = System.Drawing.Color.Gold;
+            this.ComputerNextBtn.Enabled = false;
+            this.ComputerNextBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ComputerNextBtn.Font = new System.Drawing.Font("新細明體", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ComputerNextBtn.Location = new System.Drawing.Point(705, 443);
+            this.ComputerNextBtn.Name = "ComputerNextBtn";
+            this.ComputerNextBtn.Size = new System.Drawing.Size(136, 73);
+            this.ComputerNextBtn.TabIndex = 5;
+            this.ComputerNextBtn.Text = "電腦下一步";
+            this.ComputerNextBtn.UseVisualStyleBackColor = false;
+            this.ComputerNextBtn.Visible = false;
+            this.ComputerNextBtn.Click += new System.EventHandler(this.ComputerNextBtn_Click);
+            // 
+            // panelTop
+            // 
+            this.panelTop.BackColor = System.Drawing.Color.Transparent;
+            this.panelTop.Controls.Add(this.CloseBtn);
+            this.panelTop.Location = new System.Drawing.Point(1, 0);
+            this.panelTop.Name = "panelTop";
+            this.panelTop.Size = new System.Drawing.Size(848, 41);
+            this.panelTop.TabIndex = 6;
+            this.panelTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseDown);
+            this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseMove);
+            this.panelTop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseUp);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -204,12 +234,13 @@
             this.BackgroundImage = global::ai_gomoku.Properties.Resources.board;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(847, 700);
+            this.Controls.Add(this.ComputerNextBtn);
             this.Controls.Add(this.PreviousActionBtn);
-            this.Controls.Add(this.CloseBtn);
             this.Controls.Add(this.HomePanel);
             this.Controls.Add(this.ReturnHomeBtn);
             this.Controls.Add(this.ReNewBtn);
             this.Controls.Add(this.MsgLabel);
+            this.Controls.Add(this.panelTop);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.Name = "Form1";
@@ -218,6 +249,7 @@
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
             this.HomePanel.ResumeLayout(false);
             this.HomePanel.PerformLayout();
+            this.panelTop.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -237,6 +269,8 @@
         private System.Windows.Forms.Button HumanVSAi3x3_Btn;
         private System.Windows.Forms.Button AIVSAI_Btn;
         private System.Windows.Forms.Button PreviousActionBtn;
+        private System.Windows.Forms.Button ComputerNextBtn;
+        private System.Windows.Forms.Panel panelTop;
     }
 }
 
