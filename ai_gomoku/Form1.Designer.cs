@@ -42,6 +42,7 @@
             this.PreviousActionBtn = new System.Windows.Forms.Button();
             this.ComputerNextBtn = new System.Windows.Forms.Button();
             this.panelTop = new System.Windows.Forms.Panel();
+            this.ChangeComputerPlayBtn = new System.Windows.Forms.Button();
             this.HomePanel.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
@@ -227,6 +228,21 @@
             this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseMove);
             this.panelTop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseUp);
             // 
+            // ChangeComputerPlayBtn
+            // 
+            this.ChangeComputerPlayBtn.BackColor = System.Drawing.Color.Gold;
+            this.ChangeComputerPlayBtn.Enabled = false;
+            this.ChangeComputerPlayBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ChangeComputerPlayBtn.Font = new System.Drawing.Font("新細明體", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ChangeComputerPlayBtn.Location = new System.Drawing.Point(705, 551);
+            this.ChangeComputerPlayBtn.Name = "ChangeComputerPlayBtn";
+            this.ChangeComputerPlayBtn.Size = new System.Drawing.Size(136, 65);
+            this.ChangeComputerPlayBtn.TabIndex = 7;
+            this.ChangeComputerPlayBtn.Text = "換電腦下";
+            this.ChangeComputerPlayBtn.UseVisualStyleBackColor = false;
+            this.ChangeComputerPlayBtn.Visible = false;
+            this.ChangeComputerPlayBtn.Click += new System.EventHandler(this.ChangeComputerPlayBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -234,6 +250,7 @@
             this.BackgroundImage = global::ai_gomoku.Properties.Resources.board;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(847, 700);
+            this.Controls.Add(this.ChangeComputerPlayBtn);
             this.Controls.Add(this.ComputerNextBtn);
             this.Controls.Add(this.PreviousActionBtn);
             this.Controls.Add(this.HomePanel);
@@ -271,6 +288,7 @@
         private System.Windows.Forms.Button PreviousActionBtn;
         private System.Windows.Forms.Button ComputerNextBtn;
         private System.Windows.Forms.Panel panelTop;
+        private System.Windows.Forms.Button ChangeComputerPlayBtn;
     }
 }
 

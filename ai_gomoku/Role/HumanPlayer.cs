@@ -13,9 +13,11 @@ namespace ai_gomoku.Role
         {
             DebugEvaluation = new BoardEvaluation();
 
-            addCommand("ClickCommand", isAllowClickCommand, onClickCommand);
             addCommand("PreviousActionCommand", isAllowPreviousActionCommand, onPreviousActionCommand);
+            addCommand("ChangeComputerPlayCommand", isAllowChangeComputerPlayCommand, onChangeComputerPlayCommand);
+            addCommand("ClickCommand", isAllowClickCommand, onClickCommand);
         }
+
         private bool isAllowPreviousActionCommand()
         {
             if (Model.GetChessTotalCount() > 0)
@@ -62,7 +64,25 @@ namespace ai_gomoku.Role
                 return false;
             }   
         }
-       
+
+        private bool isAllowChangeComputerPlayCommand()
+        {
+            return true;
+        }
+        private bool onChangeComputerPlayCommand(CommandBase command)
+        {
+            if (command is ChangeComputerPlayCommand)
+            {
+                RoleMgr.ChangeComputerToPlay();
+                return true;
+            }
+            else
+            { 
+                Console.WriteLine("command is not ChangeComputerPlayCommand");
+                return false;
+            }
+        }
+
         private bool isAllowClickCommand()
         {
             return true;

@@ -13,6 +13,11 @@ namespace ai_gomoku.Role
         {
             ConnectStrategy = new ConnectStrategy(model);
         }
+        public override void AppendName(string appendName)
+        {
+            Name = Name + appendName;
+        }
+
         public override void onMyTurn()
         {
             base.onMyTurn();

@@ -69,6 +69,8 @@ namespace ai_gomoku
             Model.init();
 
             View.InitViewBoard();
+
+            Player.InitTotalTurn();
         }
         public void ChangeNextRole()
         {
@@ -82,6 +84,19 @@ namespace ai_gomoku
             CurrentTurnRole = RoleOrderMap[OrderNum];
             //Thread.Sleep(200);
             CurrentTurnRole.onMyTurn();
+        }
+        public void ChangeComputerToPlay()
+        {
+            GameDef.PlayerType changeAIType = GameDef.PlayerType.HardAI;
+
+            RoleOrderMap[OrderNum] = PlayerFactory.CreatePlayer(changeAIType, View, Model, this, CurrentTurnRole.GetChessType());
+
+            int judgeOeder = OrderNum + 1;
+            RoleOrderMap[judgeOeder].AppendName($" + {changeAIType.ToString()}");
+
+            CurrentTurnRole = RoleOrderMap[OrderNum];
+            CurrentTurnRole.onMyTurn();
+
         }
         public void PreviousPlayer()
         {

@@ -7,7 +7,7 @@ namespace ai_gomoku.Role
 {
     public abstract class RoleBase
     {
-        public String Name { get; }//read only
+        public String Name { get; protected set; }//read only
 
         public delegate bool isAllowFun();
         public delegate bool onFun(CommandBase command);
@@ -37,7 +37,10 @@ namespace ai_gomoku.Role
             addCommand("ReturnHomeCommand", isAllowReturnHomeCommand, onReturnHomeCommand);
 
         }
-
+        public ChessType GetChessType()
+        {
+            return MyChessType;
+        }
         protected void addCommand(String commandName, isAllowFun isAllowFun, onFun onFun)
         {
             if (CommandMap.ContainsKey(commandName) == false)
@@ -51,7 +54,6 @@ namespace ai_gomoku.Role
                 System.Console.WriteLine($"Command : {commandName} is repeated");
             }
         }
-
         public void onCommand(CommandBase command)
         {
             System.Console.WriteLine($"{Name} onCommand : {command.Name}");
@@ -72,6 +74,9 @@ namespace ai_gomoku.Role
         {
             TurnCount++;
             System.Console.WriteLine($"{Name} onMyTurn");              
+        }
+        public virtual void AppendName(string appendName)
+        {  
         }
         protected virtual bool isAllowRenewCommand()
         {

@@ -17,6 +17,12 @@ namespace ai_gomoku
         public Form1()
         {
             InitializeComponent();
+
+            ComputerNextBtn.Visible = false;
+            ComputerNextBtn.Enabled = false;
+
+            ChangeComputerPlayBtn.Visible = false;
+            ChangeComputerPlayBtn.Enabled = false;
         }
         public void PutChessOnView(Chess chess)
         {
@@ -89,6 +95,9 @@ namespace ai_gomoku
 
                 ComputerNextBtn.Visible = false;
                 ComputerNextBtn.Enabled = false;
+
+                ChangeComputerPlayBtn.Visible = false;
+                ChangeComputerPlayBtn.Enabled = false;
             }
         }
 
@@ -108,8 +117,19 @@ namespace ai_gomoku
                 RoleMgr.onCommand(computerNextCommand);
             }
         }
+        private void ChangeComputerPlayBtn_Click(object sender, EventArgs e)
+        {
+            if (RoleMgr != null)
+            {
+                ChangeComputerPlayCommand changeComputerPlayCommand = new ChangeComputerPlayCommand("ChangeComputerPlayCommand");
+                RoleMgr.onCommand(changeComputerPlayCommand);
+            }
+        }
         private void HumanVSHuman_Btn_Click(object sender, EventArgs e)
         {
+            ChangeComputerPlayBtn.Visible = true;
+            ChangeComputerPlayBtn.Enabled = true;
+
             RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.Human2, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
             RoleMgr.Start();
@@ -179,6 +199,8 @@ namespace ai_gomoku
             isDraggabel = false;
         }
         #endregion
+
+ 
     }
 
 
