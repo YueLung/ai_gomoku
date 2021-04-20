@@ -14,9 +14,9 @@ namespace ai_gomoku.Role
 
         private int SearchHasResultCount = 0;
 
-        private IEvaluation MyEvaluation;
+        private BoardEvaluation MyEvaluation;
 
-        public MinMaxComputerPlayer(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType, IEvaluation evaluation, int searchDepth) : base(name, view, model, roleMgr, chessType)
+        public MinMaxComputerPlayer(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType, BoardEvaluation evaluation, int searchDepth) : base(name, view, model, roleMgr, chessType)
         {
             MyEvaluation = evaluation;
             MinMaxSearchDepth = searchDepth;
@@ -75,8 +75,10 @@ namespace ai_gomoku.Role
                         }
                         else
                         {
-                            ConnectStrategy connectStrategy = new ConnectStrategy(cloneModel);
-                            isWin = connectStrategy.IsWin(chessType);
+                            //ConnectStrategy connectStrategy = new ConnectStrategy(cloneModel);
+                            //isWin = connectStrategy.IsWin(chessType);
+
+                            isWin = MyEvaluation.IsEndSearch(cloneModel, chessType);
 
                             if (isWin)
                             {
@@ -136,7 +138,7 @@ namespace ai_gomoku.Role
         }
 
         //only find 2 cell range.  ex: (0,0)  find max range = (2,2) , so (2-0)^2 + (2-0)^2 = 8
-        private const int SEACH_RANGE_SQUARE = 2;
+        private const int SEACH_RANGE_SQUARE = 8;
         private bool IsPosNeedSearch(List<List<ChessType>> board, int CenterX, int CenterY) 
         {
             bool res = false;

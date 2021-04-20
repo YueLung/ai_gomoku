@@ -93,7 +93,7 @@
             this.AIVSAI_Btn.Name = "AIVSAI_Btn";
             this.AIVSAI_Btn.Size = new System.Drawing.Size(248, 54);
             this.AIVSAI_Btn.TabIndex = 5;
-            this.AIVSAI_Btn.Text = "簡單電腦 vs 困難電腦";
+            this.AIVSAI_Btn.Text = "電腦 vs 電腦";
             this.AIVSAI_Btn.UseVisualStyleBackColor = false;
             this.AIVSAI_Btn.Click += new System.EventHandler(this.AIVSAI_Btn_Click);
             // 

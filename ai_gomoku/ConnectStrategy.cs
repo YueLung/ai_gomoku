@@ -34,7 +34,6 @@ namespace ai_gomoku
                     }
                 }
             }
-
             return res;
         }
 
