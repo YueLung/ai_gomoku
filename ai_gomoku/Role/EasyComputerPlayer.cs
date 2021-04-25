@@ -4,6 +4,9 @@ using ai_gomoku.Evaluation;
 
 namespace ai_gomoku.Role
 {
+    /// <summary>
+    /// Jsut find max score on empty cell 
+    /// </summary>
     class EasyComputerPlayer : Player
     {
         private IEvaluation MyEvaluation;
@@ -14,6 +17,7 @@ namespace ai_gomoku.Role
         public override void onMyTurn()
         {
             base.onMyTurn();
+
             int bestScore = int.MinValue;
             int bestX = -1;
             int bestY = -1;

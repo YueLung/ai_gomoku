@@ -11,32 +11,38 @@ namespace ai_gomoku.Command
         public int View_X { get; }
         public int View_Y { get; }
 
-        public ClickCommand(String name, int x, int y) : base(name)
+        public ClickCommand(String name, int cursor_x, int cursor_y) : base(name)
         {
-            int Cell_Length = Form1.CELL_LENGTH;
+            const int Cell_Length = Form1.CELL_LENGTH;
 
-            if ((x % Cell_Length < 20 || x % Cell_Length > 54) &&
-                 (y % Cell_Length < 20 || y % Cell_Length > 54))
+            int x = cursor_x - Form1.FIRST_CELL_X;
+            int y = cursor_y - Form1.FIRST_CELL_Y;
+
+            const int ACCEPT_CLICK_WIDTH = Cell_Length / 3;
+
+
+            if ((x % Cell_Length < ACCEPT_CLICK_WIDTH || x % Cell_Length > 2 * ACCEPT_CLICK_WIDTH) &&
+                 (y % Cell_Length < ACCEPT_CLICK_WIDTH || y % Cell_Length > 2 * ACCEPT_CLICK_WIDTH))
             {
                 IsValid = true;
 
                 int posx, posy;
 
-                if (x % Cell_Length < 20)
+                if (x % Cell_Length < ACCEPT_CLICK_WIDTH)
                     posx = (x / Cell_Length) * Cell_Length;
                 else
                     posx = (x / Cell_Length) * Cell_Length + Cell_Length;
 
-                if (y % Cell_Length < 20)
+                if (y % Cell_Length < ACCEPT_CLICK_WIDTH)
                     posy = (y / Cell_Length) * Cell_Length;
                 else
                     posy = (y / Cell_Length) * Cell_Length + Cell_Length;
 
-                View_X = posx - 20;
-                View_Y = posy - 20;
+                View_X = posx + Form1.FIRST_CELL_X;
+                View_Y = posy + Form1.FIRST_CELL_Y;
 
-                Board_X = (posx / Cell_Length) - 1;
-                Board_Y = (posy / Cell_Length) - 1;
+                Board_X = (posx / Cell_Length);
+                Board_Y = (posy / Cell_Length);
 
                 if (Board_X < 0 || Board_X >= GameDef.board_cell_length ||
                     Board_Y < 0 || Board_Y >= GameDef.board_cell_length)

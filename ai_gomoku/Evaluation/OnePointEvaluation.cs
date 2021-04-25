@@ -7,15 +7,22 @@ namespace ai_gomoku.Evaluation
 {
     public enum AttackDirection { Horizontal, Vertical, RightOblique, LeftOblique };
     public enum DefenseDirection { Left,UpperLeft,Up, UpperRight, Right,LowerRight, Down, LowerLeft};
+
     public class AttackDirectionInfo
     {
         public int ConnectCount { get; set; }
         public bool IsLive { get; set; }
     }
+    public class DefenseDirectionInfo
+    {
+        public int EnemyConnectCount { get; set; }
+        public bool IsEnemyLive { get; set; }
+    }
+
     public class OnePointEvaluation : IEvaluation
     {
         public OnePointEvaluation(){}
-        public virtual int GetScore(Model model, ChessType myChessType)
+        public int GetScore(Model model, ChessType myChessType)
         {
             int posX = model.PrepareCheckedPOS_X;
             int posY = model.PrepareCheckedPOS_Y;
@@ -24,53 +31,6 @@ namespace ai_gomoku.Evaluation
             int score = GetOnePointScore(model, posX, posY, posChessType);
 
             return score;
-            #region before
-            //int boardScore = 0;
-            //int[] scoreTable = new int[] { 0, 2, 30, 150, 800, 9999, 9999, 9999, 9999 };
-
-            //Model copyModel = model.Clone() as Model;
-            //ConnectStrategy connectStrategy = new ConnectStrategy(copyModel);
-
-            //List<List<ChessType>> board = copyModel.GetBoard();
-
-            //for (int y = 0; y < GameDef.board_cell_length; y++)
-            //{
-            //    for (int x = 0; x < GameDef.board_cell_length; x++)
-            //    {
-            //        if (board[y][x] != ChessType.None)
-            //        {
-            //            ChessType curChessType = board[y][x];
-
-            //            copyModel.PrepareCheckedChessType = curChessType;
-            //            copyModel.PrepareCheckedPOS_X = x;
-            //            copyModel.PrepareCheckedPOS_Y = y;
-
-            //            int connectCount = 0;
-            //            int onePosScore = 0;
-
-            //            connectCount = connectStrategy.GetConnectCount(curChessType, 1, 0);
-            //            //Console.WriteLine($"connectCount = {connectCount}");
-            //            onePosScore += scoreTable[connectCount];
-
-            //            connectCount = connectStrategy.GetConnectCount(curChessType, 0, 1);
-            //            onePosScore += scoreTable[connectCount];
-
-            //            connectCount = connectStrategy.GetConnectCount(curChessType, -1, 1);
-            //            onePosScore += scoreTable[connectCount];
-
-            //            connectCount = connectStrategy.GetConnectCount(curChessType, 1, 1);
-            //            onePosScore += scoreTable[connectCount];
-
-            //            if (curChessType == myChessType)
-            //                boardScore += onePosScore;
-            //            else
-            //                boardScore -= onePosScore;
-            //        }
-            //    }
-            //}
-
-            //return boardScore;
-            #endregion
         }
         protected virtual int GetOnePointScore(Model model, int posX, int posY, ChessType posChessType)
         {
@@ -129,41 +89,42 @@ namespace ai_gomoku.Evaluation
         protected int GetDefenseLineScore(DefenseDirection defenseDirection, Model model, int posX, int posY, ChessType posChessType)
         {
             int res = 0;
-            int connentCount;
+
+            DefenseDirectionInfo defenseDirectionInfo;
 
             switch (defenseDirection)
             {
                 case DefenseDirection.Left:
-                    connentCount = GetDefenseConnectCount(model, posX, posY, posChessType, -1, 0);
-                    res = CalculateDefenseScore(connentCount);
+                    defenseDirectionInfo = GetDefenseConnectCount(model, posX, posY, posChessType, -1, 0);
+                    res = CalculateDefenseScore(defenseDirectionInfo);
                     break;
                 case DefenseDirection.UpperLeft:
-                    connentCount = GetDefenseConnectCount(model, posX, posY, posChessType, -1, -1);
-                    res = CalculateDefenseScore(connentCount);
+                    defenseDirectionInfo = GetDefenseConnectCount(model, posX, posY, posChessType, -1, -1);
+                    res = CalculateDefenseScore(defenseDirectionInfo);
                     break;
                 case DefenseDirection.Up:
-                    connentCount = GetDefenseConnectCount(model, posX, posY, posChessType, 0, -1);
-                    res = CalculateDefenseScore(connentCount);
+                    defenseDirectionInfo = GetDefenseConnectCount(model, posX, posY, posChessType, 0, -1);
+                    res = CalculateDefenseScore(defenseDirectionInfo);
                     break;
                 case DefenseDirection.UpperRight:
-                    connentCount = GetDefenseConnectCount(model, posX, posY, posChessType, 1, -1);
-                    res = CalculateDefenseScore(connentCount);
+                    defenseDirectionInfo = GetDefenseConnectCount(model, posX, posY, posChessType, 1, -1);
+                    res = CalculateDefenseScore(defenseDirectionInfo);
                     break;
                 case DefenseDirection.Right:
-                    connentCount = GetDefenseConnectCount(model, posX, posY, posChessType, 1, 0);
-                    res = CalculateDefenseScore(connentCount);
+                    defenseDirectionInfo = GetDefenseConnectCount(model, posX, posY, posChessType, 1, 0);
+                    res = CalculateDefenseScore(defenseDirectionInfo);
                     break;
                 case DefenseDirection.LowerRight:
-                    connentCount = GetDefenseConnectCount(model, posX, posY, posChessType, 1, 1);
-                    res = CalculateDefenseScore(connentCount);
+                    defenseDirectionInfo = GetDefenseConnectCount(model, posX, posY, posChessType, 1, 1);
+                    res = CalculateDefenseScore(defenseDirectionInfo);
                     break;
                 case DefenseDirection.Down:
-                    connentCount = GetDefenseConnectCount(model, posX, posY, posChessType, 0, 1);
-                    res = CalculateDefenseScore(connentCount);
+                    defenseDirectionInfo = GetDefenseConnectCount(model, posX, posY, posChessType, 0, 1);
+                    res = CalculateDefenseScore(defenseDirectionInfo);
                     break;
                 case DefenseDirection.LowerLeft:
-                    connentCount = GetDefenseConnectCount(model, posX, posY, posChessType, -1, 1);
-                    res = CalculateDefenseScore(connentCount);
+                    defenseDirectionInfo = GetDefenseConnectCount(model, posX, posY, posChessType, -1, 1);
+                    res = CalculateDefenseScore(defenseDirectionInfo);
                     break;
             }
 
@@ -226,7 +187,7 @@ namespace ai_gomoku.Evaluation
 
             if (totalConnectCount >= 5)
             {
-                res = 1000000;
+                res = 2000000;
             }
             else if (totalConnectCount == 4)
             {
@@ -267,9 +228,12 @@ namespace ai_gomoku.Evaluation
 
             return res;
         }
-        protected int GetDefenseConnectCount(Model model, int posX, int posY, ChessType posChessType,int volumeX, int volumeY)
+        protected DefenseDirectionInfo GetDefenseConnectCount(Model model, int posX, int posY, ChessType posChessType,int volumeX, int volumeY)
         {
-            int res = 0;
+            DefenseDirectionInfo defenseDirectionInfo = new DefenseDirectionInfo();
+
+            defenseDirectionInfo.EnemyConnectCount = 0;
+            defenseDirectionInfo.IsEnemyLive = false;
 
             var board = model.GetBoardByCopy();
 
@@ -281,12 +245,13 @@ namespace ai_gomoku.Evaluation
             if ((y < 0 || y >= GameDef.board_cell_length) ||
                 (x < 0 || x >= GameDef.board_cell_length))
             {
-                return res;
+                return defenseDirectionInfo;
             }
 
-            while (board[y][x] == enemyChessType )
+            while (board[y][x] == enemyChessType)
             {
-                res++;
+                defenseDirectionInfo.EnemyConnectCount++;
+
                 x += volumeX;
                 y += volumeY;
 
@@ -297,11 +262,26 @@ namespace ai_gomoku.Evaluation
                 }
             }
 
-            return res;
+            if ((y < 0 || y >= GameDef.board_cell_length) ||
+                (x < 0 || x >= GameDef.board_cell_length))
+            {
+                defenseDirectionInfo.IsEnemyLive = false;
+            }
+            else
+            {
+                if (board[y][x] == ChessType.None)
+                {
+                    defenseDirectionInfo.IsEnemyLive = true;
+                }
+            }
+
+            return defenseDirectionInfo;
         }
-        protected int CalculateDefenseScore(int connect)
+        protected int CalculateDefenseScore(DefenseDirectionInfo defenseDirectionInfo)
         {
             int res = 0;
+            int connect = defenseDirectionInfo.EnemyConnectCount;
+            bool isLive = defenseDirectionInfo.IsEnemyLive;
 
             if (connect >= 4)
             {
@@ -309,15 +289,36 @@ namespace ai_gomoku.Evaluation
             }
             else if (connect == 3)
             {
-                res = 4000;
+                if (isLive)
+                {
+                    res = 4000;
+                }
+                else
+                {
+                    res = 2000;
+                }             
             }
             else if (connect == 2)
             {
-                res = 400;
+                if (isLive)
+                {
+                    res = 400;
+                }
+                else
+                {
+                    res = 200;
+                }
             }
             else if (connect == 1)
             {
-                res = 150;
+                if (isLive)
+                {
+                    res = 150;
+                }
+                else
+                {
+                    res = 75;
+                }    
             }
 
             return res;

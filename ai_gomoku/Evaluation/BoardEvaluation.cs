@@ -5,18 +5,36 @@ using System.Linq;
 
 namespace ai_gomoku.Evaluation
 {
-    public class BoardEvaluation : OnePointEvaluation
+    public class BoardEvaluation : IEvaluation
     {
         public BoardEvaluation() {}
 
         public bool IsEndSearch(Model model, ChessType chessType)
         {
+            var board = model.GetBoardByCopy();
+
+            #region ======  check has empty cell to play  ======
+            bool hasEmptyCell = false;
+
             for (int y = 0; y < GameDef.board_cell_length; y++)
             {
                 for (int x = 0; x < GameDef.board_cell_length; x++)
                 {
-                    var board = model.GetBoardByCopy();
+                    if (board[y][x] == ChessType.None)
+                    {
+                        hasEmptyCell = true;
+                    }
+                }
+            }
 
+            if (hasEmptyCell == false)
+                return true;
+            #endregion  ======================================
+
+            for (int y = 0; y < GameDef.board_cell_length; y++)
+            {
+                for (int x = 0; x < GameDef.board_cell_length; x++)
+                {
                     if (board[y][x] == chessType)
                     {
                         bool isAbsoluteWin;
@@ -84,17 +102,17 @@ namespace ai_gomoku.Evaluation
             {
                 res = true;
             }
-            else if (totalConnectCount == 4)
-            {
-                if (liveCount == 2)
-                    res = true;
-            }
+            //else if (totalConnectCount == 4)
+            //{
+            //    if (liveCount == 2)
+            //        res = true;
+            //}
 
             return res;
         }
 
 
-        public override int GetScore(Model model, ChessType chessType)
+        public int GetScore(Model model, ChessType chessType)
         {
             int res = 0;
 
@@ -118,7 +136,7 @@ namespace ai_gomoku.Evaluation
 
             return res;
         }
-        protected override int GetOnePointScore(Model model, int posX, int posY, ChessType posChessType)
+        protected int GetOnePointScore(Model model, int posX, int posY, ChessType posChessType)
         {
             int score = GetAttackLineScore(AttackDirection.Horizontal, model, posX, posY, posChessType) +
                         GetAttackLineScore(AttackDirection.Vertical, model, posX, posY, posChessType) +
@@ -130,7 +148,89 @@ namespace ai_gomoku.Evaluation
 
             return score;
         }
-        protected override int CalculateAttackScore(AttackDirectionInfo directionInfo_1, AttackDirectionInfo directionInfo_2)
+        protected int GetAttackLineScore(AttackDirection attackDirection, Model model, int posX, int posY, ChessType posChessType)
+        {
+            int res = 0;
+
+            AttackDirectionInfo directionInfoRight;
+            AttackDirectionInfo directionInfoLeft;
+
+            switch (attackDirection)
+            {
+                case AttackDirection.Horizontal:
+                    directionInfoRight = GetAttackConnectInfo(model, posX, posY, posChessType, 1, 0);
+                    directionInfoLeft = GetAttackConnectInfo(model, posX, posY, posChessType, -1, 0);
+
+                    res = CalculateAttackScore(directionInfoRight, directionInfoLeft);
+                    break;
+                case AttackDirection.Vertical:
+                    directionInfoRight = GetAttackConnectInfo(model, posX, posY, posChessType, 0, 1);
+                    directionInfoLeft = GetAttackConnectInfo(model, posX, posY, posChessType, 0, -1);
+
+                    res = CalculateAttackScore(directionInfoRight, directionInfoLeft);
+                    break;
+                case AttackDirection.RightOblique:
+                    directionInfoRight = GetAttackConnectInfo(model, posX, posY, posChessType, -1, 1);
+                    directionInfoLeft = GetAttackConnectInfo(model, posX, posY, posChessType, 1, -1);
+
+                    res = CalculateAttackScore(directionInfoRight, directionInfoLeft);
+                    break;
+                case AttackDirection.LeftOblique:
+                    directionInfoRight = GetAttackConnectInfo(model, posX, posY, posChessType, 1, 1);
+                    directionInfoLeft = GetAttackConnectInfo(model, posX, posY, posChessType, -1, -1);
+
+                    res = CalculateAttackScore(directionInfoRight, directionInfoLeft);
+                    break;
+            }
+
+            return res;
+        }
+        protected AttackDirectionInfo GetAttackConnectInfo(Model model, int posX, int posY, ChessType posChessType, int volumeX, int volumeY)
+        {
+            AttackDirectionInfo res = new AttackDirectionInfo();
+            int connectCount = 0;
+
+            var board = model.GetBoardByCopy();
+
+            while (board[posY][posX] == posChessType)
+            {
+                connectCount++;
+                posX += volumeX;
+                posY += volumeY;
+
+                if ((posY < 0 || posY >= GameDef.board_cell_length) ||
+                    (posX < 0 || posX >= GameDef.board_cell_length))
+                {
+                    break;
+                }
+            }
+
+            res.ConnectCount = connectCount;
+
+            if ((posY < 0 || posY >= GameDef.board_cell_length) ||
+                (posX < 0 || posX >= GameDef.board_cell_length))
+            {
+                res.IsLive = false;
+            }
+            else
+            {
+                if (board[posY][posX] == ChessType.None)
+                {
+                    res.IsLive = true;
+                }
+                else if (board[posY][posX] == posChessType)
+                {
+                    Console.WriteLine("Error impossible...");
+                }
+                else
+                {
+                    res.IsLive = false;
+                }
+            }
+
+            return res;
+        }
+        protected int CalculateAttackScore(AttackDirectionInfo directionInfo_1, AttackDirectionInfo directionInfo_2)
         {
             int res = 0;
 
@@ -147,9 +247,9 @@ namespace ai_gomoku.Evaluation
             else if (totalConnectCount == 4)
             {
                 if (liveCount == 2)
-                    res = 100000;
+                    res = 7000;
                 else if (liveCount == 1)
-                    res = 250;
+                    res = 1500;
                 else if (liveCount == 0)
                     res = 0;
             }

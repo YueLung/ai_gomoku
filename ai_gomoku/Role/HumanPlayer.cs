@@ -96,15 +96,20 @@ namespace ai_gomoku.Role
                 if (clickCommand.IsValid)
                 {
                     bool isPutSuccessful = PutChess(clickCommand.Board_X, clickCommand.Board_Y);
+
+                    Model.PrintBoard();
+
                     RoleMgr.ChangeNextRole();
 
                     int boardScore = DebugEvaluation.GetScore(Model, MyChessType);
                     Console.WriteLine($"ChessType = {MyChessType.ToString()}   Board Score = {boardScore.ToString()}");
-
+                    
                     return true;
                 }
                 else
                 {
+                    Console.WriteLine($"Not valid position");
+
                     return false;
                 }
             }

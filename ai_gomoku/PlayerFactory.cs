@@ -23,10 +23,10 @@ namespace ai_gomoku
                     return new EasyComputerPlayer("EasyAI " + chessType, view, model, roleMgr, chessType, new OnePointEvaluation());
                     break;
                 case GameDef.PlayerType.MediumAI:
-                    return new MinMaxComputerPlayer("MediumAI " + chessType, view, model, roleMgr, chessType, new BoardEvaluation(), 1);
+                    return new MinMaxComputerPlayer("MediumAI " + chessType, view, model, roleMgr, chessType, 1);
                     break;
                 case GameDef.PlayerType.HardAI:
-                    return new MinMaxComputerPlayer("HardAI " + chessType, view, model, roleMgr, chessType, new BoardEvaluation(), 2);
+                    return new MinMaxComputerPlayer("HardAI " + chessType, view, model, roleMgr, chessType, 3);
                     break;
                 case GameDef.PlayerType.AI3X3:
                     return new AIComputer3X3Player("AI3X3 " + chessType, view, model, roleMgr, chessType);

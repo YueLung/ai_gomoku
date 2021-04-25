@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using ai_gomoku.Command;
@@ -14,11 +15,19 @@ namespace ai_gomoku.Role
 
         private int SearchHasResultCount = 0;
 
-        private BoardEvaluation MyEvaluation;
+        private BoardEvaluation MyEvaluation = new BoardEvaluation();
 
-        public MinMaxComputerPlayer(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType, BoardEvaluation evaluation, int searchDepth) : base(name, view, model, roleMgr, chessType)
+        /// <summary>
+        /// param searchDepth should odd ex:1,3,5..  
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="view"></param>
+        /// <param name="model"></param>
+        /// <param name="roleMgr"></param>
+        /// <param name="chessType"></param>
+        /// <param name="searchDepth"></param>
+        public MinMaxComputerPlayer(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType, int searchDepth) : base(name, view, model, roleMgr, chessType)
         {
-            MyEvaluation = evaluation;
             MinMaxSearchDepth = searchDepth;
         }
         public override void onMyTurn()
@@ -29,6 +38,7 @@ namespace ai_gomoku.Role
             {
                 System.Console.WriteLine($"AI Turn 1");
                 bool isPutSuccessful = PutChess(GameDef.board_cell_length / 2, GameDef.board_cell_length / 2);
+                
                 RoleMgr.ChangeNextRole();
             }
             else
@@ -40,6 +50,8 @@ namespace ai_gomoku.Role
                 System.Console.WriteLine($"SearchHasResultCount = {SearchHasResultCount.ToString()}");
                 System.Console.WriteLine($"Turn: {(TotalTurn + 1).ToString()}  {Name} Y = {bestPosInfo.Y.ToString()} X = {bestPosInfo.X.ToString() } Score = {bestPosInfo.Score.ToString()}");
 
+                bestPosInfo.Model.PrintBoard();
+
                 bool isPutSuccessful = PutChess(bestPosInfo.X, bestPosInfo.Y);
                 RoleMgr.ChangeNextRole();
             }
@@ -50,7 +62,91 @@ namespace ai_gomoku.Role
             int bestScore = isMaxLayer ? int.MinValue : int.MaxValue;
             MinMaxSearchInfo bestPosInfo = new MinMaxSearchInfo(-1, -1, bestScore);
             //Console.WriteLine($"depth: {depth} isMaxLayer: {isMaxLayer} MinMaxSearchCount: {MinMaxSearchCount.ToString()} alpha: {alpha.ToString()} beta: {beta}");
+                     
+            //          y,   x,  score
+            List<Tuple<int, int, int>> OrderPosScoreList =  GetPossibleBestPosOrderList(pModel, chessType);
+   
+            foreach (Tuple<int, int, int> PosScoreTuple in OrderPosScoreList)
+            {
+                int y = PosScoreTuple.Item1;
+                int x = PosScoreTuple.Item2;
 
+                //int score = PosScoreTuple.Item3;
+                Model cloneModel = pModel.Clone() as Model;
+                cloneModel.PutChessToBoard(x, y, chessType);
+
+                bool isWin = false;
+
+                int score = 0;
+                Model bestModel;
+
+                //when anyone win, stop search
+                //isWin = MyEvaluation.IsEndSearch(cloneModel, chessType);
+                ConnectStrategy connectStrategy = new ConnectStrategy(cloneModel);
+                isWin = connectStrategy.IsWin(chessType) || connectStrategy.IsTie();
+
+                if (depth == MinMaxSearchDepth || isWin)
+                {
+                    SearchHasResultCount++;
+                    score = MyEvaluation.GetScore(cloneModel, MyChessType);
+
+                    bestModel = cloneModel;
+
+                    //cloneModel.PrintBoard();
+                    //Console.WriteLine($"y: {y}  x: {x} score: {score}");
+                }
+                else
+                {        
+                    ChessType nextChessType = Utility.GetOppositeChessType(chessType);
+                    MinMaxSearchInfo info = MinMaxSearch(cloneModel, nextChessType, !isMaxLayer, depth + 1, alpha, beta);
+
+                    if (isMaxLayer)
+                        alpha = Math.Max(alpha, info.Score);
+                    else
+                        beta = Math.Min(beta, info.Score);
+
+                    if (alpha >= beta)
+                        return info;
+
+                    score = info.Score;
+                    bestModel = info.Model;
+                }
+
+                if (depth == 0)
+                {
+                    Console.WriteLine($"y: {y}  x: {x} score: {score} depth: {depth}");
+                    //bestModel.PrintBoard();
+                }
+                if (isWin)
+                {
+                    Console.WriteLine($"Win happen y: {y}  x: {x} score: {score} depth: {depth}");
+                    //bestModel.PrintBoard();
+                }
+
+                if (isMaxLayer)
+                {
+                    if (score > bestPosInfo.Score)
+                    {
+                        bestPosInfo.Score = score;
+                        bestPosInfo.X = x;
+                        bestPosInfo.Y = y;
+                        bestPosInfo.Model = bestModel;
+                    }
+                }
+                else
+                {
+                    if (score < bestPosInfo.Score)
+                    {
+                        bestPosInfo.Score = score;
+                        bestPosInfo.X = x;
+                        bestPosInfo.Y = y;
+                        bestPosInfo.Model = bestModel;
+                    }
+                }
+            }
+
+            #region Not use find order list
+            /*
             for (int y = 0; y < GameDef.board_cell_length; y++)
             {
                 for (int x = 0; x < GameDef.board_cell_length; x++)
@@ -75,10 +171,11 @@ namespace ai_gomoku.Role
                         }
                         else
                         {
-                            //ConnectStrategy connectStrategy = new ConnectStrategy(cloneModel);
-                            //isWin = connectStrategy.IsWin(chessType);
+                            ConnectStrategy connectStrategy = new ConnectStrategy(cloneModel);
+                            isWin = connectStrategy.IsWin(chessType) || connectStrategy.IsTie();
 
-                            isWin = MyEvaluation.IsEndSearch(cloneModel, chessType);
+                            //when anyone win, stop search
+                            //isWin = MyEvaluation.IsEndSearch(cloneModel, chessType);
 
                             if (isWin)
                             {
@@ -133,12 +230,42 @@ namespace ai_gomoku.Role
                     }
                 }
             }
+            */
+            #endregion
 
             return bestPosInfo;
         }
 
+        private List<Tuple<int, int, int>> GetPossibleBestPosOrderList(Model pModel, ChessType chessType)
+        {
+            List<Tuple<int, int, int>> posScoreList = new List<Tuple<int, int, int>>();
+
+            for (int y = 0; y < GameDef.board_cell_length; y++)
+            {
+                for (int x = 0; x < GameDef.board_cell_length; x++)
+                {
+                    var board = pModel.GetBoardByCopy();
+                    if (board[y][x] == ChessType.None && IsPosNeedSearch(board, x, y))
+                    {
+                        Model cloneModel = pModel.Clone() as Model;
+                        cloneModel.PutChessToBoard(x, y, chessType);
+
+                        OnePointEvaluation onePointEvaluation = new OnePointEvaluation();
+
+                        int score = onePointEvaluation.GetScore(cloneModel, chessType);
+
+                        posScoreList.Add(new Tuple<int, int, int>(y, x, score));
+                    }
+                }
+            }
+            //          y,   x,  score
+            List<Tuple<int, int, int>> OrderPosScoreList = posScoreList.OrderByDescending(x => x.Item3).ToList();
+
+            return OrderPosScoreList;
+        }
+
         //only find 2 cell range.  ex: (0,0)  find max range = (2,2) , so (2-0)^2 + (2-0)^2 = 8
-        private const int SEACH_RANGE_SQUARE = 8;
+        private const int SEACH_RANGE_SQUARE = 2;
         private bool IsPosNeedSearch(List<List<ChessType>> board, int CenterX, int CenterY) 
         {
             bool res = false;

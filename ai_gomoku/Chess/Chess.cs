@@ -13,16 +13,20 @@ namespace ai_gomoku
 
         protected PictureBox pictureBox;
 
+        private const int PICTURE_WIDTH = 35;
+
+        private const int PICTURE_HEIGHT = 35;
+
         public Chess()
         {
             ControlList = new List<Control>();
 
             pictureBox = new PictureBox();
-            pictureBox.Size = new System.Drawing.Size(50, 50);
+            pictureBox.Size = new System.Drawing.Size(PICTURE_WIDTH, PICTURE_HEIGHT);
             pictureBox.BackColor = System.Drawing.Color.Transparent;
+            pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
             label = new Label();
-            label.Location = new System.Drawing.Point(10, 10);
             label.AutoSize = true;
             label.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             label.ForeColor = System.Drawing.Color.Red;
@@ -35,15 +39,22 @@ namespace ai_gomoku
         {
             pictureBox.Location = new System.Drawing.Point(x, y);
 
-            label.Text = Player.TotalTurn.ToString();
-            label.Location = new System.Drawing.Point(x + 18, y + 18);
+            string txtOnChess = Player.TotalTurn.ToString();
+
+            label.Text = txtOnChess;
+
+            if (txtOnChess.Length > 1)
+                label.Location = new System.Drawing.Point(x + 8, y + 8);
+            else
+                label.Location = new System.Drawing.Point(x + 10, y + 10);
         }
 
         public void SetPositionByCoordinate(int x, int y)
         {
             int Cell_Length = Form1.CELL_LENGTH;
 
-            SetPositionPixel((x + 1) * Cell_Length - 20, (y + 1) * Cell_Length - 20);
+            SetPositionPixel(Form1.FIRST_CELL_X - (PICTURE_WIDTH / 2) + (x * Cell_Length), 
+                             Form1.FIRST_CELL_Y - (PICTURE_HEIGHT / 2) + (y * Cell_Length) );
         }
     }
 }

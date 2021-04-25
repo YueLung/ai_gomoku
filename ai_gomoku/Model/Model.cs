@@ -108,13 +108,20 @@ namespace ai_gomoku
         public void PrintBoard()
         {
             Console.WriteLine("=======================================");
+            Console.Write("   ");
+            for (int i = 0; i < GameDef.board_cell_length; ++i)
+                Console.Write($"{i.ToString(),-7}");
+
+            Console.WriteLine();
+
             for (int i = 0; i < GameDef.board_cell_length; ++i)
             {
+                Console.Write($"{i.ToString(), -3}");
                 for (int j = 0; j < GameDef.board_cell_length; ++j)
                 {
-                    Console.Write($" {Board[i][j]} ");
+                    Console.Write($"{Board[i][j], -7}");
                 }
-                Console.WriteLine("");
+                Console.WriteLine();
             }
             Console.WriteLine("=======================================");
         }

@@ -8,7 +8,12 @@ namespace ai_gomoku
 {
     public partial class Form1 : Form
     {
-        public const int CELL_LENGTH = 74;
+        //public const int CELL_LENGTH = 74;
+        public const int CELL_LENGTH = 44;
+
+        public const int FIRST_CELL_X = 27;
+
+        public const int FIRST_CELL_Y = 61;
 
         private List<Chess> ChessList = new List<Chess>();
 
@@ -18,12 +23,10 @@ namespace ai_gomoku
         {
             InitializeComponent();
 
-            ComputerNextBtn.Visible = false;
-            ComputerNextBtn.Enabled = false;
-
-            ChangeComputerPlayBtn.Visible = false;
-            ChangeComputerPlayBtn.Enabled = false;
+            DisableChangeComputerPlayBtn();
+            DisableComputerNextBtn();
         }
+
         public void PutChessOnView(Chess chess)
         {
             ChessList.Add(chess);
@@ -61,20 +64,24 @@ namespace ai_gomoku
             {
                 Console.WriteLine("Cannot RemoveLastChess because ChessList.Count <= 0");
             } 
-        }
+        }      
         public void ShowMsg(String msg)
         {
             MsgLabel.Text = msg;
             MsgLabel.Refresh();
         }
+        
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
+            //MessageBox.Show($"X = {e.X.ToString()}   Y = {e.Y.ToString()} ");
+
             if (RoleMgr != null)
             {
                 ClickCommand clickCommand = new ClickCommand("ClickCommand", e.X, e.Y);
                 RoleMgr.onCommand(clickCommand);
             }
         }
+        
         private void ReNewBtn_Click(object sender, EventArgs e)
         {
             if (RoleMgr != null)
@@ -93,14 +100,10 @@ namespace ai_gomoku
                 HomePanel.Visible = true;
                 RoleMgr = null;
 
-                ComputerNextBtn.Visible = false;
-                ComputerNextBtn.Enabled = false;
-
-                ChangeComputerPlayBtn.Visible = false;
-                ChangeComputerPlayBtn.Enabled = false;
+                DisableComputerNextBtn();
+                DisableChangeComputerPlayBtn();
             }
         }
-
         private void PreviousActionBtn_Click(object sender, EventArgs e)
         {
             if (RoleMgr != null)
@@ -125,35 +128,44 @@ namespace ai_gomoku
                 RoleMgr.onCommand(changeComputerPlayCommand);
             }
         }
+        
         private void HumanVSHuman_Btn_Click(object sender, EventArgs e)
         {
-            ChangeComputerPlayBtn.Visible = true;
-            ChangeComputerPlayBtn.Enabled = true;
+            EnableChangeComputerPlayBtn();
 
             RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.Human2, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }
-        private void HumanVSAi1_Btn_Click(object sender, EventArgs e)
+        private void HumanVSEasyAi_Btn_Click(object sender, EventArgs e)
         {
+            EnableChangeComputerPlayBtn();
+
             RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.EasyAI, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }
-
-        private void HumanVSAi2_Btn_Click(object sender, EventArgs e)
+        private void HumanVSMediumAi_Btn_Click(object sender, EventArgs e)
         {
+            EnableChangeComputerPlayBtn();
+
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.MediumAI, GameDef.JudgeType.Nomal);
+            HomePanel.Visible = false;
+            RoleMgr.Start();
+        }
+        private void HumanVSHardAi_Btn_Click(object sender, EventArgs e)
+        {
+            EnableChangeComputerPlayBtn();
+
             RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.HardAI, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }
-
         private void AIVSAI_Btn_Click(object sender, EventArgs e)
         {
-            ComputerNextBtn.Visible = true;
-            ComputerNextBtn.Enabled = true;
+            EnableComputerNextBtn();
 
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.HardAI, GameDef.PlayerType.MediumAI, GameDef.JudgeType.Nomal);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.MediumAI, GameDef.PlayerType.MediumAI, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }
@@ -167,10 +179,31 @@ namespace ai_gomoku
 
             RoleMgr.Start();
         }
-
+        
         private void CloseBtn_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+        
+        private void EnableChangeComputerPlayBtn()
+        {
+            ChangeComputerPlayBtn.Visible = true;
+            ChangeComputerPlayBtn.Enabled = true;
+        }
+        private void DisableChangeComputerPlayBtn()
+        {
+            ChangeComputerPlayBtn.Visible = false;
+            ChangeComputerPlayBtn.Enabled = false;
+        }
+        private void EnableComputerNextBtn()
+        {
+            ComputerNextBtn.Visible = true;
+            ComputerNextBtn.Enabled = true;
+        }
+        private void DisableComputerNextBtn()
+        {
+            ComputerNextBtn.Visible = false;
+            ComputerNextBtn.Enabled = false;
         }
 
         #region panelTop drag event
@@ -198,9 +231,10 @@ namespace ai_gomoku
         {
             isDraggabel = false;
         }
+
         #endregion
 
- 
+
     }
 
 

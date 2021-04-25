@@ -18,7 +18,7 @@ namespace ai_gomoku
 
         public static int win_count = 5;
 
-        public static int board_cell_length = 9;
+        public static int board_cell_length = 15;
 
         public enum PlayerType { Human1, Human2,  EasyAI, MediumAI, HardAI, AI3X3 }
         public enum JudgeType { Nomal,Debug }

@@ -83,6 +83,16 @@ namespace ai_gomoku.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
+        internal static System.Drawing.Bitmap board_15x15 {
+            get {
+                object obj = ResourceManager.GetObject("board_15x15", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
         internal static System.Drawing.Bitmap white {
             get {
                 object obj = ResourceManager.GetObject("white", resourceCulture);

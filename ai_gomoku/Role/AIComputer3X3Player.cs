@@ -11,6 +11,7 @@ namespace ai_gomoku.Role
         public int X { get; set; }
         public int Y { get; set; }
         public int Score { get; set; }
+        public Model Model { get; set; }
         public MinMaxSearchInfo(int x, int y, int score)
         {
             this.X = x;
