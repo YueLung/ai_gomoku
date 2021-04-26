@@ -52,11 +52,11 @@
             // 
             this.MsgLabel.AutoSize = true;
             this.MsgLabel.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.MsgLabel.Location = new System.Drawing.Point(293, 11);
+            this.MsgLabel.Location = new System.Drawing.Point(318, 11);
             this.MsgLabel.Name = "MsgLabel";
-            this.MsgLabel.Size = new System.Drawing.Size(73, 20);
+            this.MsgLabel.Size = new System.Drawing.Size(0, 20);
             this.MsgLabel.TabIndex = 0;
-            this.MsgLabel.Text = "Message";
+            this.MsgLabel.Visible = false;
             // 
             // ReNewBtn
             // 
