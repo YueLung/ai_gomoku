@@ -163,9 +163,15 @@ namespace ai_gomoku
         }
         private void AIVSAI_Btn_Click(object sender, EventArgs e)
         {
-            EnableComputerNextBtn();
+            PreviousActionBtn.Visible = false;
+            PreviousActionBtn.Enabled = false;
 
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.HardAI, GameDef.PlayerType.HardAI, GameDef.JudgeType.Nomal);
+            GameDef.JudgeType judgeType = GameDef.JudgeType.Nomal;
+
+            if (judgeType == GameDef.JudgeType.Debug)
+                EnableComputerNextBtn();
+
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.HardAI, GameDef.PlayerType.HardAI, judgeType);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }
