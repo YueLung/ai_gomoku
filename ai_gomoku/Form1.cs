@@ -165,7 +165,7 @@ namespace ai_gomoku
         {
             EnableComputerNextBtn();
 
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.MediumAI, GameDef.PlayerType.MediumAI, GameDef.JudgeType.Nomal);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.HardAI, GameDef.PlayerType.HardAI, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }

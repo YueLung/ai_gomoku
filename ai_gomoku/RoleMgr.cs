@@ -28,8 +28,9 @@ namespace ai_gomoku
         {
             Console.WriteLine($"Board is {GameDef.board_cell_length} x {GameDef.board_cell_length}");
 
-            View = view;
             Model = new Model();
+            View = view;
+
             P1 = player1;
             P2 = player2;
 

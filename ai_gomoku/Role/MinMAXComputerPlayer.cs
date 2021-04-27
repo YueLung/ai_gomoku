@@ -56,6 +56,7 @@ namespace ai_gomoku.Role
                 RoleMgr.ChangeNextRole();
             }
         }
+
         private MinMaxSearchInfo MinMaxSearch(Model pModel, ChessType chessType, bool isMaxLayer, int depth, int alpha, int beta)
         {
             MinMaxSearchCount++;
@@ -68,6 +69,7 @@ namespace ai_gomoku.Role
    
             foreach (Tuple<int, int, int> PosScoreTuple in OrderPosScoreList)
             {
+                
                 int y = PosScoreTuple.Item1;
                 int x = PosScoreTuple.Item2;
 
@@ -119,7 +121,7 @@ namespace ai_gomoku.Role
                 }
                 if (isWin)
                 {
-                    Console.WriteLine($"Win happen y: {y}  x: {x} score: {score} depth: {depth}");
+                    //Console.WriteLine($"Win happen y: {y}  x: {x} score: {score} depth: {depth}");
                     //bestModel.PrintBoard();
                 }
 
@@ -245,7 +247,7 @@ namespace ai_gomoku.Role
                 for (int x = 0; x < GameDef.board_cell_length; x++)
                 {
                     var board = pModel.GetBoardByCopy();
-                    if (board[y][x] == ChessType.None && IsPosNeedSearch(board, x, y))
+                    if (board[y][x] == ChessType.None)
                     {
                         Model cloneModel = pModel.Clone() as Model;
                         cloneModel.PutChessToBoard(x, y, chessType);
@@ -261,11 +263,14 @@ namespace ai_gomoku.Role
             //          y,   x,  score
             List<Tuple<int, int, int>> OrderPosScoreList = posScoreList.OrderByDescending(x => x.Item3).ToList();
 
+            OrderPosScoreList = OrderPosScoreList.GetRange(0, 10);
+
+
             return OrderPosScoreList;
         }
 
         //only find 2 cell range.  ex: (0,0)  find max range = (2,2) , so (2-0)^2 + (2-0)^2 = 8
-        private const int SEACH_RANGE_SQUARE = 2;
+        private const int SEACH_RANGE_SQUARE = 8;
         private bool IsPosNeedSearch(List<List<ChessType>> board, int CenterX, int CenterY) 
         {
             bool res = false;

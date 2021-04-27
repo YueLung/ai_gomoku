@@ -56,7 +56,6 @@
             this.MsgLabel.Name = "MsgLabel";
             this.MsgLabel.Size = new System.Drawing.Size(0, 20);
             this.MsgLabel.TabIndex = 0;
-            this.MsgLabel.Visible = false;
             // 
             // ReNewBtn
             // 
@@ -196,9 +195,9 @@
             this.CloseBtn.FlatAppearance.BorderSize = 0;
             this.CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CloseBtn.Font = new System.Drawing.Font("新細明體", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.CloseBtn.Location = new System.Drawing.Point(801, 0);
+            this.CloseBtn.Location = new System.Drawing.Point(790, 3);
             this.CloseBtn.Name = "CloseBtn";
-            this.CloseBtn.Size = new System.Drawing.Size(47, 44);
+            this.CloseBtn.Size = new System.Drawing.Size(55, 35);
             this.CloseBtn.TabIndex = 3;
             this.CloseBtn.Text = "X";
             this.CloseBtn.UseVisualStyleBackColor = false;

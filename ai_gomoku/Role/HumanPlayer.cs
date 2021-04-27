@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using ai_gomoku.Command;
 using ai_gomoku.Evaluation;
@@ -40,13 +41,21 @@ namespace ai_gomoku.Role
 
                 if (previousActionCommand.IsEnemyAi)
                 {
-                    //todo hard code
-                    TotalTurn -= 2;
-                    Model.PreviousAction();
-                    Model.PreviousAction();
-                    View.RemoveLastChess();
-                    View.RemoveLastChess();
-                    onMyTurn();
+                    if (Model.GetBoard().Any(x => x.Any(y => y == MyChessType)))
+                    {
+                        //todo hard code
+                        TotalTurn -= 2;
+                        Model.PreviousAction();
+                        Model.PreviousAction();
+                        View.RemoveLastChess();
+                        View.RemoveLastChess();
+                        onMyTurn();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not exit my chess,cant regret");
+                    }
+
                 }
                 else
                 {
