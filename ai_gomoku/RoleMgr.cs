@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using ai_gomoku.Role;
@@ -121,6 +122,65 @@ namespace ai_gomoku
                 return true;
             }
         }
+        public void LoadBorad()
+        {
+            ChessType none = ChessType.None;
+            ChessType blac = ChessType.Black;
+            ChessType whit = ChessType.White;
+
+            if (GameDef.board_cell_length != 15)
+            {
+                Console.WriteLine("cannot Load board, because not 15X15 Board");
+                return;
+            }
+
+
+            ChessType[,] board = new ChessType[15,15]
+                            {  
+                                // 0     1     2     3     4     5     6     7     8     9     10    11    12    13    14       
+                                { none, none, none, none, none, none, none, none, none, none, none, none, none, none, none},//0
+                                { none, none, none, none, none, none, none, none, none, none, none, none, none, none, none},//1
+                                { none, none, none, none, none, blac, none, none, none, none, none, none, none, none, none},//2
+                                { none, none, none, none, none, whit, none, none, none, none, none, none, none, none, none},//3
+                                { none, none, none, whit, blac, whit, none, none, none, none, whit, none, none, none, none},//4
+                                { none, none, none, blac, blac, whit, blac, blac, none, blac, blac, none, none, none, none},//5
+                                { none, none, none, blac, whit, whit, whit, whit, blac, none, none, none, none, none, none},//6
+                                { none, none, blac, blac, whit, blac, blac, blac, whit, none, none, none, none, none, none},//7
+                                { none, blac, none, blac, whit, whit, whit, whit, blac, none, none, none, none, none, none},//8
+                                { whit, blac, whit, whit, whit, blac, none, none, none, none, none, none, none, none, none},//9
+                                { none, none, whit, whit, blac, blac, none, none, none, none, none, none, none, none, none},//10
+                                { none, none, whit, none, none, none, none, none, none, none, none, none, none, none, none},//11
+                                { none, blac, none, none, none, none, none, none, none, none, none, none, none, none, none},//12
+                                { none, none, none, none, none, none, none, none, none, none, none, none, none, none, none},//13
+                                { none, none, none, none, none, none, none, none, none, none, none, none, none, none, none},//14
+                            };
+
+            int playedCount = 0;
+
+            for (int y = 0; y < 15; ++y)
+            {
+                for (int x = 0; x < 15; ++x)
+                {
+                    if (board[y, x] != ChessType.None) 
+                    {
+                        playedCount += 1;
+
+                        Model.PutChessToBoard(x, y, board[y, x]);
+
+                        Chess myChess = ChessFactory.CreateChess(board[y, x]);
+                        myChess.SetPositionByCoordinate(x, y);
+                        View.PutChessOnView(myChess);
+                    }
+                }
+            }
+
+            Player.TotalTurn = playedCount;
+
+            OrderNum = playedCount % 2 == 0 ? 0 : 2;
+            CurrentTurnRole = RoleOrderMap[OrderNum];
+            CurrentTurnRole.onMyTurn();
+        }
+
         public void onCommand(CommandBase command)
         {
             CurrentTurnRole.onCommand(command);

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ai_gomoku
 {
@@ -21,7 +17,8 @@ namespace ai_gomoku
         public static int board_cell_length = 15;
 
         public enum PlayerType { Human1, Human2,  EasyAI, MediumAI, HardAI, AI3X3 }
-        public enum JudgeType { Nomal,Debug }
+
+        public enum JudgeType { Nomal, Debug }
 
     }
 }

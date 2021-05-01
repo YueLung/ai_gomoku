@@ -136,5 +136,20 @@ namespace ai_gomoku
 
             return clone;
         }
+
+        public void LoadBoard(ChessType[,] pboard)
+        {
+            int count = 0;
+
+            for (int y = 0; y < GameDef.board_cell_length; ++y)
+            {
+                for (int x = 0; x < GameDef.board_cell_length; ++x)
+                {
+                    Board[y][x] = pboard[y,x];
+                }
+            }
+
+
+        }
     }
 }

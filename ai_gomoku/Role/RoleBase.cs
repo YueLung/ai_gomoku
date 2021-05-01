@@ -56,13 +56,16 @@ namespace ai_gomoku.Role
         }
         public void onCommand(CommandBase command)
         {
-            System.Console.WriteLine($"{Name} onCommand : {command.Name}");
-
             if (CommandMap.ContainsKey(command.Name))
             {
                 if ((CommandMap[command.Name].Item1).Invoke())
                 {
+                    System.Console.WriteLine($"{Name} onCommand : {command.Name}");
                     (CommandMap[command.Name].Item2).Invoke(command);
+                }
+                else
+                {
+                    System.Console.WriteLine($"{Name} not allow Command : {command.Name}");
                 }
             }
             else

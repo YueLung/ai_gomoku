@@ -16,6 +16,7 @@ namespace ai_gomoku.Role
 
             addCommand("PreviousActionCommand", isAllowPreviousActionCommand, onPreviousActionCommand);
             addCommand("ChangeComputerPlayCommand", isAllowChangeComputerPlayCommand, onChangeComputerPlayCommand);
+            addCommand("LoadBoardCommand", isAllowLoadBoardCommand, onLoadBoardCommand);
             addCommand("ClickCommand", isAllowClickCommand, onClickCommand);
         }
 
@@ -90,6 +91,21 @@ namespace ai_gomoku.Role
                 Console.WriteLine("command is not ChangeComputerPlayCommand");
                 return false;
             }
+        }
+
+        private bool isAllowLoadBoardCommand()
+        {
+            //only 0 turn can load board
+            if (TotalTurn == 0)
+                return true;
+            else
+                return false;
+        }
+        private bool onLoadBoardCommand(CommandBase command)
+        {
+            Console.WriteLine("onLoadBoardCommand");
+            RoleMgr.LoadBorad();
+            return true;
         }
 
         private bool isAllowClickCommand()

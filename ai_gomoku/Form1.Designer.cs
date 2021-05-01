@@ -44,6 +44,7 @@
             this.ComputerNextBtn = new System.Windows.Forms.Button();
             this.panelTop = new System.Windows.Forms.Panel();
             this.ChangeComputerPlayBtn = new System.Windows.Forms.Button();
+            this.LoadBoardBtn = new System.Windows.Forms.Button();
             this.HomePanel.SuspendLayout();
             this.panelTop.SuspendLayout();
             this.SuspendLayout();
@@ -51,11 +52,15 @@
             // MsgLabel
             // 
             this.MsgLabel.AutoSize = true;
+            this.MsgLabel.BackColor = System.Drawing.Color.Transparent;
             this.MsgLabel.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.MsgLabel.Location = new System.Drawing.Point(318, 11);
+            this.MsgLabel.Location = new System.Drawing.Point(292, 10);
             this.MsgLabel.Name = "MsgLabel";
             this.MsgLabel.Size = new System.Drawing.Size(0, 20);
             this.MsgLabel.TabIndex = 0;
+            this.MsgLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseDown);
+            this.MsgLabel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseMove);
+            this.MsgLabel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseUp);
             // 
             // ReNewBtn
             // 
@@ -195,7 +200,7 @@
             this.CloseBtn.FlatAppearance.BorderSize = 0;
             this.CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CloseBtn.Font = new System.Drawing.Font("新細明體", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.CloseBtn.Location = new System.Drawing.Point(790, 3);
+            this.CloseBtn.Location = new System.Drawing.Point(812, 3);
             this.CloseBtn.Name = "CloseBtn";
             this.CloseBtn.Size = new System.Drawing.Size(55, 35);
             this.CloseBtn.TabIndex = 3;
@@ -219,7 +224,6 @@
             // ComputerNextBtn
             // 
             this.ComputerNextBtn.BackColor = System.Drawing.Color.Gold;
-            this.ComputerNextBtn.Enabled = false;
             this.ComputerNextBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ComputerNextBtn.Font = new System.Drawing.Font("新細明體", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.ComputerNextBtn.Location = new System.Drawing.Point(657, 376);
@@ -228,7 +232,6 @@
             this.ComputerNextBtn.TabIndex = 5;
             this.ComputerNextBtn.Text = "電腦下一步(debug mode)";
             this.ComputerNextBtn.UseVisualStyleBackColor = false;
-            this.ComputerNextBtn.Visible = false;
             this.ComputerNextBtn.Click += new System.EventHandler(this.ComputerNextBtn_Click);
             // 
             // panelTop
@@ -238,26 +241,37 @@
             this.panelTop.Controls.Add(this.MsgLabel);
             this.panelTop.Location = new System.Drawing.Point(1, -2);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(848, 41);
+            this.panelTop.Size = new System.Drawing.Size(868, 41);
             this.panelTop.TabIndex = 6;
-            this.panelTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseDown);
-            this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseMove);
-            this.panelTop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelTop_MouseUp);
+            this.panelTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseDown);
+            this.panelTop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseMove);
+            this.panelTop.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseUp);
             // 
             // ChangeComputerPlayBtn
             // 
             this.ChangeComputerPlayBtn.BackColor = System.Drawing.Color.Gold;
-            this.ChangeComputerPlayBtn.Enabled = false;
             this.ChangeComputerPlayBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ChangeComputerPlayBtn.Font = new System.Drawing.Font("新細明體", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.ChangeComputerPlayBtn.Location = new System.Drawing.Point(657, 538);
+            this.ChangeComputerPlayBtn.Location = new System.Drawing.Point(657, 497);
             this.ChangeComputerPlayBtn.Name = "ChangeComputerPlayBtn";
             this.ChangeComputerPlayBtn.Size = new System.Drawing.Size(170, 65);
             this.ChangeComputerPlayBtn.TabIndex = 7;
             this.ChangeComputerPlayBtn.Text = "換電腦下";
             this.ChangeComputerPlayBtn.UseVisualStyleBackColor = false;
-            this.ChangeComputerPlayBtn.Visible = false;
             this.ChangeComputerPlayBtn.Click += new System.EventHandler(this.ChangeComputerPlayBtn_Click);
+            // 
+            // LoadBoardBtn
+            // 
+            this.LoadBoardBtn.BackColor = System.Drawing.Color.Gold;
+            this.LoadBoardBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LoadBoardBtn.Font = new System.Drawing.Font("新細明體", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.LoadBoardBtn.Location = new System.Drawing.Point(656, 581);
+            this.LoadBoardBtn.Name = "LoadBoardBtn";
+            this.LoadBoardBtn.Size = new System.Drawing.Size(170, 65);
+            this.LoadBoardBtn.TabIndex = 8;
+            this.LoadBoardBtn.Text = "載入盤面";
+            this.LoadBoardBtn.UseVisualStyleBackColor = false;
+            this.LoadBoardBtn.Click += new System.EventHandler(this.LoadBoardBtn_Click);
             // 
             // Form1
             // 
@@ -265,7 +279,8 @@
             this.AutoSize = true;
             this.BackgroundImage = global::ai_gomoku.Properties.Resources.board_15x15;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(844, 701);
+            this.ClientSize = new System.Drawing.Size(867, 701);
+            this.Controls.Add(this.LoadBoardBtn);
             this.Controls.Add(this.panelTop);
             this.Controls.Add(this.ChangeComputerPlayBtn);
             this.Controls.Add(this.ComputerNextBtn);
@@ -305,6 +320,7 @@
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.Button ChangeComputerPlayBtn;
         private System.Windows.Forms.Button HumanVSMediumAi_Btn;
+        private System.Windows.Forms.Button LoadBoardBtn;
     }
 }
 

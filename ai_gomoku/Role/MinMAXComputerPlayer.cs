@@ -49,7 +49,6 @@ namespace ai_gomoku.Role
                 System.Console.WriteLine($"MinMaxSearchCount = {MinMaxSearchCount.ToString()}");
                 System.Console.WriteLine($"SearchHasResultCount = {SearchHasResultCount.ToString()}");
                 System.Console.WriteLine($"Turn: {(TotalTurn + 1).ToString()}  {Name} Y = {bestPosInfo.Y.ToString()} X = {bestPosInfo.X.ToString() } Score = {bestPosInfo.Score.ToString()}");
-
                 bestPosInfo.Model.PrintBoard();
 
                 bool isPutSuccessful = PutChess(bestPosInfo.X, bestPosInfo.Y);
@@ -102,6 +101,7 @@ namespace ai_gomoku.Role
                     ChessType nextChessType = Utility.GetOppositeChessType(chessType);
                     MinMaxSearchInfo info = MinMaxSearch(cloneModel, nextChessType, !isMaxLayer, depth + 1, alpha, beta);
 
+                    //===== alpha beta pruning ===== 
                     if (isMaxLayer)
                         alpha = Math.Max(alpha, info.Score);
                     else
@@ -109,20 +109,10 @@ namespace ai_gomoku.Role
 
                     if (alpha >= beta)
                         return info;
+                    //=============================== 
 
                     score = info.Score;
                     bestModel = info.Model;
-                }
-
-                if (depth == 0)
-                {
-                    Console.WriteLine($"y: {y}  x: {x} score: {score} depth: {depth}");
-                    //bestModel.PrintBoard();
-                }
-                if (isWin)
-                {
-                    //Console.WriteLine($"Win happen y: {y}  x: {x} score: {score} depth: {depth}");
-                    //bestModel.PrintBoard();
                 }
 
                 if (isMaxLayer)
@@ -145,6 +135,20 @@ namespace ai_gomoku.Role
                         bestPosInfo.Model = bestModel;
                     }
                 }
+
+
+                if (depth == 0)
+                {
+                    Console.WriteLine($"y: {y}  x: {x} score: {score} depth: {depth}");
+                    //bestModel.PrintBoard();
+                }
+                if (isWin)
+                {
+                    //Console.WriteLine($"Win happen y: {y}  x: {x} score: {score} depth: {depth}");
+                    //bestModel.PrintBoard();
+                }
+
+
             }
 
             #region Not use find order list
@@ -240,6 +244,8 @@ namespace ai_gomoku.Role
 
         private List<Tuple<int, int, int>> GetPossibleBestPosOrderList(Model pModel, ChessType chessType)
         {
+            const int FIND_COUNT = 10;
+
             List<Tuple<int, int, int>> posScoreList = new List<Tuple<int, int, int>>();
 
             for (int y = 0; y < GameDef.board_cell_length; y++)
@@ -260,39 +266,39 @@ namespace ai_gomoku.Role
                     }
                 }
             }
-            //          y,   x,  score
+            //         y,   x,  score
             List<Tuple<int, int, int>> OrderPosScoreList = posScoreList.OrderByDescending(x => x.Item3).ToList();
 
-            OrderPosScoreList = OrderPosScoreList.GetRange(0, 10);
-
+            if (OrderPosScoreList.Count > FIND_COUNT)
+                OrderPosScoreList = OrderPosScoreList.GetRange(0, FIND_COUNT);
 
             return OrderPosScoreList;
         }
 
         //only find 2 cell range.  ex: (0,0)  find max range = (2,2) , so (2-0)^2 + (2-0)^2 = 8
-        private const int SEACH_RANGE_SQUARE = 8;
-        private bool IsPosNeedSearch(List<List<ChessType>> board, int CenterX, int CenterY) 
-        {
-            bool res = false;
+        //private const int SEACH_RANGE_SQUARE = 8;
+        //private bool IsPosNeedSearch(List<List<ChessType>> board, int CenterX, int CenterY) 
+        //{
+        //    bool res = false;
 
-            for (int y = 0; y < GameDef.board_cell_length; y++)
-            {
-                for (int x = 0; x < GameDef.board_cell_length; x++)
-                {
-                    int r = (int)(Math.Pow((CenterX - x), 2) + Math.Pow((CenterY - y), 2));
+        //    for (int y = 0; y < GameDef.board_cell_length; y++)
+        //    {
+        //        for (int x = 0; x < GameDef.board_cell_length; x++)
+        //        {
+        //            int r = (int)(Math.Pow((CenterX - x), 2) + Math.Pow((CenterY - y), 2));
                     
-                    if (r != 0 && r <= SEACH_RANGE_SQUARE)
-                    {
-                        if (board[y][x] != ChessType.None)
-                        {
-                            res = true;
-                        }
-                    }        
-                }
-            }
+        //            if (r != 0 && r <= SEACH_RANGE_SQUARE)
+        //            {
+        //                if (board[y][x] != ChessType.None)
+        //                {
+        //                    res = true;
+        //                }
+        //            }        
+        //        }
+        //    }
 
-            return res;
-        }
+        //    return res;
+        //}
   
     }
 }

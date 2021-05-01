@@ -60,6 +60,7 @@
     <Compile Include="Command\ClickCommand.cs" />
     <Compile Include="Command\CommandBase.cs" />
     <Compile Include="Command\ComputerNextCommand.cs" />
+    <Compile Include="Command\LoadBoardCommand.cs" />
     <Compile Include="Command\PreviousActionCommand.cs" />
     <Compile Include="Command\RenewCommand.cs" />
     <Compile Include="Command\ReturnHomeCommand.cs" />

@@ -22,9 +22,6 @@ namespace ai_gomoku
         public Form1()
         {
             InitializeComponent();
-
-            DisableChangeComputerPlayBtn();
-            DisableComputerNextBtn();
         }
 
         public void PutChessOnView(Chess chess)
@@ -104,6 +101,7 @@ namespace ai_gomoku
                 DisableChangeComputerPlayBtn();
             }
         }
+        //悔棋
         private void PreviousActionBtn_Click(object sender, EventArgs e)
         {
             if (RoleMgr != null)
@@ -128,10 +126,21 @@ namespace ai_gomoku
                 RoleMgr.onCommand(changeComputerPlayCommand);
             }
         }
-        
+        private void LoadBoardBtn_Click(object sender, EventArgs e)
+        {
+            if (RoleMgr != null)
+            {
+                LoadBoardCommand loadBoardCommand = new LoadBoardCommand("LoadBoardCommand");
+                RoleMgr.onCommand(loadBoardCommand);
+            }
+        }
+
         private void HumanVSHuman_Btn_Click(object sender, EventArgs e)
         {
+            DisableChangeComputerPlayBtn();
+            DisableComputerNextBtn();
             EnableChangeComputerPlayBtn();
+            EnableLoadBoardBtn();
 
             RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.Human2, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
@@ -139,7 +148,9 @@ namespace ai_gomoku
         }
         private void HumanVSEasyAi_Btn_Click(object sender, EventArgs e)
         {
+            DisableComputerNextBtn();
             EnableChangeComputerPlayBtn();
+            DisableLoadBoardBtn();
 
             RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.EasyAI, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
@@ -147,7 +158,9 @@ namespace ai_gomoku
         }
         private void HumanVSMediumAi_Btn_Click(object sender, EventArgs e)
         {
+            DisableComputerNextBtn();
             EnableChangeComputerPlayBtn();
+            DisableLoadBoardBtn();
 
             RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.MediumAI, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
@@ -155,7 +168,9 @@ namespace ai_gomoku
         }
         private void HumanVSHardAi_Btn_Click(object sender, EventArgs e)
         {
+            DisableComputerNextBtn();
             EnableChangeComputerPlayBtn();
+            DisableLoadBoardBtn();
 
             RoleMgr = new RoleMgr(this, GameDef.PlayerType.Human1, GameDef.PlayerType.HardAI, GameDef.JudgeType.Nomal);
             HomePanel.Visible = false;
@@ -163,13 +178,16 @@ namespace ai_gomoku
         }
         private void AIVSAI_Btn_Click(object sender, EventArgs e)
         {
-            PreviousActionBtn.Visible = false;
-            PreviousActionBtn.Enabled = false;
+            DisablePreviousActionBtn();
+            DisableChangeComputerPlayBtn();
+            DisableLoadBoardBtn();
 
             GameDef.JudgeType judgeType = GameDef.JudgeType.Nomal;
 
             if (judgeType == GameDef.JudgeType.Debug)
                 EnableComputerNextBtn();
+            else
+                DisableComputerNextBtn();
 
             RoleMgr = new RoleMgr(this, GameDef.PlayerType.HardAI, GameDef.PlayerType.HardAI, judgeType);
             HomePanel.Visible = false;
@@ -211,20 +229,41 @@ namespace ai_gomoku
             ComputerNextBtn.Visible = false;
             ComputerNextBtn.Enabled = false;
         }
+        private void EnablePreviousActionBtn()
+        {
+            PreviousActionBtn.Visible = true;
+            PreviousActionBtn.Enabled = true;
+        }
+        private void DisablePreviousActionBtn()
+        {
+            PreviousActionBtn.Visible = false;
+            PreviousActionBtn.Enabled = false;
+        }
+        private void EnableLoadBoardBtn()
+        {
+            LoadBoardBtn.Visible = true;
+            LoadBoardBtn.Enabled = true;
+            
+        }
+        private void DisableLoadBoardBtn()
+        {
+            LoadBoardBtn.Visible = false;
+            LoadBoardBtn.Enabled = false;
 
+        }
         #region panelTop drag event
         private bool isDraggabel = false;
         private int mouseX;
         private int mouseY;
 
-        private void panelTop_MouseDown(object sender, MouseEventArgs e)
+        private void TopBar_MouseDown(object sender, MouseEventArgs e)
         {
             isDraggabel = true;
             mouseX = Cursor.Position.X - this.Left;
             mouseY = Cursor.Position.Y - this.Top;
         }
 
-        private void panelTop_MouseMove(object sender, MouseEventArgs e)
+        private void TopBar_MouseMove(object sender, MouseEventArgs e)
         {
             if (isDraggabel)
             {
@@ -233,14 +272,15 @@ namespace ai_gomoku
             }
         }
 
-        private void panelTop_MouseUp(object sender, MouseEventArgs e)
+        private void TopBar_MouseUp(object sender, MouseEventArgs e)
         {
             isDraggabel = false;
         }
 
+
         #endregion
 
-
+     
     }
 
 
