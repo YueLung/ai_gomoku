@@ -8,7 +8,6 @@ namespace ai_gomoku
 {
     public partial class Form1 : Form
     {
-        //public const int CELL_LENGTH = 74;
         public const int CELL_LENGTH = 44;
 
         public const int FIRST_CELL_X = 27;
@@ -70,8 +69,6 @@ namespace ai_gomoku
         
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
-            //MessageBox.Show($"X = {e.X.ToString()}   Y = {e.Y.ToString()} ");
-
             if (RoleMgr != null)
             {
                 ClickCommand clickCommand = new ClickCommand("ClickCommand", e.X, e.Y);
@@ -189,7 +186,7 @@ namespace ai_gomoku
             else
                 DisableComputerNextBtn();
 
-            RoleMgr = new RoleMgr(this, GameDef.PlayerType.HardAI, GameDef.PlayerType.HardAI, judgeType);
+            RoleMgr = new RoleMgr(this, GameDef.PlayerType.EasyAI, GameDef.PlayerType.HardAI, judgeType);
             HomePanel.Visible = false;
             RoleMgr.Start();
         }

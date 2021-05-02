@@ -17,6 +17,8 @@ namespace ai_gomoku.Role
 
         private BoardEvaluation MyEvaluation = new BoardEvaluation();
 
+        private OnePointEvaluation onePointEvaluation = new OnePointEvaluation();
+
         /// <summary>
         /// param searchDepth should odd ex:1,3,5..  
         /// </summary>
@@ -65,33 +67,43 @@ namespace ai_gomoku.Role
                      
             //          y,   x,  score
             List<Tuple<int, int, int>> OrderPosScoreList =  GetPossibleBestPosOrderList(pModel, chessType);
-   
-            foreach (Tuple<int, int, int> PosScoreTuple in OrderPosScoreList)
-            {
-                
-                int y = PosScoreTuple.Item1;
-                int x = PosScoreTuple.Item2;
 
-                //int score = PosScoreTuple.Item3;
+            foreach (Tuple<int, int, int> PosScoreTuple in OrderPosScoreList)
+            {               
+                int y = PosScoreTuple.Item1;
+                int x = PosScoreTuple.Item2;        
+
                 Model cloneModel = pModel.Clone() as Model;
                 cloneModel.PutChessToBoard(x, y, chessType);
 
                 bool isWin = false;
+                bool isTie = false;
 
-                int score = 0;
-                Model bestModel;
+                int tmpScore = 0;
+                Model tmpModel;
 
-                //when anyone win, stop search
-                //isWin = MyEvaluation.IsEndSearch(cloneModel, chessType);
+                //when anyone win or tie, stop search
                 ConnectStrategy connectStrategy = new ConnectStrategy(cloneModel);
-                isWin = connectStrategy.IsWin(chessType) || connectStrategy.IsTie();
+                isWin = connectStrategy.IsWin(chessType);
+                isTie = connectStrategy.IsTie();
 
-                if (depth == MinMaxSearchDepth || isWin)
+                if (isWin)
+                {
+                    Console.WriteLine($"win happen");
+                    SearchHasResultCount++;
+
+                    MinMaxSearchInfo Info = new MinMaxSearchInfo(x, y, isMaxLayer ? int.MaxValue - 1 : int.MinValue + 1);
+                    Info.Model = cloneModel;
+
+                    return Info;
+                }
+
+                if (depth == MinMaxSearchDepth || isTie)
                 {
                     SearchHasResultCount++;
-                    score = MyEvaluation.GetScore(cloneModel, MyChessType);
+                    tmpScore = MyEvaluation.GetScore(cloneModel, MyChessType);
 
-                    bestModel = cloneModel;
+                    tmpModel = cloneModel;
 
                     //cloneModel.PrintBoard();
                     //Console.WriteLine($"y: {y}  x: {x} score: {score}");
@@ -111,43 +123,37 @@ namespace ai_gomoku.Role
                         return info;
                     //=============================== 
 
-                    score = info.Score;
-                    bestModel = info.Model;
+                    tmpScore = info.Score;
+                    tmpModel = info.Model;
                 }
 
                 if (isMaxLayer)
                 {
-                    if (score > bestPosInfo.Score)
+                    if (tmpScore > bestPosInfo.Score)
                     {
-                        bestPosInfo.Score = score;
+                        bestPosInfo.Score = tmpScore;
                         bestPosInfo.X = x;
                         bestPosInfo.Y = y;
-                        bestPosInfo.Model = bestModel;
+                        bestPosInfo.Model = tmpModel;
                     }
                 }
                 else
                 {
-                    if (score < bestPosInfo.Score)
+                    if (tmpScore < bestPosInfo.Score)
                     {
-                        bestPosInfo.Score = score;
+                        bestPosInfo.Score = tmpScore;
                         bestPosInfo.X = x;
                         bestPosInfo.Y = y;
-                        bestPosInfo.Model = bestModel;
+                        bestPosInfo.Model = tmpModel;
                     }
                 }
 
 
                 if (depth == 0)
                 {
-                    Console.WriteLine($"y: {y}  x: {x} score: {score} depth: {depth}");
+                    Console.WriteLine($"y: {y}  x: {x} score: {tmpScore} depth: {depth}  MinMaxSearchCount = {MinMaxSearchCount.ToString()}");
                     //bestModel.PrintBoard();
                 }
-                if (isWin)
-                {
-                    //Console.WriteLine($"Win happen y: {y}  x: {x} score: {score} depth: {depth}");
-                    //bestModel.PrintBoard();
-                }
-
 
             }
 
@@ -256,17 +262,14 @@ namespace ai_gomoku.Role
                     if (board[y][x] == ChessType.None)
                     {
                         Model cloneModel = pModel.Clone() as Model;
-                        cloneModel.PutChessToBoard(x, y, chessType);
 
-                        OnePointEvaluation onePointEvaluation = new OnePointEvaluation();
-
-                        int score = onePointEvaluation.GetScore(cloneModel, chessType);
+                        int score = onePointEvaluation.GetScore(cloneModel, y, x, chessType);
 
                         posScoreList.Add(new Tuple<int, int, int>(y, x, score));
                     }
                 }
             }
-            //         y,   x,  score
+            //         y,   x,  score                                   order score by Descending   
             List<Tuple<int, int, int>> OrderPosScoreList = posScoreList.OrderByDescending(x => x.Item3).ToList();
 
             if (OrderPosScoreList.Count > FIND_COUNT)

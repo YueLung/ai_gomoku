@@ -67,7 +67,6 @@
     <Compile Include="ConnectStrategy.cs" />
     <Compile Include="Evaluation\BoardEvaluation.cs" />
     <Compile Include="Evaluation\OnePointEvaluation.cs" />
-    <Compile Include="Evaluation\IEvaluation.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

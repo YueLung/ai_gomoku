@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+
+using ai_gomoku.Command;
 
 namespace ai_gomoku.Role
 {
@@ -12,10 +13,67 @@ namespace ai_gomoku.Role
         public Judge(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType) : base(name, view, model, roleMgr, chessType)
         {
             ConnectStrategy = new ConnectStrategy(model);
+
+            addCommand("PreviousActionCommand", isAllowPreviousActionCommand, onPreviousActionCommand);
         }
         public override void AppendName(string appendName)
         {
             Name = Name + appendName;
+        }
+
+        private bool isAllowPreviousActionCommand()
+        {
+            if (Model.GetChessTotalCount() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("ChessTotalCount <= 0");
+                return false;
+            }
+        }
+        private bool onPreviousActionCommand(CommandBase command)
+        {
+            Console.WriteLine("onPreviousActionCommand");
+
+            if (command is PreviousActionCommand)
+            {
+                PreviousActionCommand previousActionCommand = command as PreviousActionCommand;
+
+                if (previousActionCommand.IsEnemyAi)
+                {
+                    //judge has my chessType
+                    if (Model.GetBoard().Any(x => x.Any(y => y == MyChessType)))
+                    {
+                        //todo hard code
+                        Player.TotalTurn -= 2;
+                        Model.PreviousAction();
+                        Model.PreviousAction();
+                        View.RemoveLastChess();
+                        View.RemoveLastChess();
+                        RoleMgr.PreviousPlayerByJudgeContainAI();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not exit my chess,cant regret");
+                    }
+                }
+                else
+                {
+                    Player.TotalTurn--;
+                    Model.PreviousAction();
+                    View.RemoveLastChess();
+                    RoleMgr.PreviousPlayerByJudge();
+                }
+                
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("command is not PreviousActionCommand");
+                return false;
+            }
         }
 
         public override void onMyTurn()

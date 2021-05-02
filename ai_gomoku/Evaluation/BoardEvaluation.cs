@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ai_gomoku.Evaluation
 {
-    public class BoardEvaluation : IEvaluation
+    public class BoardEvaluation
     {
         public BoardEvaluation() {}
 

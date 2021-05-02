@@ -8,12 +8,10 @@ namespace ai_gomoku.Role
 {
     public class HumanPlayer : Player
     {
-        IEvaluation DebugEvaluation;
+        BoardEvaluation DebugEvaluation = new BoardEvaluation();
         
         public HumanPlayer(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType) : base(name, view, model, roleMgr, chessType)
         {
-            DebugEvaluation = new BoardEvaluation();
-
             addCommand("PreviousActionCommand", isAllowPreviousActionCommand, onPreviousActionCommand);
             addCommand("ChangeComputerPlayCommand", isAllowChangeComputerPlayCommand, onChangeComputerPlayCommand);
             addCommand("LoadBoardCommand", isAllowLoadBoardCommand, onLoadBoardCommand);
@@ -122,7 +120,7 @@ namespace ai_gomoku.Role
                 {
                     bool isPutSuccessful = PutChess(clickCommand.Board_X, clickCommand.Board_Y);
 
-                    Model.PrintBoard();
+                    //Model.PrintBoard();
 
                     RoleMgr.ChangeNextRole();
 

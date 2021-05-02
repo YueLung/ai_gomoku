@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace ai_gomoku.Evaluation
 {
     public enum AttackDirection { Horizontal, Vertical, RightOblique, LeftOblique };
@@ -19,33 +18,46 @@ namespace ai_gomoku.Evaluation
         public bool IsEnemyLive { get; set; }
     }
 
-    public class OnePointEvaluation : IEvaluation
+    public class OnePointEvaluation
     {
         public OnePointEvaluation(){}
-        public int GetScore(Model model, ChessType myChessType)
+        public int GetScore(Model model, int y, int x, ChessType chessType)
         {
-            int posX = model.PrepareCheckedPOS_X;
-            int posY = model.PrepareCheckedPOS_Y;
-            ChessType posChessType = model.PrepareCheckedChessType;
+            Model attackCloneModel = model.Clone() as Model;
+            Model defenseCloneModel = model.Clone() as Model;
 
-            int score = GetOnePointScore(model, posX, posY, posChessType);
+            ChessType enemyChessType = Utility.GetOppositeChessType(chessType);
 
-            return score;
+            attackCloneModel.PutChessToBoard(x, y, chessType);
+            defenseCloneModel.PutChessToBoard(x, y, enemyChessType);
+
+
+            //int posX = model.PrepareCheckedPOS_X;
+            //int posY = model.PrepareCheckedPOS_Y;
+            //ChessType posChessType = model.PrepareCheckedChessType;
+
+            int attackScore  = GetOnePointScore(attackCloneModel, x, y, chessType);
+            int defenseScore = GetOnePointScore(defenseCloneModel, x, y, enemyChessType);
+
+            int totalScore = (int)(1.05 * attackScore) + defenseScore;
+
+            return totalScore;
         }
         protected virtual int GetOnePointScore(Model model, int posX, int posY, ChessType posChessType)
         {
             int score = GetAttackLineScore(AttackDirection.Horizontal, model, posX, posY, posChessType) +
                         GetAttackLineScore(AttackDirection.Vertical, model, posX, posY, posChessType) +
                         GetAttackLineScore(AttackDirection.RightOblique, model, posX, posY, posChessType) +
-                        GetAttackLineScore(AttackDirection.LeftOblique, model, posX, posY, posChessType) +
-                        GetDefenseLineScore(DefenseDirection.Left, model, posX, posY, posChessType) +
-                        GetDefenseLineScore(DefenseDirection.UpperLeft, model, posX, posY, posChessType) +
-                        GetDefenseLineScore(DefenseDirection.Up, model, posX, posY, posChessType) +
-                        GetDefenseLineScore(DefenseDirection.UpperRight, model, posX, posY, posChessType) +
-                        GetDefenseLineScore(DefenseDirection.Right, model, posX, posY, posChessType) +
-                        GetDefenseLineScore(DefenseDirection.LowerRight, model, posX, posY, posChessType) +
-                        GetDefenseLineScore(DefenseDirection.Down, model, posX, posY, posChessType) +
-                        GetDefenseLineScore(DefenseDirection.LowerLeft, model, posX, posY, posChessType);
+                        GetAttackLineScore(AttackDirection.LeftOblique, model, posX, posY, posChessType);
+
+                        //GetDefenseLineScore(DefenseDirection.Left, model, posX, posY, posChessType) +
+                        //GetDefenseLineScore(DefenseDirection.UpperLeft, model, posX, posY, posChessType) +
+                        //GetDefenseLineScore(DefenseDirection.Up, model, posX, posY, posChessType) +
+                        //GetDefenseLineScore(DefenseDirection.UpperRight, model, posX, posY, posChessType) +
+                        //GetDefenseLineScore(DefenseDirection.Right, model, posX, posY, posChessType) +
+                        //GetDefenseLineScore(DefenseDirection.LowerRight, model, posX, posY, posChessType) +
+                        //GetDefenseLineScore(DefenseDirection.Down, model, posX, posY, posChessType) +
+                        //GetDefenseLineScore(DefenseDirection.LowerLeft, model, posX, posY, posChessType);
 
             return score;
         }

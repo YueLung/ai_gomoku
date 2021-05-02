@@ -20,7 +20,7 @@ namespace ai_gomoku
                     return new HumanPlayer("Human2 " + chessType, view, model, roleMgr, chessType);
                     break;
                 case GameDef.PlayerType.EasyAI:
-                    return new EasyComputerPlayer("EasyAI " + chessType, view, model, roleMgr, chessType, new OnePointEvaluation());
+                    return new EasyComputerPlayer("EasyAI " + chessType, view, model, roleMgr, chessType);
                     break;
                 case GameDef.PlayerType.MediumAI:
                     return new MinMaxComputerPlayer("MediumAI " + chessType, view, model, roleMgr, chessType, 1);
@@ -30,6 +30,9 @@ namespace ai_gomoku
                     break;
                 case GameDef.PlayerType.AI3X3:
                     return new AIComputer3X3Player("AI3X3 " + chessType, view, model, roleMgr, chessType);
+                    break;
+                case GameDef.PlayerType.RandomAI:
+                    return new RandomComputerPlayer("RandomAI " + chessType, view, model, roleMgr, chessType);
                     break;
                 default:
                     return null;

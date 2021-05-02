@@ -26,14 +26,8 @@ namespace ai_gomoku.Role
 
             } while (Model.GetBoardByCopy()[y][x] != ChessType.None);
 
-            Chess myChess = ChessFactory.CreateChess(MyChessType);
-            myChess.SetPositionByCoordinate(x, y);
-
-            PutChess(x, y);
-
-            View.PutChessOnView(myChess);
-
-            RoleMgr.ChangeNextRole();           
+            bool isPutSuccessful = PutChess(x, y);
+            RoleMgr.ChangeNextRole();
         }
     }
 }

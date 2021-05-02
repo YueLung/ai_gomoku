@@ -111,6 +111,31 @@ namespace ai_gomoku
             CurrentTurnRole = RoleOrderMap[OrderNum];
             CurrentTurnRole.onMyTurn();
         }
+
+        public void PreviousPlayerByJudge()
+        {
+            OrderNum -= 1;
+            if (OrderNum < 0)
+            {
+                throw new Exception("error OrderNum < 0");
+            }
+
+            CurrentTurnRole = RoleOrderMap[OrderNum];
+            CurrentTurnRole.onMyTurn();
+        }
+
+        public void PreviousPlayerByJudgeContainAI()
+        {
+            OrderNum -= 3;
+            if (OrderNum < 0)
+            {
+                OrderNum = RoleOrderMap.Count - 2;
+            }
+
+            CurrentTurnRole = RoleOrderMap[OrderNum];
+            CurrentTurnRole.onMyTurn();
+        }
+
         public bool IsAnyPlayerAi()
         {
             if (P1.ToString().Contains("Human") && P2.ToString().Contains("Human"))
