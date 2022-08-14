@@ -39,19 +39,19 @@ namespace ai_gomoku
 
         private bool IsWinHorizontal(ChessType chessType)
         {
-            return GetConnectCount(chessType, 1, 0) + GetConnectCount(chessType, -1, 0) - 1 == GameDef.win_count;
+            return GetConnectCount(chessType, 1, 0) + GetConnectCount(chessType, -1, 0) - 1 >= GameDef.win_count;
         }
         private bool IsWinVertical(ChessType chessType)
         {
-            return GetConnectCount(chessType, 0, 1) + GetConnectCount(chessType, 0, -1) - 1 == GameDef.win_count;
+            return GetConnectCount(chessType, 0, 1) + GetConnectCount(chessType, 0, -1) - 1 >= GameDef.win_count;
         }
         private bool IsWinRightOblique(ChessType chessType)
         {
-            return GetConnectCount(chessType, -1, 1) + GetConnectCount(chessType, 1, -1) - 1 == GameDef.win_count;
+            return GetConnectCount(chessType, -1, 1) + GetConnectCount(chessType, 1, -1) - 1 >= GameDef.win_count;
         }
         private bool IsWinLeftOblique(ChessType chessType)
         {
-            return GetConnectCount(chessType, 1, 1) + GetConnectCount(chessType, -1, -1) - 1 == GameDef.win_count;
+            return GetConnectCount(chessType, 1, 1) + GetConnectCount(chessType, -1, -1) - 1 >= GameDef.win_count;
         }
 
         public int GetConnectCount(ChessType chessType, int volumeX, int volumeY)
