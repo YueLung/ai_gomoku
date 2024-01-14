@@ -1,6 +1,6 @@
 ﻿namespace ai_gomoku
 {
-    class WhiteChess : Chess 
+    class WhiteChess : ChessBase 
     {
         public WhiteChess() : base()
         {

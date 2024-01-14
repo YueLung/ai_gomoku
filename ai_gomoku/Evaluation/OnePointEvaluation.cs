@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ai_gomoku.Models;
+using System;
 
 namespace ai_gomoku.Evaluation
 {
@@ -21,10 +20,10 @@ namespace ai_gomoku.Evaluation
     public class OnePointEvaluation
     {
         public OnePointEvaluation(){}
-        public int GetScore(Model model, int y, int x, ChessType chessType)
+        public int GetScore(GameModel model, int y, int x, ChessType chessType)
         {
-            Model attackCloneModel = model.Clone() as Model;
-            Model defenseCloneModel = model.Clone() as Model;
+            GameModel attackCloneModel = model.Clone() as GameModel;
+            GameModel defenseCloneModel = model.Clone() as GameModel;
 
             ChessType enemyChessType = Utility.GetOppositeChessType(chessType);
 
@@ -43,7 +42,7 @@ namespace ai_gomoku.Evaluation
 
             return totalScore;
         }
-        protected virtual int GetOnePointScore(Model model, int posX, int posY, ChessType posChessType)
+        protected virtual int GetOnePointScore(GameModel model, int posX, int posY, ChessType posChessType)
         {
             int score = GetAttackLineScore(AttackDirection.Horizontal, model, posX, posY, posChessType) +
                         GetAttackLineScore(AttackDirection.Vertical, model, posX, posY, posChessType) +
@@ -61,7 +60,7 @@ namespace ai_gomoku.Evaluation
 
             return score;
         }
-        protected int GetAttackLineScore(AttackDirection attackDirection, Model model, int posX, int posY, ChessType posChessType)
+        protected int GetAttackLineScore(AttackDirection attackDirection, GameModel model, int posX, int posY, ChessType posChessType)
         {
             int res = 0;
 
@@ -98,7 +97,7 @@ namespace ai_gomoku.Evaluation
 
             return res;
         }
-        protected int GetDefenseLineScore(DefenseDirection defenseDirection, Model model, int posX, int posY, ChessType posChessType)
+        protected int GetDefenseLineScore(DefenseDirection defenseDirection, GameModel model, int posX, int posY, ChessType posChessType)
         {
             int res = 0;
 
@@ -142,7 +141,7 @@ namespace ai_gomoku.Evaluation
 
             return res;
         }
-        protected AttackDirectionInfo GetAttackConnectInfo(Model model, int posX, int posY, ChessType posChessType, int volumeX, int volumeY)
+        protected AttackDirectionInfo GetAttackConnectInfo(GameModel model, int posX, int posY, ChessType posChessType, int volumeX, int volumeY)
         {
             AttackDirectionInfo res = new AttackDirectionInfo();
             int connectCount = 0;
@@ -240,7 +239,7 @@ namespace ai_gomoku.Evaluation
 
             return res;
         }
-        protected DefenseDirectionInfo GetDefenseConnectCount(Model model, int posX, int posY, ChessType posChessType,int volumeX, int volumeY)
+        protected DefenseDirectionInfo GetDefenseConnectCount(GameModel model, int posX, int posY, ChessType posChessType,int volumeX, int volumeY)
         {
             DefenseDirectionInfo defenseDirectionInfo = new DefenseDirectionInfo();
 

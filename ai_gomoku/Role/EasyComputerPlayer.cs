@@ -1,6 +1,7 @@
 ﻿using System;
 
 using ai_gomoku.Evaluation;
+using ai_gomoku.Models;
 
 namespace ai_gomoku.Role
 {
@@ -10,12 +11,13 @@ namespace ai_gomoku.Role
     class EasyComputerPlayer : Player
     {
         private OnePointEvaluation MyEvaluation = new OnePointEvaluation();
-        public EasyComputerPlayer(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType) : base(name, view, model, roleMgr, chessType)
+        public EasyComputerPlayer(String name, Form1 view, GameModel model, RoleMgr roleMgr, ChessType chessType)
+            : base(name, view, model, roleMgr, chessType)
         {
         }
-        public override void onMyTurn()
+        public override void OnMyTurn()
         {
-            base.onMyTurn();
+            base.OnMyTurn();
 
             int bestScore = int.MinValue;
             int bestX = -1;
@@ -37,7 +39,7 @@ namespace ai_gomoku.Role
                         var board = Model.GetBoardByCopy();
                         if (board[y][x] == ChessType.None)
                         {
-                            Model cloneModel = Model.Clone() as Model;
+                            GameModel cloneModel = Model.Clone() as GameModel;
 
                             int score = MyEvaluation.GetScore(cloneModel, y, x, MyChessType);
 

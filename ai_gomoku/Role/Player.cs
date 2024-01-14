@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ai_gomoku.Factory;
+using ai_gomoku.Models;
+using System;
 
 namespace ai_gomoku.Role
 {
     public abstract class Player : RoleBase
     {
         public static int TotalTurn = 0;
-        public Player(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType) : base(name, view, model, roleMgr, chessType)
+        public Player(String name, Form1 view, GameModel model, RoleMgr roleMgr, ChessType chessType) 
+            : base(name, view, model, roleMgr, chessType)
         {
             //TotalTurn = 0;
         }
 
-        public override void onMyTurn()
+        public override void OnMyTurn()
         {
-            base.onMyTurn();
+            base.OnMyTurn();
             View.ShowMsg($"Turn : {Name}      TotalTurn = {TotalTurn}");         
         }
 
@@ -27,7 +26,7 @@ namespace ai_gomoku.Role
             if (isSuccessful)
             {
                 TotalTurn++;
-                Chess myChess = ChessFactory.CreateChess(MyChessType);
+                ChessBase myChess = ChessFactory.CreateChess(MyChessType);
                 myChess.SetPositionByCoordinate(x, y);
 
                 View.PutChessOnView(myChess);

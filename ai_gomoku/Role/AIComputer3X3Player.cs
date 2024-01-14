@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ai_gomoku.Models;
+using System;
 
 namespace ai_gomoku.Role
 {
@@ -11,7 +8,7 @@ namespace ai_gomoku.Role
         public int X { get; set; }
         public int Y { get; set; }
         public int Score { get; set; }
-        public Model Model { get; set; }
+        public GameModel Model { get; set; }
         public MinMaxSearchInfo(int x, int y, int score)
         {
             this.X = x;
@@ -28,13 +25,14 @@ namespace ai_gomoku.Role
 
         private int SearchHasResultCount = 0;
 
-        public AIComputer3X3Player(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType) : base(name, view, model, roleMgr, chessType)
+        public AIComputer3X3Player(String name, Form1 view, GameModel model, RoleMgr roleMgr, ChessType chessType) 
+            : base(name, view, model, roleMgr, chessType)
         {
         }
 
-        public override void onMyTurn()
+        public override void OnMyTurn()
         {
-            base.onMyTurn();
+            base.OnMyTurn();
 
             if (TotalTurn == 1)
             {
@@ -54,7 +52,7 @@ namespace ai_gomoku.Role
            
         }
 
-        private MinMaxSearchInfo MinMaxSearch(Model pModel, ChessType chessType, bool isMaxLayer, int depth, int alpha, int beta)
+        private MinMaxSearchInfo MinMaxSearch(GameModel pModel, ChessType chessType, bool isMaxLayer, int depth, int alpha, int beta)
         {
             MinMaxSearchCount++;
             int bestScore = isMaxLayer ? -999 : 999;
@@ -68,7 +66,7 @@ namespace ai_gomoku.Role
                     var board = pModel.GetBoardByCopy();
                     if (board[y][x] == ChessType.None)
                     {
-                        Model cloneModel = pModel.Clone() as Model;
+                        GameModel cloneModel = pModel.Clone() as GameModel;
                         cloneModel.PutChessToBoard(x, y, chessType);
 
                         int score = 0;
@@ -127,7 +125,7 @@ namespace ai_gomoku.Role
             return bestPosInfo;
         }
 
-        private BoradStatus GetBoardStatus(Model model, ChessType chessType)
+        private BoradStatus GetBoardStatus(GameModel model, ChessType chessType)
         {
             BoradStatus status = BoradStatus.Nothing;
             ConnectStrategy connectStrategy = new ConnectStrategy(model);

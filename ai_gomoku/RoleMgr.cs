@@ -1,148 +1,147 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-
+﻿using ai_gomoku.Command;
+using ai_gomoku.Factory;
+using ai_gomoku.Models;
 using ai_gomoku.Role;
-using ai_gomoku.Command;
-using System.Threading;
+using System;
+using System.Collections.Generic;
 
 namespace ai_gomoku
 {
-  
+
     public class RoleMgr
     {
-        private Dictionary<int, RoleBase> RoleOrderMap = new Dictionary<int, RoleBase>();
-        
-        private RoleBase CurrentTurnRole;
+        private Dictionary<int, RoleBase> _roleOrderMap = new Dictionary<int, RoleBase>();
 
-        private Model Model;
+        private RoleBase _currentTurnRole;
 
-        private Form1 View;
+        private GameModel _gameModel;
 
-        private GameDef.PlayerType P1;
+        private Form1 _view;
 
-        private GameDef.PlayerType P2;
+        private GameDef.PlayerType _player1;
 
-        private int OrderNum;
+        private GameDef.PlayerType _player2;
+
+        private int _orderNum;
 
         public RoleMgr(Form1 view, GameDef.PlayerType player1, GameDef.PlayerType player2, GameDef.JudgeType judgeType)
         {
             Console.WriteLine($"Board is {GameDef.board_cell_length} x {GameDef.board_cell_length}");
 
-            Model = new Model();
-            View = view;
+            _gameModel = new GameModel();
+            _view = view;
 
-            P1 = player1;
-            P2 = player2;
+            _player1 = player1;
+            _player2 = player2;
 
-            Random random = new Random();
+            var random = new Random();
 
             int num = random.Next(0, 2); //0、1
-            GameDef.PlayerType blackPlayer = num == 0 ? P1 : P2;
-            GameDef.PlayerType whitePlayer = num == 0 ? P2 : P1;
+            GameDef.PlayerType blackPlayer = num == 0 ? _player1 : _player2;
+            GameDef.PlayerType whitePlayer = num == 0 ? _player2 : _player1;
 
             //assume black chess order is first 
-            RoleOrderMap.Add(0, PlayerFactory.CreatePlayer(blackPlayer, View, Model, this, ChessType.Black));
-            RoleOrderMap.Add(1, JudgeFactory.CreateJudge(judgeType, GameDef.BLACK_CHESS_JUDGE + "_" + blackPlayer.ToString(), View, Model, this, ChessType.Black));
-            RoleOrderMap.Add(2, PlayerFactory.CreatePlayer(whitePlayer, View, Model, this, ChessType.White));
-            RoleOrderMap.Add(3, JudgeFactory.CreateJudge(judgeType, GameDef.WHITE_CHESS_JUDGE + "_" + whitePlayer.ToString(), View, Model, this, ChessType.White));
+            _roleOrderMap.Add(0, PlayerFactory.CreatePlayer(blackPlayer, _view, _gameModel, this, ChessType.Black));
+            _roleOrderMap.Add(1, JudgeFactory.CreateJudge(judgeType, GameDef.BLACK_CHESS_JUDGE + "_" + blackPlayer.ToString(), _view, _gameModel, this, ChessType.Black));
+            _roleOrderMap.Add(2, PlayerFactory.CreatePlayer(whitePlayer, _view, _gameModel, this, ChessType.White));
+            _roleOrderMap.Add(3, JudgeFactory.CreateJudge(judgeType, GameDef.WHITE_CHESS_JUDGE + "_" + whitePlayer.ToString(), _view, _gameModel, this, ChessType.White));
 
-            OrderNum = 0;
-            CurrentTurnRole = RoleOrderMap[OrderNum];
+            _orderNum = 0;
+            _currentTurnRole = _roleOrderMap[_orderNum];
         }
         public void Start()
         {
-            CurrentTurnRole.onMyTurn();
+            _currentTurnRole.OnMyTurn();
         }
         public void RenewGame()
         {
-            Model.init();
+            _gameModel.Init();
 
-            View.InitViewBoard();
+            _view.InitViewBoard();
 
             Player.InitTotalTurn();
 
-            OrderNum = 0;
-            CurrentTurnRole = RoleOrderMap[OrderNum];
-            CurrentTurnRole.onMyTurn();
+            _orderNum = 0;
+            _currentTurnRole = _roleOrderMap[_orderNum];
+            _currentTurnRole.OnMyTurn();
         }
         public void ReturnHome()
         {
-            Model.init();
+            _gameModel.Init();
 
-            View.InitViewBoard();
+            _view.InitViewBoard();
 
             Player.InitTotalTurn();
         }
         public void ChangeNextRole()
         {
-            OrderNum++;
+            _orderNum++;
 
-            if (OrderNum >= RoleOrderMap.Count)
+            if (_orderNum >= _roleOrderMap.Count)
             {
-                OrderNum = 0;
+                _orderNum = 0;
             }
 
-            CurrentTurnRole = RoleOrderMap[OrderNum];
+            _currentTurnRole = _roleOrderMap[_orderNum];
             //Thread.Sleep(200);
-            CurrentTurnRole.onMyTurn();
+            _currentTurnRole.OnMyTurn();
         }
         public void ChangeComputerToPlay()
         {
             GameDef.PlayerType changeAIType = GameDef.PlayerType.HardAI;
 
-            RoleOrderMap[OrderNum] = PlayerFactory.CreatePlayer(changeAIType, View, Model, this, CurrentTurnRole.GetChessType());
+            _roleOrderMap[_orderNum] = PlayerFactory.CreatePlayer(changeAIType, _view, _gameModel, this, _currentTurnRole.GetChessType());
 
-            int judgeOeder = OrderNum + 1;
-            RoleOrderMap[judgeOeder].AppendName($" + {changeAIType.ToString()}");
+            int judgeOeder = _orderNum + 1;
+            _roleOrderMap[judgeOeder].AppendName($" + {changeAIType.ToString()}");
 
-            CurrentTurnRole = RoleOrderMap[OrderNum];
-            CurrentTurnRole.onMyTurn();
+            _currentTurnRole = _roleOrderMap[_orderNum];
+            _currentTurnRole.OnMyTurn();
 
         }
         public void PreviousPlayer()
         {
-            OrderNum -= 2;
-            if (OrderNum < 0)
+            _orderNum -= 2;
+            if (_orderNum < 0)
             {
-                OrderNum = RoleOrderMap.Count - 2;
+                _orderNum = _roleOrderMap.Count - 2;
             }
 
-            CurrentTurnRole = RoleOrderMap[OrderNum];
-            CurrentTurnRole.onMyTurn();
+            _currentTurnRole = _roleOrderMap[_orderNum];
+            _currentTurnRole.OnMyTurn();
         }
 
         public void PreviousPlayerByJudge()
         {
-            OrderNum -= 1;
-            if (OrderNum < 0)
+            _orderNum -= 1;
+            if (_orderNum < 0)
             {
                 throw new Exception("error OrderNum < 0");
             }
 
-            CurrentTurnRole = RoleOrderMap[OrderNum];
-            CurrentTurnRole.onMyTurn();
+            _currentTurnRole = _roleOrderMap[_orderNum];
+            _currentTurnRole.OnMyTurn();
         }
 
         public void PreviousPlayerByJudgeContainAI()
         {
-            OrderNum -= 3;
-            if (OrderNum < 0)
+            _orderNum -= 3;
+            if (_orderNum < 0)
             {
-                OrderNum = RoleOrderMap.Count - 2;
+                _orderNum = _roleOrderMap.Count - 2;
             }
 
-            CurrentTurnRole = RoleOrderMap[OrderNum];
-            CurrentTurnRole.onMyTurn();
+            _currentTurnRole = _roleOrderMap[_orderNum];
+            _currentTurnRole.OnMyTurn();
         }
 
         public bool IsAnyPlayerAi()
         {
-            if (P1.ToString().Contains("Human") && P2.ToString().Contains("Human"))
+            if (_player1.ToString().Contains("Human") && _player2.ToString().Contains("Human"))
             {
                 return false;
             }
-            else 
+            else
             {
                 return true;
             }
@@ -160,7 +159,7 @@ namespace ai_gomoku
             }
 
 
-            ChessType[,] board = new ChessType[15,15]
+            ChessType[,] board = new ChessType[15, 15]
                             {  
                                 // 0     1     2     3     4     5     6     7     8     9     10    11    12    13    14       
                                 { none, none, none, none, none, none, none, none, none, none, none, none, none, none, none},//0
@@ -186,29 +185,29 @@ namespace ai_gomoku
             {
                 for (int x = 0; x < 15; ++x)
                 {
-                    if (board[y, x] != ChessType.None) 
+                    if (board[y, x] != ChessType.None)
                     {
                         playedCount += 1;
 
-                        Model.PutChessToBoard(x, y, board[y, x]);
+                        _gameModel.PutChessToBoard(x, y, board[y, x]);
 
-                        Chess myChess = ChessFactory.CreateChess(board[y, x]);
+                        ChessBase myChess = ChessFactory.CreateChess(board[y, x]);
                         myChess.SetPositionByCoordinate(x, y);
-                        View.PutChessOnView(myChess);
+                        _view.PutChessOnView(myChess);
                     }
                 }
             }
 
             Player.TotalTurn = playedCount;
 
-            OrderNum = playedCount % 2 == 0 ? 0 : 2;
-            CurrentTurnRole = RoleOrderMap[OrderNum];
-            CurrentTurnRole.onMyTurn();
+            _orderNum = playedCount % 2 == 0 ? 0 : 2;
+            _currentTurnRole = _roleOrderMap[_orderNum];
+            _currentTurnRole.OnMyTurn();
         }
 
-        public void onCommand(CommandBase command)
+        public void OnCommand(CommandBase command)
         {
-            CurrentTurnRole.onCommand(command);
+            _currentTurnRole.OnCommand(command);
         }
     }
 }

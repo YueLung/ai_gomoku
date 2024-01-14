@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ai_gomoku.Models;
 
 
 namespace ai_gomoku
 {
     public class ConnectStrategy
     {
-        private Model Model;
-        public ConnectStrategy(Model model)
+        private GameModel _model;
+        public ConnectStrategy(GameModel model)
         {
-            Model = model;
+            _model = model;
         }
 
         public bool IsWin(ChessType chessType)
@@ -21,7 +20,7 @@ namespace ai_gomoku
         public bool IsTie()
         {
             bool res = true;
-            List < List < ChessType >> board = Model.GetBoardByCopy();
+            var board = _model.GetBoardByCopy();
 
             for (int y = 0; y < GameDef.board_cell_length; y++)
             {
@@ -58,10 +57,10 @@ namespace ai_gomoku
         {
             int res = 0;
 
-            var board = Model.GetBoardByCopy();
+            var board = _model.GetBoardByCopy();
 
-            int x = Model.PrepareCheckedPOS_X;
-            int y = Model.PrepareCheckedPOS_Y;
+            int x = _model.PrepareCheckedPOS_X;
+            int y = _model.PrepareCheckedPOS_Y;
 
             while (board[y][x] == chessType)
             {

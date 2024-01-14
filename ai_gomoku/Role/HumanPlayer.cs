@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
-
-using ai_gomoku.Command;
+﻿using ai_gomoku.Command;
 using ai_gomoku.Evaluation;
+using ai_gomoku.Models;
+using System;
+using System.Linq;
 
 namespace ai_gomoku.Role
 {
@@ -10,15 +10,16 @@ namespace ai_gomoku.Role
     {
         BoardEvaluation DebugEvaluation = new BoardEvaluation();
         
-        public HumanPlayer(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType) : base(name, view, model, roleMgr, chessType)
+        public HumanPlayer(String name, Form1 view, GameModel model, RoleMgr roleMgr, ChessType chessType) 
+            : base(name, view, model, roleMgr, chessType)
         {
-            addCommand("PreviousActionCommand", isAllowPreviousActionCommand, onPreviousActionCommand);
-            addCommand("ChangeComputerPlayCommand", isAllowChangeComputerPlayCommand, onChangeComputerPlayCommand);
-            addCommand("LoadBoardCommand", isAllowLoadBoardCommand, onLoadBoardCommand);
-            addCommand("ClickCommand", isAllowClickCommand, onClickCommand);
+            AddCommand("PreviousActionCommand", IsAllowPreviousActionCommand, OnPreviousActionCommand);
+            AddCommand("ChangeComputerPlayCommand", IsAllowChangeComputerPlayCommand, OnChangeComputerPlayCommand);
+            AddCommand("LoadBoardCommand", IsAllowLoadBoardCommand, OnLoadBoardCommand);
+            AddCommand("ClickCommand", IsAllowClickCommand, OnClickCommand);
         }
 
-        private bool isAllowPreviousActionCommand()
+        private bool IsAllowPreviousActionCommand()
         {
             if (Model.GetChessTotalCount() > 0)
             {
@@ -30,7 +31,7 @@ namespace ai_gomoku.Role
                 return false;
             }
         }
-        private bool onPreviousActionCommand(CommandBase command)
+        private bool OnPreviousActionCommand(CommandBase command)
         {
             Console.WriteLine("onPreviousActionCommand");
 
@@ -48,7 +49,7 @@ namespace ai_gomoku.Role
                         Model.PreviousAction();
                         View.RemoveLastChess();
                         View.RemoveLastChess();
-                        onMyTurn();
+                        OnMyTurn();
                     }
                     else
                     {
@@ -73,11 +74,11 @@ namespace ai_gomoku.Role
             }   
         }
 
-        private bool isAllowChangeComputerPlayCommand()
+        private bool IsAllowChangeComputerPlayCommand()
         {
             return true;
         }
-        private bool onChangeComputerPlayCommand(CommandBase command)
+        private bool OnChangeComputerPlayCommand(CommandBase command)
         {
             if (command is ChangeComputerPlayCommand)
             {
@@ -91,7 +92,7 @@ namespace ai_gomoku.Role
             }
         }
 
-        private bool isAllowLoadBoardCommand()
+        private bool IsAllowLoadBoardCommand()
         {
             //only 0 turn can load board
             if (TotalTurn == 0)
@@ -99,18 +100,18 @@ namespace ai_gomoku.Role
             else
                 return false;
         }
-        private bool onLoadBoardCommand(CommandBase command)
+        private bool OnLoadBoardCommand(CommandBase command)
         {
             Console.WriteLine("onLoadBoardCommand");
             RoleMgr.LoadBorad();
             return true;
         }
 
-        private bool isAllowClickCommand()
+        private bool IsAllowClickCommand()
         {
             return true;
         }
-        private bool onClickCommand(CommandBase command)
+        private bool OnClickCommand(CommandBase command)
         {
             if (command is ClickCommand)
             {
@@ -144,9 +145,9 @@ namespace ai_gomoku.Role
             } 
         }
 
-        public override void onMyTurn()
+        public override void OnMyTurn()
         {
-            base.onMyTurn();
+            base.OnMyTurn();
         }
     }
 }

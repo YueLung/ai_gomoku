@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-using ai_gomoku.Command;
+﻿using ai_gomoku.Command;
+using ai_gomoku.Models;
+using System;
 
 namespace ai_gomoku.Role
 {
@@ -9,16 +8,17 @@ namespace ai_gomoku.Role
     {
         protected ConnectStrategy ConnectStrategy;
 
-        public DebugJudge(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType) : base(name, view, model, roleMgr, chessType)
+        public DebugJudge(String name, Form1 view, GameModel model, RoleMgr roleMgr, ChessType chessType)
+            : base(name, view, model, roleMgr, chessType)
         {
             ConnectStrategy = new ConnectStrategy(model);
 
-            addCommand("ComputerNextCommand", isAllowComputerNextCommand, onComputerNextCommand);
+            AddCommand("ComputerNextCommand", isAllowComputerNextCommand, onComputerNextCommand);
         }
 
-        public override void onMyTurn()
+        public override void OnMyTurn()
         {
-            base.onMyTurn();
+            base.OnMyTurn();
 
             if (Model.PrepareCheckedChessType == MyChessType)
             {

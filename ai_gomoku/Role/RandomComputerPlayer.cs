@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ai_gomoku.Models;
+using System;
 
 namespace ai_gomoku.Role
 {
     class RandomComputerPlayer : Player
     {
-        public RandomComputerPlayer(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType) : base(name, view, model, roleMgr, chessType)
+        public RandomComputerPlayer(String name, Form1 view, GameModel model, RoleMgr roleMgr, ChessType chessType)
+            : base(name, view, model, roleMgr, chessType)
         {
 
         }
 
-        public override void onMyTurn()
+        public override void OnMyTurn()
         {
             Random random = new Random();
 

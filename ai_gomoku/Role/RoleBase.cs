@@ -1,20 +1,20 @@
-﻿using System;
+﻿using ai_gomoku.Command;
+using ai_gomoku.Models;
+using System;
 using System.Collections.Generic;
-
-using ai_gomoku.Command;
 
 namespace ai_gomoku.Role
 {
     public abstract class RoleBase
     {
-        public String Name { get; protected set; }//read only
-
         public delegate bool isAllowFun();
         public delegate bool onFun(CommandBase command);
 
+        public String Name { get; protected set; }
+
         protected Form1 View;
 
-        protected Model Model;
+        protected GameModel Model;
 
         protected RoleMgr RoleMgr;
 
@@ -24,7 +24,7 @@ namespace ai_gomoku.Role
 
         private Dictionary<String, Tuple<isAllowFun, onFun>> CommandMap = new Dictionary<String, Tuple<isAllowFun, onFun>>();
 
-        public RoleBase(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType)
+        public RoleBase(String name, Form1 view, GameModel model, RoleMgr roleMgr, ChessType chessType)
         {
             Name = name;
             View = view;
@@ -33,69 +33,76 @@ namespace ai_gomoku.Role
             MyChessType = chessType;
             TurnCount = 0;
 
-            addCommand("RenewCommand", isAllowRenewCommand, onRenewCommand);
-            addCommand("ReturnHomeCommand", isAllowReturnHomeCommand, onReturnHomeCommand);
-
+            AddCommand("RenewCommand", IsAllowRenewCommand, OnRenewCommand);
+            AddCommand("ReturnHomeCommand", IsAllowReturnHomeCommand, OnReturnHomeCommand);
         }
+
         public ChessType GetChessType()
         {
             return MyChessType;
         }
-        protected void addCommand(String commandName, isAllowFun isAllowFun, onFun onFun)
+
+        protected void AddCommand(String commandName, isAllowFun isAllowFun, onFun onFun)
         {
             if (CommandMap.ContainsKey(commandName) == false)
             {
                 CommandMap.Add(commandName, new Tuple<isAllowFun, onFun>(isAllowFun, onFun));
 
-                System.Console.WriteLine($"{Name} add Command : {commandName}");
+                Console.WriteLine($"{Name} add Command : {commandName}");
             }
             else
             {
-                System.Console.WriteLine($"Command : {commandName} is repeated");
+                Console.WriteLine($"Command : {commandName} is repeated");
             }
         }
-        public void onCommand(CommandBase command)
+
+        public void OnCommand(CommandBase command)
         {
             if (CommandMap.ContainsKey(command.Name))
             {
                 if ((CommandMap[command.Name].Item1).Invoke())
                 {
-                    System.Console.WriteLine($"{Name} onCommand : {command.Name}");
+                    Console.WriteLine($"{Name} onCommand : {command.Name}");
                     (CommandMap[command.Name].Item2).Invoke(command);
                 }
                 else
                 {
-                    System.Console.WriteLine($"{Name} not allow Command : {command.Name}");
+                    Console.WriteLine($"{Name} not allow Command : {command.Name}");
                 }
             }
             else
             {
-                System.Console.WriteLine($"{Name} onCommand : Cannot find the {command.Name}");
+                Console.WriteLine($"{Name} onCommand : Cannot find the {command.Name}");
             }
         }
-        public virtual void onMyTurn()
+
+        public virtual void OnMyTurn()
         {
             TurnCount++;
-            System.Console.WriteLine($"{Name} onMyTurn");              
+            System.Console.WriteLine($"{Name} onMyTurn");
         }
+
         public virtual void AppendName(string appendName)
-        {  
-        }
-        protected virtual bool isAllowRenewCommand()
         {
-            return true;
         }
-        protected virtual bool isAllowReturnHomeCommand()
+
+        protected virtual bool IsAllowRenewCommand()
         {
             return true;
         }
 
-        protected virtual bool onRenewCommand(CommandBase command)
+        protected virtual bool IsAllowReturnHomeCommand()
+        {
+            return true;
+        }
+
+        protected virtual bool OnRenewCommand(CommandBase command)
         {
             RoleMgr.RenewGame();
             return true;
         }
-        protected virtual bool onReturnHomeCommand(CommandBase command)
+
+        protected virtual bool OnReturnHomeCommand(CommandBase command)
         {
             RoleMgr.ReturnHome();
             return true;

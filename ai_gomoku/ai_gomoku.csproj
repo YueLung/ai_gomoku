@@ -53,8 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chess\BlackChess.cs" />
-    <Compile Include="Chess\Chess.cs" />
-    <Compile Include="Chess\ChessFactory.cs" />
+    <Compile Include="Chess\ChessBase.cs" />
+    <Compile Include="Factory\ChessFactory.cs" />
     <Compile Include="Chess\WhiteChess.cs" />
     <Compile Include="Command\ChangeComputerPlayCommand.cs" />
     <Compile Include="Command\ClickCommand.cs" />
@@ -73,10 +73,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="JudgeFactory.cs" />
-    <Compile Include="Model\Model.cs" />
+    <Compile Include="Factory\JudgeFactory.cs" />
+    <Compile Include="Models\ChessPos.cs" />
+    <Compile Include="Models\ChessType.cs" />
+    <Compile Include="Models\GameModel.cs" />
     <Compile Include="GameDef.cs" />
-    <Compile Include="PlayerFactory.cs" />
+    <Compile Include="Factory\PlayerFactory.cs" />
     <Compile Include="Role\AIComputer3X3Player.cs" />
     <Compile Include="Role\DebugJudge.cs" />
     <Compile Include="Role\EasyComputerPlayer.cs" />

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ai_gomoku.Models;
+using System;
 
 
 namespace ai_gomoku.Evaluation
@@ -9,7 +8,7 @@ namespace ai_gomoku.Evaluation
     {
         public BoardEvaluation() {}
 
-        public bool IsEndSearch(Model model, ChessType chessType)
+        public bool IsEndSearch(GameModel model, ChessType chessType)
         {
             var board = model.GetBoardByCopy();
 
@@ -51,7 +50,7 @@ namespace ai_gomoku.Evaluation
 
             return false;
         }
-        private bool IsLineWin(AttackDirection attackDirection, Model model, int posX, int posY, ChessType posChessType)
+        private bool IsLineWin(AttackDirection attackDirection, GameModel model, int posX, int posY, ChessType posChessType)
         {
             bool res = false;
 
@@ -112,7 +111,7 @@ namespace ai_gomoku.Evaluation
         }
 
 
-        public int GetScore(Model model, ChessType chessType)
+        public int GetScore(GameModel model, ChessType chessType)
         {
             int res = 0;
 
@@ -136,7 +135,7 @@ namespace ai_gomoku.Evaluation
 
             return res;
         }
-        protected int GetOnePointScore(Model model, int posX, int posY, ChessType posChessType)
+        protected int GetOnePointScore(GameModel model, int posX, int posY, ChessType posChessType)
         {
             int score = GetAttackLineScore(AttackDirection.Horizontal, model, posX, posY, posChessType) +
                         GetAttackLineScore(AttackDirection.Vertical, model, posX, posY, posChessType) +
@@ -148,7 +147,7 @@ namespace ai_gomoku.Evaluation
 
             return score;
         }
-        protected int GetAttackLineScore(AttackDirection attackDirection, Model model, int posX, int posY, ChessType posChessType)
+        protected int GetAttackLineScore(AttackDirection attackDirection, GameModel model, int posX, int posY, ChessType posChessType)
         {
             int res = 0;
 
@@ -185,7 +184,7 @@ namespace ai_gomoku.Evaluation
 
             return res;
         }
-        protected AttackDirectionInfo GetAttackConnectInfo(Model model, int posX, int posY, ChessType posChessType, int volumeX, int volumeY)
+        protected AttackDirectionInfo GetAttackConnectInfo(GameModel model, int posX, int posY, ChessType posChessType, int volumeX, int volumeY)
         {
             AttackDirectionInfo res = new AttackDirectionInfo();
             int connectCount = 0;

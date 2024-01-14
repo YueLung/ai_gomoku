@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ai_gomoku.Models;
 
 namespace ai_gomoku
 {
@@ -11,9 +7,8 @@ namespace ai_gomoku
         public static ChessType GetOppositeChessType(ChessType chessType)
         {
             ChessType retChess = chessType == ChessType.Black ? ChessType.White : ChessType.Black;
-
             return retChess;
         }
-      
+
     }
 }

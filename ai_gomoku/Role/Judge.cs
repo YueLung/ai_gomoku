@@ -1,27 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ai_gomoku.Command;
+using ai_gomoku.Models;
+using System;
 using System.Linq;
-
-
-using ai_gomoku.Command;
 
 namespace ai_gomoku.Role
 {
     public class Judge : RoleBase
     {
         protected ConnectStrategy ConnectStrategy;
-        public Judge(String name, Form1 view, Model model, RoleMgr roleMgr, ChessType chessType) : base(name, view, model, roleMgr, chessType)
+        public Judge(String name, Form1 view, GameModel model, RoleMgr roleMgr, ChessType chessType) 
+            : base(name, view, model, roleMgr, chessType)
         {
             ConnectStrategy = new ConnectStrategy(model);
 
-            addCommand("PreviousActionCommand", isAllowPreviousActionCommand, onPreviousActionCommand);
+            AddCommand("PreviousActionCommand", IsAllowPreviousActionCommand, OnPreviousActionCommand);
         }
         public override void AppendName(string appendName)
         {
             Name = Name + appendName;
         }
 
-        private bool isAllowPreviousActionCommand()
+        private bool IsAllowPreviousActionCommand()
         {
             if (Model.GetChessTotalCount() > 0)
             {
@@ -33,7 +32,7 @@ namespace ai_gomoku.Role
                 return false;
             }
         }
-        private bool onPreviousActionCommand(CommandBase command)
+        private bool OnPreviousActionCommand(CommandBase command)
         {
             Console.WriteLine("onPreviousActionCommand");
 
@@ -76,9 +75,9 @@ namespace ai_gomoku.Role
             }
         }
 
-        public override void onMyTurn()
+        public override void OnMyTurn()
         {
-            base.onMyTurn();
+            base.OnMyTurn();
 
             if (Model.PrepareCheckedChessType == MyChessType)
             {

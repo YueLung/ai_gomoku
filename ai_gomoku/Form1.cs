@@ -1,8 +1,7 @@
-﻿using System;
+﻿using ai_gomoku.Command;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
-using ai_gomoku.Command;
 
 namespace ai_gomoku
 {
@@ -14,7 +13,7 @@ namespace ai_gomoku
 
         public const int FIRST_CELL_Y = 61;
 
-        private List<Chess> ChessList = new List<Chess>();
+        private List<ChessBase> ChessList = new List<ChessBase>();
 
         private RoleMgr RoleMgr;
 
@@ -23,11 +22,11 @@ namespace ai_gomoku
             InitializeComponent();
         }
 
-        public void PutChessOnView(Chess chess)
+        public void PutChessOnView(ChessBase chess)
         {
             ChessList.Add(chess);
 
-            foreach (Control control in chess.ControlList) 
+            foreach (Control control in chess.ControlList)
             {
                 this.Controls.Add(control);
                 control.Refresh();
@@ -35,53 +34,53 @@ namespace ai_gomoku
         }
         public void InitViewBoard()
         {
-            foreach (Chess chess in ChessList)
+            foreach (ChessBase chess in ChessList)
             {
                 foreach (Control control in chess.ControlList)
                 {
                     this.Controls.Remove(control);
-                }   
+                }
             }
         }
         public void RemoveLastChess()
         {
             if (ChessList.Count > 0)
             {
-                Chess lastChess = ChessList[ChessList.Count - 1];
+                ChessBase lastChess = ChessList[ChessList.Count - 1];
 
                 foreach (Control control in lastChess.ControlList)
                 {
                     this.Controls.Remove(control);
                 }
-                
+
                 ChessList.RemoveAt(ChessList.Count - 1);
             }
             else
             {
                 Console.WriteLine("Cannot RemoveLastChess because ChessList.Count <= 0");
-            } 
-        }      
+            }
+        }
         public void ShowMsg(String msg)
         {
             MsgLabel.Text = msg;
             MsgLabel.Refresh();
         }
-        
+
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             if (RoleMgr != null)
             {
                 ClickCommand clickCommand = new ClickCommand("ClickCommand", e.X, e.Y);
-                RoleMgr.onCommand(clickCommand);
+                RoleMgr.OnCommand(clickCommand);
             }
         }
-        
+
         private void ReNewBtn_Click(object sender, EventArgs e)
         {
             if (RoleMgr != null)
             {
                 RenewCommand renewCommand = new RenewCommand("RenewCommand");
-                RoleMgr.onCommand(renewCommand);
+                RoleMgr.OnCommand(renewCommand);
             }
         }
         private void ReturnHomeBtn_Click(object sender, EventArgs e)
@@ -89,7 +88,7 @@ namespace ai_gomoku
             if (RoleMgr != null)
             {
                 ReturnHomeCommand returnHomeCommand = new ReturnHomeCommand("ReturnHomeCommand");
-                RoleMgr.onCommand(returnHomeCommand);
+                RoleMgr.OnCommand(returnHomeCommand);
 
                 HomePanel.Visible = true;
                 RoleMgr = null;
@@ -104,7 +103,7 @@ namespace ai_gomoku
             if (RoleMgr != null)
             {
                 PreviousActionCommand previousActionCommand = new PreviousActionCommand("PreviousActionCommand", RoleMgr.IsAnyPlayerAi());
-                RoleMgr.onCommand(previousActionCommand);
+                RoleMgr.OnCommand(previousActionCommand);
             }
         }
         private void ComputerNextBtn_Click(object sender, EventArgs e)
@@ -112,7 +111,7 @@ namespace ai_gomoku
             if (RoleMgr != null)
             {
                 ComputerNextCommand computerNextCommand = new ComputerNextCommand("ComputerNextCommand");
-                RoleMgr.onCommand(computerNextCommand);
+                RoleMgr.OnCommand(computerNextCommand);
             }
         }
         private void ChangeComputerPlayBtn_Click(object sender, EventArgs e)
@@ -120,7 +119,7 @@ namespace ai_gomoku
             if (RoleMgr != null)
             {
                 ChangeComputerPlayCommand changeComputerPlayCommand = new ChangeComputerPlayCommand("ChangeComputerPlayCommand");
-                RoleMgr.onCommand(changeComputerPlayCommand);
+                RoleMgr.OnCommand(changeComputerPlayCommand);
             }
         }
         private void LoadBoardBtn_Click(object sender, EventArgs e)
@@ -128,7 +127,7 @@ namespace ai_gomoku
             if (RoleMgr != null)
             {
                 LoadBoardCommand loadBoardCommand = new LoadBoardCommand("LoadBoardCommand");
-                RoleMgr.onCommand(loadBoardCommand);
+                RoleMgr.OnCommand(loadBoardCommand);
             }
         }
 
@@ -200,12 +199,12 @@ namespace ai_gomoku
 
             RoleMgr.Start();
         }
-        
+
         private void CloseBtn_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
-        
+
         private void EnableChangeComputerPlayBtn()
         {
             ChangeComputerPlayBtn.Visible = true;
@@ -240,7 +239,7 @@ namespace ai_gomoku
         {
             LoadBoardBtn.Visible = true;
             LoadBoardBtn.Enabled = true;
-            
+
         }
         private void DisableLoadBoardBtn()
         {
@@ -248,6 +247,7 @@ namespace ai_gomoku
             LoadBoardBtn.Enabled = false;
 
         }
+
         #region panelTop drag event
         private bool isDraggabel = false;
         private int mouseX;
@@ -274,10 +274,8 @@ namespace ai_gomoku
             isDraggabel = false;
         }
 
-
         #endregion
 
-     
     }
 
 
